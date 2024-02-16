@@ -1,5 +1,0 @@
-RewriteEngine On
-RewriteBase /CSE442-542/2024-Spring/cse-442l/
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [L]
