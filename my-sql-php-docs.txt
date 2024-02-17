@@ -1,0 +1,38 @@
+React and PHP Integration:
+Creating a REST API with PHP
+Link: How To Create A Simple REST API in PHP - Step By Step Guide!
+Description: Learn to create a RESTful API with PHP that you can connect to from your React application.
+Building a React App with a PHP Backend
+Link: Pusher | Leader In Realtime Technologies
+Description: A guide to creating a React front-end application with a PHP backend.
+Using Axios with React to Make API Requests
+Link: How To Use Axios with React  | DigitalOcean
+Description: Tutorial on how to use Axios in React for making HTTP requests to a PHP backend.
+
+Using PHP with MySQL:
+PHP & MySQL: Novice to Ninja
+Link: PHP & MySQL: Novice to Ninja: Get Up to Speed With PHP the Easy Way
+Description: This is a book that takes you from the basics of PHP and MySQL to advanced topics, with practical examples.
+W3Schools PHP MySQL Database
+Link: PHP: MySQL Database
+Description: Clear and simple tutorial on how to use PHP with MySQL, including connecting to the database, creating tables, and executing queries.
+Codecademy: Learn PHP Course
+Link: Learn PHP | Codecademy
+Description: Interactive PHP course that includes working with MySQL.
+
+PHP: Language Reference - Manual
+
+PHP Tutorial
+
+PHP: Overview of the MySQL PHP drivers - Manual (APIs for MySQL DB)
+
+MySQL Tutorial
+
+MySQL :: MySQL Documentation (Official Documentation)
+
+PHP in 100 Seconds
+
+MySQL Full Course for free 🐬 (2023)
+
+PHP for Beginners (2023 Edition) (Labeled playlist with various topics)
+
