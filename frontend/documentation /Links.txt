@@ -1,0 +1,21 @@
+This document provides a curated list of resources and links designed to assist you in efficiently setting up and launching a React application. From initial setup, including downloading necessary tools like Node.js and Visual Studio Code, to running your first React project using Vite, each link is selected to offer straightforward guidance through the various stages of the process. Whether you're new to React or looking to streamline your development workflow, these resources will equip you with the knowledge needed to get started
+
+Node.js LTS Version
+
+Description: Official download page for the Long-Term Support (LTS) version of Node.js, which is recommended for its stability and extended support period. The page provides installers for Windows, macOS, and source code for Linux.
+Link: https://nodejs.org/
+
+Visual Studio Code
+
+Description: Official website for Visual Studio Code (VS Code), a free, open-source code editor developed by Microsoft. The site offers download options for Windows, macOS, and Linux. It also features documentation, a user guide, and an extension marketplace.
+Link: https://code.visualstudio.com/
+
+React Official Documentation
+
+Description: This link directs to the official React documentation. It's an essential resource for anyone learning React, providing tutorials, concepts, guides, and advanced features of React.
+Link: https://reactjs.org/docs/getting-started.html
+
+Vite Documentation
+
+Description: The official Vite documentation page. It offers a comprehensive guide to getting started with Vite, including installation, configuration, plugins, and optimization tips. A great resource for developers looking to understand or utilize Vite in their projects.
+Link: https://vitejs.dev/guide/
