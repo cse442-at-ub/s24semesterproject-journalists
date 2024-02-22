@@ -70,7 +70,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
+                // Get the last inserted ID
+                $last_id = $pdo->lastInsertId();
                 $response['message'] = "Account created successfully.";
+                $response['user_id'] = $last_id;
             } else {
                 $response['error']['unexpected'] = "Something went wrong. Please try again later.";
             }
