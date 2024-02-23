@@ -1,10 +1,9 @@
-import React from "react";
-import Guestbook from "./Guestbook";
+import EditProfile from "./EditProfile.jsx"; 
 
 const App = () => {
   return (
     <div>
-      <Guestbook />
+      <EditProfile />
     </div>
   );
 };

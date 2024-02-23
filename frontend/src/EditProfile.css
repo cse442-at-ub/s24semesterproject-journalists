@@ -1,0 +1,107 @@
+.profile-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background-color: #f0f0f0;
+  padding: 20px;
+  width: 200px; /* Adjust the width as needed */
+}
+
+.profile-content {
+  flex-grow: 1;
+  padding: 40px;
+  background-color: white;
+}
+
+.profile-form {
+  max-width: 600px; /* Adjust the width as needed */
+  margin: 0 auto;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.form-group {
+  flex: 1;
+  margin-right: 50px;
+  margin-bottom: 20px;
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-actions {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.cancel-button,
+.save-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #ccc;
+}
+
+.save-button {
+  background-color: red;
+  color: white;
+}
+
+/* Handling the responsiveness */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .profile-content {
+    padding: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-group {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .form-actions {
+    text-align: center;
+  }
+
+  .cancel-button,
+  .save-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
