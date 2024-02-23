@@ -1,79 +1,57 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./Guestbook.css";
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'; // This is assuming you are using react-router for navigation
+import './Guestbook.css';
 
-const Guestbook = () => {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+const Journal = () => {
+  const [entry, setEntry] = useState('');
+  const history = useHistory(); // Hook for navigating to different routes
 
-  // Function to fetch messages from the backend
-  const fetchMessages = async () => {
-    try {
-      const response = await axios.get(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/get-messages.php"
-      );
-      setMessages(response.data);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-    }
+  // Function to handle New Entry: Clears the current journal entry
+  const handleNewEntry = () => {
+    setEntry('');
   };
 
-  // Function to post a new message to the backend
-  const postMessage = async (messageContent) => {
-    try {
-      const response = await axios.post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/post-message.php",
-        {
-          message: messageContent,
-        }
-      );
-      if (response.data.success) {
-        fetchMessages(); // Re-fetch messages after posting
-        setNewMessage(""); // Reset the input field
-      }
-    } catch (error) {
-      console.error("Error posting new message:", error);
-    }
+  // Function to handle Logout: Clears user session and redirects to the login page
+  const handleLogout = () => {
+    // Assuming you have a function to clear the user's session or token
+    clearUserSession(); // You need to implement this function
+
+    // Redirect the user to the login page
+    history.push('/login'); // Adjust the path as necessary for your application
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    postMessage(newMessage);
-  };
-
-  // Fetch messages when component mounts
-  useEffect(() => {
-    fetchMessages();
-  }, []);
+  const today = new Date().toLocaleDateString();
 
   return (
-    <div className="guestbook-container">
-      <h1 className="guestbook-title">Guestbook</h1>
-      <form onSubmit={handleSubmit} className="guestbook-form">
+    <div className="journal-container">
+      <div className="journal-nav">
+        <h1>Journalist</h1>
+        <button onClick={handleNewEntry} className="journal-button">New Entry</button>
+        <button onClick={handleLogout} className="journal-button">Logout</button>
+      </div>
+      <div className="journal-content">
+        <div className="journal-header">
+          <h2 className="journal-title">Reflect on today's day...</h2>
+          <span className="journal-date">{today}</span>
+          {/* Placeholder for settings icon */}
+          <span className="settings-icon">⚙️</span> 
+        </div>
         <textarea
-          className="guestbook-input"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Leave a message..."
-          required
+          className="journal-entry"
+          value={entry}
+          onChange={(e) => setEntry(e.target.value)}
+          placeholder="Write your reflection here..."
         />
-        <button type="submit" className="guestbook-submit-btn">
-          Submit
-        </button>
-      </form>
-      <ul className="guestbook-messages">
-        {messages.map((message, index) => (
-          <li key={index} className="guestbook-message-item">
-            <p className="guestbook-message-content">{message.message}</p>
-            <span className="guestbook-message-timestamp">
-              Posted on: {message.posted_on}
-            </span>
-          </li>
-        ))}
-      </ul>
+      </div>
     </div>
   );
 };
 
-export default Guestbook;
+export default Journal;
+
+// Helper function to clear the user session or token
+function clearUserSession() {
+  // Clear user data from local storage or cookies
+  localStorage.removeItem('userToken'); // Example of clearing a token from local storage
+  // Add any other cleanup logic here
+}

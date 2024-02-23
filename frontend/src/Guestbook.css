@@ -1,62 +1,71 @@
-/* Guestbook.css */
-.guestbook-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .guestbook-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .guestbook-form {
-    margin-bottom: 30px;
-  }
-  
-  .guestbook-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Include padding in the element's total width and height */
-  }
-  
-  .guestbook-submit-btn {
-    padding: 10px 20px;
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .guestbook-submit-btn:hover {
-    background-color: #4cae4c;
-  }
-  
-  .guestbook-messages {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .guestbook-message-item {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .guestbook-message-content {
-    font-size: 16px;
-    margin: 0 0 5px 0;
-  }
-  
-  .guestbook-message-timestamp {
-    font-size: 12px;
-    color: #999;
-  }
-  
+/* Main container */
+.journal-container {
+  display: flex;
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+/* Left column for navigation */
+.journal-nav {
+  flex: 1;
+  max-width: 200px; /* Adjust the width as necessary */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligns items to the start of the flex container */
+  padding-right: 20px; /* Adds some space between columns */
+}
+
+/* Right column for journal entry */
+.journal-content {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Shared styles for buttons */
+.journal-button {
+  background-color: #ffa500; /* Orange background */
+  color: white;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.journal-button:hover {
+  background-color: #cc8400; /* Darker shade for hover state */
+}
+
+/* Styles for the journal entry box */
+.journal-entry {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 20px; /* Adds some space below the textarea */
+  resize: none; /* Disables resize handle */
+  height: 150px; /* Adjust height as needed */
+}
+
+/* Title and date in the right column */
+.journal-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.journal-date {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Settings icon alignment */
+.settings-icon {
+  margin-left: auto; /* Pushes the icon to the right */
+  cursor: pointer;
+}
+
+/* Additional styles may be needed for fine-tuning */
