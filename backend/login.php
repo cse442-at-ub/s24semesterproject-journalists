@@ -39,37 +39,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt = $pdo->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-
-            // Set parameters
             $param_email = $email;
-
             // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
-                // Check if email exists, if yes then verify password
-                if ($stmt->rowCount() == 1) {
-                    if ($row = $stmt->fetch()) {
-                        $hashed_password = $row["password"];
-                        if (password_verify($password, $hashed_password)) {
-                            // Password is correct
+            if ($stmt->execute() && $stmt->rowCount() == 1) {
+                $row = $stmt->fetch();
+                if (password_verify($password, $row["password"])) {
+                    // Password is correct, generate a new token
+                    $token = bin2hex(random_bytes(16)); // 32 characters long
+                    $user_id = $row["id"];
+
+                    // Insert token into the database
+                    $insert_sql = "INSERT INTO user_tokens (user_id, token, expires_at) VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 1 HOUR))";
+                    if ($insert_stmt = $pdo->prepare($insert_sql)) {
+                        $insert_stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+                        $insert_stmt->bindParam(":token", $token, PDO::PARAM_STR);
+
+                        if ($insert_stmt->execute()) {
+                            // Token successfully stored
                             $response['message'] = "Login successful.";
-                            $response['user'] = [
-                                'id' => $row["id"],
-                                'email' => $row["email"]
-                            ];
+                            $response['user_id'] = $user_id;
+                            $response['token'] = $token;
                         } else {
-                            // Password is not valid
-                            $response['error']['credentials'] = "Invalid email or password.";
+                            // Error storing token
+                            $response['error']['token'] = "Error generating authentication token.";
                         }
                     }
                 } else {
-                    // Email doesn't exist
+                    // Password is not valid
                     $response['error']['credentials'] = "Invalid email or password.";
                 }
             } else {
-                $response['error']['unexpected'] = "Oops! Something went wrong. Please try again later.";
+                // Email doesn't exist or other execution error
+                $response['error']['credentials'] = "Invalid email or password.";
             }
-
-            // Close statement
             unset($stmt);
         }
     }
