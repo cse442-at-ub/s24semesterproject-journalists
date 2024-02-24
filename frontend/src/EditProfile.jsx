@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './EditProfile.css'; // Make sure this path is correct.
-
+import { Link } from 'react-router-dom';
 function EditProfile() {
   // Initialize state for each input field
   const [profile, setProfile] = useState({
     firstName: '',
-    lastName: '',
+    lastName: '',               
     email: '',
     address: '',
     contactNumber: '',
     city: '',
     state: '',
   });
+  
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
+  const toggleSidebar = () => {
+    setIsSidebarVisible(!isSidebarVisible);
+  };
+  
   // This function will handle the change for every input
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +43,7 @@ function EditProfile() {
         // Handle the error case - maybe show an error message
       });
   };
-
+ 
   return (
     <div className="profile-container">
       <aside className="sidebar">
