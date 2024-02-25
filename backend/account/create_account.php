@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once '../config/config.php';
 
 // Enabling CORS for local development
 header('Access-Control-Allow-Origin: *'); // In production, set this to your front-end's domain
