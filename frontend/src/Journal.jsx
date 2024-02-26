@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Guestbook.css";
+import "./Journal.css";
 
-const Guestbook = () => {
+const Journal = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
@@ -32,4 +32,4 @@ const Guestbook = () => {
   );
 };
 
-export default Guestbook;
+export default Journal;

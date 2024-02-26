@@ -1,10 +1,10 @@
 import React from "react";
-import Guestbook from "./Guestbook";
+import Journal from "./Journal";
 
 const App = () => {
   return (
     <div>
-      <Guestbook />
+      <Journal />
     </div>
   );
 };
