@@ -1,10 +1,10 @@
 import React from "react";
-import Guestbook from "./Guestbook";
+import Journal_Dashboard from "./Journal_Dashboard";
 
 const App = () => {
   return (
     <div>
-      <Guestbook />
+      <Journal_Dashboard />
     </div>
   );
 };
