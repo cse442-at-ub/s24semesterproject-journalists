@@ -1,10 +1,10 @@
 import React from "react";
-import Journal_Dashboard from "./Journal_Dashboard";
+import JournalDashboard from "./Journal_Dashboard"; // Renamed to match convention
 
 const App = () => {
   return (
     <div>
-      <Journal_Dashboard />
+      <JournalDashboard /> {/* Renamed component */}
     </div>
   );
 };

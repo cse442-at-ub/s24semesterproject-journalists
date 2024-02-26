@@ -23,7 +23,7 @@ const Journal_Dashboard = () => {
   }, []);
 
   return (
-    <div className="profile-page-container">
+    <div className="guestbook-container">
       <aside className="profile-sidebar">
         {/* You might want to load the image and name dynamically */}
         <img src="/path-to-profile-image.jpg" alt="Profile" className="profile-image" />
@@ -74,5 +74,5 @@ const Journal_Dashboard = () => {
   );
 };
 
-export default Guestbook;
+export default Journal_Dashboard;
 
