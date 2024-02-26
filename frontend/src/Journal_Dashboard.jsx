@@ -6,6 +6,11 @@ const Journal_Dashboard = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 
+  const [journalEntries, setJournalEntries] = useState([
+    { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
+    // ... more entries
+  ]);
+
   const fetchMessages = async () => {
     // ... existing fetchMessages function
   };
@@ -18,9 +23,9 @@ const Journal_Dashboard = () => {
     // ... existing handleSubmit function
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
     fetchMessages();
-  }, []);
+  }, []);*/
 
   return (
     <div className="app-container">
