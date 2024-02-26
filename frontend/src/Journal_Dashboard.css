@@ -1,66 +1,81 @@
-/* Base styling for the profile page */
-.guestbook-container {
-  max-width: 800px; /* Adjusted width for better layout */
-  margin: 50px auto;
+/* Reset margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+
+/* Entire app container */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Left column styles */
+.left-column {
+  flex-basis: 50%;
+  background-color: #fff;
   padding: 20px;
-  background-color: #fff; /* Changed to white to match the image */
-  box-shadow: none; /* Removed box-shadow to match the image */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: space-between;
 }
 
-/* Styling for the "About" title */
-.guestbook-title {
-  font-size: 48px; /* Increased font size */
-  text-align: left;
+.journalist-label {
+  font-size: 2rem;
   margin-bottom: 20px;
-  font-weight: bold;
 }
 
-/* Styling for profile details (this is a new class you will need to add to your HTML) */
-.profile-details {
+.new-entry-btn,
+.logout-btn {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Right column styles */
+.right-column {
+  flex-basis: 50%;
+  background-color: #f9f9f9;
+  padding: 20px;
   display: flex;
-  align-items: center;
-  margin-bottom: 30px; /* Space before the text content */
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* Styling for the job title */
-.job-title {
-  font-size: 24px; /* Job title size */
-  color: #000; /* Job title color */
-  margin-left: 20px; /* Space from the profile picture */
+.date-display {
+  align-self: flex-end;
+  font-size: 1.2rem;
+  color: #666;
 }
 
-/* Styling for the form and inputs */
-.guestbook-form {
-  width: 100%; /* Ensure form takes full width */
-  margin-bottom: 30px;
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 20px 0;
 }
 
-.guestbook-input,
-.guestbook-submit-btn {
-  width: 100%; /* Full width for mobile, you will need to adjust this for desktop with media queries */
-  margin-bottom: 10px; /* Consistent margin for layout */
+.textarea {
+  width: 100%;
+  height: 150px; /* Set a fixed height */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1rem;
+  resize: vertical; /* Allow only vertical resizing */
 }
 
-.guestbook-submit-btn {
-  background-color: #333; /* Darker button to match the image */
+.settings-icon {
+  align-self: flex-end;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
-
-/* Media query for desktop layout adjustments */
-@media (min-width: 768px) {
-  .guestbook-container {
-      flex-direction: row; /* Side-by-side layout for desktop */
-  }
-
-  .profile-details,
-  .guestbook-form,
-  .guestbook-messages {
-      width: 50%; /* Split the width for side-by-side layout */
-  }
-
-  /* Adjustments to padding/margins and other styles will go here */
-}
-
-/* You will need to continue modifying other elements and add new ones as needed */
