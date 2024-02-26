@@ -38,23 +38,21 @@ if (!$tokenRow) {
 // Get user_id from the valid token
 $user_id = $tokenRow['user_id'];
 
-// Extract journal entry data from the request
-$title = $data['title'];
-$body = $data['body'];
+// Extract the journal entry ID from the request
+$entry_id = $data['entry_id'];
 
-// Insert the journal entry into the database
-$insertStmt = $pdo->prepare("INSERT INTO journal_entries (user_id, title, body) VALUES (:user_id, :title, :body)");
-$insertResult = $insertStmt->execute([
-    'user_id' => $user_id,
-    'title' => $title,
-    'body' => $body
+// Prepare the delete statement
+$deleteStmt = $pdo->prepare("DELETE FROM journal_entries WHERE id = :entry_id AND user_id = :user_id");
+$deleteResult = $deleteStmt->execute([
+    'entry_id' => $entry_id,
+    'user_id' => $user_id
 ]);
 
 // Respond to the client
-if ($insertResult) {
-    echo json_encode(["message" => "Journal entry created successfully"]);
+if ($deleteResult) {
+    echo json_encode(["message" => "Journal entry deleted successfully"]);
 } else {
-    // Insert failed
+    // Delete failed
     http_response_code(500);
-    echo json_encode(["error" => "Internal Server Error - Could not create journal entry"]);
+    echo json_encode(["error" => "Internal Server Error - Could not delete journal entry"]);
 }

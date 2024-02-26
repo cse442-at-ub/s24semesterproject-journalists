@@ -39,22 +39,24 @@ if (!$tokenRow) {
 $user_id = $tokenRow['user_id'];
 
 // Extract journal entry data from the request
+$entry_id = $data['entry_id'];
 $title = $data['title'];
 $body = $data['body'];
 
-// Insert the journal entry into the database
-$insertStmt = $pdo->prepare("INSERT INTO journal_entries (user_id, title, body) VALUES (:user_id, :title, :body)");
-$insertResult = $insertStmt->execute([
-    'user_id' => $user_id,
+// Prepare the update statement
+$updateStmt = $pdo->prepare("UPDATE journal_entries SET title = :title, body = :body WHERE id = :entry_id AND user_id = :user_id");
+$updateResult = $updateStmt->execute([
     'title' => $title,
-    'body' => $body
+    'body' => $body,
+    'entry_id' => $entry_id,
+    'user_id' => $user_id
 ]);
 
 // Respond to the client
-if ($insertResult) {
-    echo json_encode(["message" => "Journal entry created successfully"]);
+if ($updateResult) {
+    echo json_encode(["message" => "Journal entry updated successfully"]);
 } else {
-    // Insert failed
+    // Update failed
     http_response_code(500);
-    echo json_encode(["error" => "Internal Server Error - Could not create journal entry"]);
+    echo json_encode(["error" => "Internal Server Error - Could not update journal entry"]);
 }

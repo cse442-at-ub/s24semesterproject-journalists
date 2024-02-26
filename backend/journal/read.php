@@ -1,14 +1,9 @@
 <?php
 require_once '../config/config.php';
 
-// Enabling CORS for local development
+// Enabling CORS and setting headers
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=UTF-8');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-
-// Decode the received JSON data
-$data = json_decode(file_get_contents("php://input"), true);
 
 // Get the Bearer Token from the Authorization header
 $headers = getallheaders();
@@ -38,23 +33,21 @@ if (!$tokenRow) {
 // Get user_id from the valid token
 $user_id = $tokenRow['user_id'];
 
-// Extract journal entry data from the request
-$title = $data['title'];
-$body = $data['body'];
+// Check for entry_id in the request
+$entry_id = isset($_GET['entry_id']) ? $_GET['entry_id'] : null;
 
-// Insert the journal entry into the database
-$insertStmt = $pdo->prepare("INSERT INTO journal_entries (user_id, title, body) VALUES (:user_id, :title, :body)");
-$insertResult = $insertStmt->execute([
-    'user_id' => $user_id,
-    'title' => $title,
-    'body' => $body
-]);
+if ($entry_id) {
+    // Fetch and return a single entry
+    $stmt = $pdo->prepare("SELECT * FROM journal_entries WHERE id = :entry_id AND user_id = :user_id");
+    $stmt->execute(['entry_id' => $entry_id, 'user_id' => $user_id]);
+    $entry = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Respond to the client
-if ($insertResult) {
-    echo json_encode(["message" => "Journal entry created successfully"]);
+    echo json_encode($entry ? $entry : ["message" => "No entry found"]);
 } else {
-    // Insert failed
-    http_response_code(500);
-    echo json_encode(["error" => "Internal Server Error - Could not create journal entry"]);
+    // Fetch and return all entries for the user
+    $stmt = $pdo->prepare("SELECT * FROM journal_entries WHERE user_id = :user_id");
+    $stmt->execute(['user_id' => $user_id]);
+    $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($entries);
 }
