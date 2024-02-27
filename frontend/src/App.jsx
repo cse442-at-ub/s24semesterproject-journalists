@@ -1,5 +1,5 @@
 import React from "react";
-import Journal from "./Journal";
+import Journal from "./Journal_Dashboard";
 
 const App = () => {
   return (
