@@ -97,3 +97,28 @@
 .journal-entry:last-child {
   margin-bottom: 0; /* Remove margin for the last entry */
 }
+
+.right-column-journal {
+  flex-basis: 70%;
+  background-color: #f9f9f9;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+.date-display-journal {
+  align-self: flex-end;
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 20px; /* Add margin between date and YouTube video */
+}
+
+/* Adjust the iframe width as needed */
+iframe {
+  width: 560px;
+  height: 315px;
+}
+
+
