@@ -7,8 +7,10 @@ header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
-// Decode the received JSON data
+// Decode JSON data for non-file fields
 $data = json_decode(file_get_contents("php://input"), true);
+
+// Handle multipart/form-data for the image file manually if needed
 
 // Get the Bearer Token from the Authorization header
 $headers = getallheaders();
@@ -17,7 +19,6 @@ $token = '';
 if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
     $token = $matches[1];
 } else {
-    // Token not provided or invalid format
     http_response_code(401);
     echo json_encode(["error" => "Unauthorized - Token not provided or invalid"]);
     exit;
@@ -29,32 +30,46 @@ $stmt->execute(['token' => $token]);
 $tokenRow = $stmt->fetch();
 
 if (!$tokenRow) {
-    // Token is invalid or expired
     http_response_code(401);
     echo json_encode(["error" => "Unauthorized - Invalid token"]);
     exit;
 }
 
-// Get user_id from the valid token
 $user_id = $tokenRow['user_id'];
 
-// Extract journal entry data from the request
-$title = $data['title'];
-$body = $data['body'];
+$title = $_POST['title']; // Assuming title is sent as part of form-data
+$body = $_POST['body']; // Assuming body is sent as part of form-data
 
-// Insert the journal entry into the database
-$insertStmt = $pdo->prepare("INSERT INTO journal_entries (user_id, title, body) VALUES (:user_id, :title, :body)");
+$imagePath = ''; // Default image path
+
+// Check if an image file is part of the request
+if (isset($_FILES['image'])) {
+    $targetDirectory = "C:\\xampp\\htdocs\\React-Guestbook\\backend\\uploads\\"; // Ensure this directory exists and is writable
+    $targetFile = $targetDirectory . basename($_FILES['image']['name']);
+
+    // Attempt to move the uploaded file to the target directory
+    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+        $imagePath = $targetFile; // Here, you might want to adjust this path or convert it to a URL
+    } else {
+        http_response_code(500);
+        echo json_encode(["error" => "Internal Server Error - Failed to upload image"]);
+        exit;
+    }
+}
+
+$insertStmt = $pdo->prepare("INSERT INTO journal_entries (user_id, title, body, image_path) VALUES (:user_id, :title, :body, :image_path)");
 $insertResult = $insertStmt->execute([
     'user_id' => $user_id,
     'title' => $title,
-    'body' => $body
+    'body' => $body,
+    'image_path' => $imagePath
 ]);
 
-// Respond to the client
 if ($insertResult) {
-    echo json_encode(["message" => "Journal entry created successfully"]);
+    $createdId = $pdo->lastInsertId();
+    http_response_code(201);
+    echo json_encode(["message" => "Journal entry created successfully", "id" => $createdId, "image_path" => $imagePath]);
 } else {
-    // Insert failed
     http_response_code(500);
     echo json_encode(["error" => "Internal Server Error - Could not create journal entry"]);
 }
