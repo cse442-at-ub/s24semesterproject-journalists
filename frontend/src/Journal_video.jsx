@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Journal_Dashboard.css';
 
-const Journal_image = () => {
+const Journal_video = () => {
   const [journalEntries, setJournalEntries] = useState([
     { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...', imageUrl: '' },
     // ... more entries
@@ -72,4 +72,4 @@ const Journal_image = () => {
   );
 };
 
-export default Journal_image;
+export default Journal_video;
