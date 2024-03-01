@@ -1,5 +1,5 @@
 <?php
-require_once '../config/config.php';
+require_once '../config/config.php'; // Ensure this path is correct
 
 // Enabling CORS for local development
 header('Access-Control-Allow-Origin: *');
@@ -33,44 +33,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate credentials
     if (empty($response['error'])) {
-        // Prepare a select statement
-        $sql = "SELECT id, email, password FROM users WHERE email = :email";
+        // Prepare a select statement to fetch user details including email_verified status
+        $sql = "SELECT id, email, password, email_verified FROM users WHERE email = :email";
 
         if ($stmt = $pdo->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
             $param_email = $email;
+
             // Attempt to execute the prepared statement
-            if ($stmt->execute() && $stmt->rowCount() == 1) {
-                $row = $stmt->fetch();
-                if (password_verify($password, $row["password"])) {
-                    // Password is correct, generate a new token
-                    $token = bin2hex(random_bytes(16)); // 32 characters long
-                    $user_id = $row["id"];
+            if ($stmt->execute()) {
+                // Check if user exists
+                if ($stmt->rowCount() == 1) {
+                    // Fetch user data
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    // Insert token into the database
-                    $insert_sql = "INSERT INTO user_tokens (user_id, token, expires_at) VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 1 HOUR))";
-                    if ($insert_stmt = $pdo->prepare($insert_sql)) {
-                        $insert_stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-                        $insert_stmt->bindParam(":token", $token, PDO::PARAM_STR);
+                    // Check if email has been verified
+                    if ($row['email_verified']) {
+                        // Verify the password
+                        if (password_verify($password, $row["password"])) {
+                            // Password is correct, so start the login process
+                            $user_id = $row["id"];
 
-                        if ($insert_stmt->execute()) {
-                            // Token successfully stored
-                            $response['message'] = "Login successful.";
-                            $response['user_id'] = $user_id;
-                            $response['token'] = $token;
+                            // Generate a new token
+                            $token = bin2hex(random_bytes(16)); // 32 characters long
+
+                            // Insert token into the database
+                            $insert_sql = "INSERT INTO user_tokens (user_id, token, expires_at) VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 1 HOUR))";
+                            if ($insert_stmt = $pdo->prepare($insert_sql)) {
+                                $insert_stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+                                $insert_stmt->bindParam(":token", $token, PDO::PARAM_STR);
+
+                                if ($insert_stmt->execute()) {
+                                    // Token successfully stored
+                                    $response['message'] = "Login successful.";
+                                    $response['user_id'] = $user_id;
+                                    $response['token'] = $token;
+                                } else {
+                                    // Error storing token
+                                    $response['error']['token'] = "Error generating authentication token.";
+                                }
+                            }
                         } else {
-                            // Error storing token
-                            $response['error']['token'] = "Error generating authentication token.";
+                            // Password is not valid
+                            $response['error']['credentials'] = "Invalid email or password.";
                         }
+                    } else {
+                        // Email has not been verified
+                        $response['error']['verify'] = "Email has not been verified. Please check your inbox for a verification email.";
                     }
                 } else {
-                    // Password is not valid
+                    // Email doesn't exist
                     $response['error']['credentials'] = "Invalid email or password.";
                 }
             } else {
-                // Email doesn't exist or other execution error
-                $response['error']['credentials'] = "Invalid email or password.";
+                // SQL execution error
+                $response['error']['unexpected'] = "Oops! Something went wrong. Please try again later.";
             }
             unset($stmt);
         }
