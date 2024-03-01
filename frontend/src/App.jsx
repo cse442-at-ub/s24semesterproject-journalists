@@ -1,4 +1,4 @@
-import EditProfile from "./EditProfile.jsx"; 
+import EditProfile from "./About.jsx"; 
 
 const App = () => {
   return (
