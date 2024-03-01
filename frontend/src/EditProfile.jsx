@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './EditProfile.css'; // Make sure this path is correct.
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 function EditProfile() {
   // Initialize state for each input field
   const [profile, setProfile] = useState({
