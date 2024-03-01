@@ -7,22 +7,13 @@ const Journal_image = () => {
     // ... more entries
   ]);
   const [newMessage, setNewMessage] = useState('');
-  const [newImage, setNewImage] = useState(''); // State to hold the new image URL
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you might want to handle the upload to your server or a cloud service
-    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage, imageUrl: newImage };
+    // Since we're no longer handling images, we'll just add text entries
+    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage, imageUrl: '' };
     setJournalEntries([...journalEntries, newEntry]);
-    // Resetting form
     setNewMessage('');
-    setNewImage('');
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    setNewImage(imageUrl);
   };
 
   return (
@@ -30,13 +21,11 @@ const Journal_image = () => {
       <div className="left-column-journal">
         <div>
           <div className="journalist-label">Journalist</div>
-          {/* You might want to handle the New Entry button functionality */}
-          <button className="new-entry-btn">New Entry</button>
+          <button className="new-entry-btn" onClick={() => {}}>New Entry</button>
           <div className="journal-history">
             {journalEntries.map((entry, index) => (
               <div key={index} className="journal-entry">
                 <p>{entry.date}</p>
-                {entry.imageUrl && <img src={entry.imageUrl} alt="Journal entry" style={{ maxWidth: '100%', height: 'auto' }} />}
                 <p>{entry.content}</p>
               </div>
             ))}
@@ -47,9 +36,7 @@ const Journal_image = () => {
       <div className="right-column-journal">
         <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
         <div>
-
-          {newImage && <img src={newImage} alt="Preview" style={{ maxWidth: '100%', height: 'auto' }} />}
-          <input type="file" onChange={handleImageChange} />
+          <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ababb152-13f6-4f84-ba28-aa04ce450fad/dfo6h61-2a1f10ef-928c-42b8-9ac6-017d88d0741f.png/v1/fit/w_672,h_700,q_70,strp/straight_face_cat_meme_by_y0urdist00rtedmeme_dfo6h61-375w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzAwIiwicGF0aCI6IlwvZlwvYWJhYmIxNTItMTNmNi00Zjg0LWJhMjgtYWEwNGNlNDUwZmFkXC9kZm82aDYxLTJhMWYxMGVmLTkyOGMtNDJiOC05YWM2LTAxN2Q4OGQwNzQxZi5wbmciLCJ3aWR0aCI6Ijw9NjcyIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.l_2i8alMHTn2Pc7bLx85KylqBk46c5DDkWE3Q1I68j0" alt="Reflect on today's day" />
           <textarea
             className="textarea_journal"
             value={newMessage}
@@ -59,6 +46,8 @@ const Journal_image = () => {
           />
           <button onClick={handleSubmit}>Submit Entry</button>
         </div>
+        <div className="settings-icon">⚙</div>
+        <div className="settings-icon">⚙</div>
       </div>
     </div>
   );

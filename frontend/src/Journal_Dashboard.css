@@ -98,27 +98,16 @@
   margin-bottom: 0; /* Remove margin for the last entry */
 }
 
-.right-column-journal {
-  flex-basis: 70%;
-  background-color: #f9f9f9;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
+
+
+.journal-entry {
+  text-align: center; /* Center the text and image */
 }
 
-.date-display-journal {
-  align-self: flex-end;
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 20px; /* Add margin between date and YouTube video */
+.journal-entry img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Make the image a block to center it */
+  margin-left: auto; /* Auto margins on both sides will center the image */
+  margin-right: auto;
 }
-
-/* Adjust the iframe width as needed */
-iframe {
-  width: 560px;
-  height: 315px;
-}
-
-
