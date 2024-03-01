@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Journal_Dashboard.css';
+import { Link } from 'react-router-dom';
+
 
 const Journal_Dashboard = () => {
   const [messages, setMessages] = useState([]);
@@ -56,7 +58,13 @@ const Journal_Dashboard = () => {
             required
           />
         </div>
-        <div className="settings-icon">⚙</div>
+        <div className="settings-icon" >⚙</div>
+        <div className="settings-links">
+    <Link to="/edit-profile" className="settings-link">Edit Profile</Link>
+    <Link to="/journal-image" className="settings-link">Journal Image</Link>
+    <Link to="/journal-video" className="settings-link">Journal Video</Link>
+  </div>
+
       </div>
     </div>
   );
