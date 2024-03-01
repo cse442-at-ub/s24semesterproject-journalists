@@ -71,4 +71,3 @@ const Journal_Dashboard = () => {
 };
 
 export default Journal_Dashboard;
-

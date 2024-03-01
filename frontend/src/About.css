@@ -1,0 +1,124 @@
+.container {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #f0f0f0; /* Gray background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-icon {
+  /* Add styles for the home icon */
+  margin-bottom: 30px; /* Spacing below the icon */
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.menu-item.active {
+  font-weight: bold;
+}
+
+.content {
+  width: 80%;
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: 2em; /* Large title */
+  margin: 0;
+}
+
+.role {
+  font-size: 1.5em; /* Smaller than title */
+  align-self: center;
+}
+
+.quote {
+  font-style: italic;
+  margin-top: 50px; /* Spacing after header */
+}
+
+.author {
+  display: block;
+  text-align: right;
+  margin-top: 20px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar, .content {
+    width: 100%;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .role {
+    align-self: flex-start;
+    margin-top: 10px;
+  }
+}
+
+.home-icon {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.home-icon .roof {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid black; /* Roof color */
+  position: absolute;
+  top: -15px;
+}
+
+.home-icon .body {
+  width: 20px;
+  height: 20px;
+  background-color: black; /* House body color */
+  position: absolute;
+  bottom: 0;
+}
+
+.menu-item.home {
+  margin-bottom: 30px; /* Space below the "Home" text */
+  cursor: pointer;
+  font-weight: lighter; /* Make it stand out like an icon */
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+}
