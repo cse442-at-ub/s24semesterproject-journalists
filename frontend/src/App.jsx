@@ -4,6 +4,8 @@ import EditProfile from './EditProfile.jsx';
 import Journal from "./Journal_Dashboard";
 import JournalImage from "./Jornal_image";
 import JournalVideo from "./Journal_video";
+import About from "./About";
+
 
 const App = () => {
   return (
@@ -13,6 +15,8 @@ const App = () => {
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/journal-image" element={<JournalImage />} />
         <Route path="/journal-video" element={<JournalVideo />} />
+        <Route path="/about" element={<About />} />
+
       </Routes>
     </Router>
   );

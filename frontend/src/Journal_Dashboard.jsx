@@ -63,6 +63,8 @@ const Journal_Dashboard = () => {
     <Link to="/edit-profile" className="settings-link">Edit Profile</Link>
     <Link to="/journal-image" className="settings-link">Journal Image</Link>
     <Link to="/journal-video" className="settings-link">Journal Video</Link>
+    <Link to="/about" className="settings-link">About As</Link>
+
   </div>
 
       </div>
