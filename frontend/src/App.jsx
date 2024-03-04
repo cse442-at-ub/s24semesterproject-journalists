@@ -8,6 +8,7 @@ import SignupPage from './SignupPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import Journal_Dashboard from './Journal_Dashboard';
 import SecurityPage from './SecurityPage.jsx';
+import About from './About.jsx';
 
 const App = () => {
   return (
@@ -19,6 +20,9 @@ const App = () => {
         <Route path="/journal-video" element={<JournalVideo />} />
         <Route path="/signup-page" element={<SignupPage />} />
         <Route path="/login-page" element={<LoginPage />} />
+        <Route path="/journal" element={<Journal />} />
+        <Route path="/security-page" element={<SecurityPage />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </Router>
   );

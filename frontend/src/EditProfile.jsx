@@ -49,9 +49,9 @@ function EditProfile() {
       <aside className="sidebar">
         <nav>
           <ul>
-            <li><a href="/edit-profile"></a>Edit profile</li>
-            <li>Security</li>
-            <li>About</li>
+            <li><a href="/edit-profile">Edit profile</a></li>
+            <li><a href="/security-page">Security</a></li>
+            <li><a href="/about">About</a></li>
           </ul>
         </nav>
       </aside>

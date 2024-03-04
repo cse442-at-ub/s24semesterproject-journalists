@@ -28,7 +28,7 @@ const SecurityPage = () => {
         <a href="/security-page">Security</a>
         <br></br>
         <br></br>
-        <a href="/">About</a>
+        <a href="/about">About</a>
         <br></br>
         <br></br>
       </div>
