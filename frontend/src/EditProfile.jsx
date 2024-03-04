@@ -49,7 +49,7 @@ function EditProfile() {
       <aside className="sidebar">
         <nav>
           <ul>
-            <li>Edit profile</li>
+            <li><a href="/edit-profile"></a>Edit profile</li>
             <li>Security</li>
             <li>About</li>
           </ul>

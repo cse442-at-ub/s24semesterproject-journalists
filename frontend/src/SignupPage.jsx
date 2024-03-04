@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import './SignupPage.css'; // Make sure to create a corresponding CSS file
 import journalistFigure from './assets/journalistfigure.svg';
+import { useNavigate } from 'react-router-dom';
+
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+
 
   const handleSignup = (e) => {
     e.preventDefault();
     // Handle the signup logic here
+    navigate("/journal");
     console.log('Signup with', email, password, confirmPassword);
   };
 

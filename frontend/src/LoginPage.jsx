@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import './LoginPage.css'; // Make sure to create a corresponding CSS file
 import journalistFigure from './assets/journalistfigure.svg';
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     // Insert login logic here
+    
+    navigate("/journal");
     console.log('Login with', email, password);
   };
 
