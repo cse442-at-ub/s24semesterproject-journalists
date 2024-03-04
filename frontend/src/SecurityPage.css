@@ -1,0 +1,155 @@
+.security-page {
+    display: flex;
+    flex-direction: row;
+    max-width: 1000px; /* Adjust based on your layout needs */
+    margin: auto; /* Center the page */
+    font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
+
+  }
+  
+  .sidebar {
+    flex-basis: 20%;
+    height: 100vh;
+    /* Sidebar styles */
+  }
+  
+  .security-form {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .security-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000;
+    font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  
+  .security-form form {
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    background: #fff;
+    margin: auto;
+
+  }
+  
+  .security-form label {
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  .security-form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .cancel, .save {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .cancel {
+    background: #000;
+    color: #fff;
+  }
+  
+  .save {
+    background: #F74923;
+    color: #fff;
+  }
+  .hamburger-menu {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px; /* Width of the hamburger menu */
+    height: 25px; /* Height of the hamburger menu */
+    cursor: pointer;
+  }
+  
+  .hamburger-menu div {
+    background-color: #333; /* Color of hamburger lines */
+    height: 3px; /* Height of lines */
+    width: 100%; /* Make lines full width of the button */
+    border-radius: 3px; /* Optional: to round the lines */
+  }
+  
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .hamburger-menu {
+        display: flex; /* Show the hamburger icon */
+        position: absolute; /* Position it absolutely within the parent container */
+        top: 15px; /* Distance from the top of the container */
+        right: 15px; /* Distance from the right of the container */
+        z-index: 1001; /* Above the sidebar when open */
+      }
+    
+      
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0; /* Ensures the sidebar extends to the bottom of the page */
+        left: -250px; /* Start off-screen to the left */
+        width: 250px; /* Width of the sidebar */
+        overflow-y: auto; /* Allows scrolling if the content overflows */
+        background: #fff; /* Background color for the sidebar */
+        transition: left 0.3s; /* Animation for sliding in and out */
+        z-index: 1000; /* Ensures the sidebar is above other content */
+      }
+      
+    .sidebar.open {
+      left: 0; /* Move sidebar on-screen when 'open' */
+    }
+  
+    .security-form {
+      padding: 20px;
+      margin-left: 0; /* No margin needed when sidebar is collapsed */
+    }
+    .security-page {
+        flex-direction: column;
+      }
+    
+      .sidebar {
+        order: 2; /* Put sidebar below the form on mobile */
+      }
+    
+      .security-form {
+        order: 1; /* Ensure form is first on mobile */
+        padding: 10px;
+      }
+    
+      .form-actions {
+        flex-direction: column;
+      }
+    
+      .cancel, .save {
+        width: 100%;
+        margin: 10px 0;
+      }
+  
+  }
+  
+  .sidebar::-webkit-scrollbar {
+    display: none; /* For Webkit browsers */
+  }
+  
+  .sidebar {
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+    scrollbar-width: none;  /* For Firefox */
+  }
+  
