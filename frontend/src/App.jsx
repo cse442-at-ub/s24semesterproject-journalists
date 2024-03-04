@@ -1,19 +1,20 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import EditProfile from './EditProfile.jsx';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import EditProfile from "./EditProfile.jsx";
 import Journal from "./Journal_Dashboard";
 import JournalImage from "./Jornal_image";
 import JournalVideo from "./Journal_video";
-import SignupPage from './SignupPage.jsx';
-import LoginPage from './LoginPage.jsx';
-import Journal_Dashboard from './Journal_Dashboard';
-import SecurityPage from './SecurityPage.jsx';
+import SignupPage from "./SignupPage.jsx";
+import LoginPage from "./LoginPage.jsx";
+import Journal_Dashboard from "./Journal_Dashboard";
+import SecurityPage from "./SecurityPage.jsx";
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SecurityPage />} />
+        {/*change element to match the page you want to work on */}
+        <Route path="/" element={<EditProfile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/journal-image" element={<JournalImage />} />
         <Route path="/journal-video" element={<JournalVideo />} />
