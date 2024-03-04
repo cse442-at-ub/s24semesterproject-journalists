@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./LoginPage.css"; // Make sure to create a corresponding CSS file
 import journalistFigure from "./assets/journalistfigure.svg";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -38,6 +40,10 @@ const LoginPage = () => {
         // Handle the error
         // e.g., setError('An error occurred. Please try again later.');
       });
+    // Insert login logic here
+
+    navigate("/journal");
+    console.log("Login with", email, password);
   };
 
   return (
