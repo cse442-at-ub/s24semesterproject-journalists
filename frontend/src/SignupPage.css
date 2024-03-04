@@ -1,0 +1,95 @@
+/* SignupPage.css */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+.journalist-color{
+  color: #F74923;
+}
+.signup-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Adjust the space between the form and the SVG */
+    font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
+    padding: 20px;
+
+  }
+    
+  
+  .signup-form {
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    background: #fff;
+    margin: auto;
+  }
+
+  .signup-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000;
+    font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+    .signup-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .signup-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #F74923;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .signup-form p {
+    text-align: center;
+  }
+  .svg-container {
+    width: 100%; /* Use the full width to allow centering */
+    display: flex; /* Make this a flex container */
+    justify-content: center; /* Center children along the main axis */
+  
+  }
+  .svg-container img {
+    display: block; /* Allows margin: auto to work for centering */
+    margin: auto; /* Centers the image within its container */  
+    max-width: 70%;
+    height: auto;
+  }
+  
+  @media (max-width: 768px) {
+    .signup-container {
+      flex-direction: column-reverse;
+    }
+    .signup-form {
+      width: 100%;
+    }
+
+    .svg-container {
+      max-width: 70%; /* Adjust the size of the SVG in mobile view */
+      margin-bottom: 20px; /* Add some space between the SVG and the form */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .signup-form {
+      /*flex-direction: column;*/
+      box-shadow: none;
+      padding: 15px;
+
+    }
+  }
+  
