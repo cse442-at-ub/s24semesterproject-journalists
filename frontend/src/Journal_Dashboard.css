@@ -2,7 +2,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Include padding in the element's total width and height */
+  box-sizing: border-box;
 }
 
 /* Entire app container */
@@ -67,12 +67,12 @@
 
 .textarea_journal {
   width: 100%;
-  height: 200px; /* Set a fixed height */
+  height: 200px;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   font-size: 1rem;
-  resize: vertical; /* Allow only vertical resizing */
+  resize: vertical;
 }
 
 .settings-icon {
@@ -82,32 +82,73 @@
 }
 
 .journal-history {
-  flex-grow: 1; /* Take up remaining space */
-  overflow-y: auto; /* Enable scroll if content overflows */
-  margin-top: 20px; /* Add some space above */
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-top: 20px;
   padding: 10px;
-  border: 1px solid #ddd; /* Add border for the container */
-  border-radius: 4px; /* Rounded corners for the container */
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .journal-entry {
-  margin-bottom: 10px; /* Space between entries */
+  margin-bottom: 10px;
 }
 
 .journal-entry:last-child {
-  margin-bottom: 0; /* Remove margin for the last entry */
-}
-
-
-
-.journal-entry {
-  text-align: center; /* Center the text and image */
+  margin-bottom: 0;
 }
 
 .journal-entry img {
   max-width: 100%;
   height: auto;
-  display: block; /* Make the image a block to center it */
-  margin-left: auto; /* Auto margins on both sides will center the image */
+  display: block;
+  margin-left: auto;
   margin-right: auto;
+}
+
+.prompt-dropdown {
+  position: relative;
+}
+
+.prompt-toggle-btn {
+  display: block;
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.prompt-buttons {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 100;
+}
+
+.show-prompts .prompt-buttons {
+  display: block;
+}
+
+.prompt-btn {
+  width: 100%;
+  padding: 10px 20px;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-bottom: 1px solid white;
+}
+
+.prompt-btn:last-child {
+  border-bottom: none;
 }
