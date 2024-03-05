@@ -154,3 +154,6 @@
   border-bottom: 1px solid #ccc; /* Light border for separation */
 }
 
+.settings-link:not(:last-child) {
+  margin-right: 10px;
+}

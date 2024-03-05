@@ -9,12 +9,19 @@ const Journal_Dashboard = () => {
     { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
     // ... more entries
   ]);
+  const navigate = useNavigate();
 
   const handleNewEntry = () => {
     console.log('New Entry clicked');
   };
   const [newMessage, setNewMessage] = useState('');
 
+  const handleSubmit = () => {
+    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
+    addJournalEntry(newEntry); // Assuming you have a function to add a new entry
+    setNewMessage(''); // Clear the textarea after submission
+  };
+  
   const togglePrompts = () => {
     setShowPrompts(!showPrompts);
   };
@@ -23,6 +30,13 @@ const Journal_Dashboard = () => {
     navigate('/login-page');
     console.log("Logged out!");
   }
+  const journalVideo = () => {
+    navigate('/journal-video')
+  }
+  const journalImage = () => {
+    navigate('/journal-image')
+  }
+
   return (
     <div className="app-container-journal">
       <div className="left-column-journal">
@@ -35,8 +49,8 @@ const Journal_Dashboard = () => {
             </button>
             {showPrompts && (
               <div className="prompt-buttons">
-                <button className="prompt-btn">Video Prompt</button>
-                <button className="prompt-btn">Image Prompt</button>
+                <button className="prompt-btn" onClick={journalVideo}>Video Prompt</button>
+                <button className="prompt-btn" onClick={journalImage}>Image Prompt</button>
               </div>
             )}
           </div>
@@ -66,12 +80,6 @@ const Journal_Dashboard = () => {
 
         </div>
        <div className="settings-icon"> <Link to='/edit-profile'>⚙</Link></div>
-        <div className="settings-links">
-          <Link to="/edit-profile" className="settings-link">Edit Profile</Link>
-          <Link to="/journal-image" className="settings-link">Journal Image</Link>
-          <Link to="/journal-video" className="settings-link">Journal Video</Link>
-          <Link to="/about" className="settings-link">About Us</Link>
-        </div>
       </div>
     </div>
   );
