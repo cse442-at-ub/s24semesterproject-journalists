@@ -1,80 +1,71 @@
 import React, { useState } from 'react';
-import './Journal_Dashboard.css';
-import { useNavigate } from 'react-router-dom';
-const Journal_video = () => {
+import './Journal_video.css';
+
+const JournalVideo = () => {
   const [journalEntries, setJournalEntries] = useState([
-    { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...', imageUrl: '' },
-    // ... more entries
+    { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
+    // ... add other entries if needed
   ]);
   const [newMessage, setNewMessage] = useState('');
-  const [newImage, setNewImage] = useState(''); // State to hold the new image URL
-  const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you might want to handle the upload to your server or a cloud service
-    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage, imageUrl: newImage };
+    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
     setJournalEntries([...journalEntries, newEntry]);
-    // Resetting form
     setNewMessage('');
-    setNewImage('');
   };
 
-  const handleLogout = () => {
-    navigate('/login-page');
-    console.log("Logged out!");
-  }
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    setNewImage(imageUrl);
-  };
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   return (
-    <div className="app-container-journal">
-      <div className="left-column-journal">
-        <div>
-          <div className="journalist-label">Journalist</div>
-          {/* You might want to handle the New Entry button functionality */}
-          <button className="new-entry-btn">New Entry</button>
-          <div className="journal-history">
-            {journalEntries.map((entry, index) => (
-              <div key={index} className="journal-entry">
-                <p>{entry.date}</p>
-                {entry.imageUrl && <img src={entry.imageUrl} alt="Journal entry" style={{ maxWidth: '100%', height: 'auto' }} />}
-                <p>{entry.content}</p>
+    <div className="journal-dashboard">
+      <div className="left-column">
+        <div className="header">
+          <h1>Journalist</h1>
+          <div className="dropdown">
+            <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
+            {showDropdown && (
+              <div className="dropdown-content">
+                <button className="dropdown-item" onClick={() => {/* handle video journal entry */}}>Video Journal</button>
+                <button className="dropdown-item" onClick={() => {/* handle image journal entry */}}>Image Journal</button>
               </div>
-            ))}
+            )}
           </div>
         </div>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <div className="entries">
+          {journalEntries.map((entry, index) => (
+            <button key={index} className="entry">
+              <p className="entry-date">{entry.date}</p>
+              <p className="entry-content">{entry.content}</p>
+            </button>
+          ))}
+        </div>
+        <button className="button orange logout-button">Logout</button>
       </div>
-      <div className="right-column-journal">
-        <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
-        <div>
-          {/* Embedded YouTube video */}
+      <div className="right-column">
+        <p className="date">Date: {new Date().toLocaleDateString()}</p>
+        <div className="video-container">
           <iframe
-            width="560"
-            height="315"
+            className="journal-video"
             src="https://www.youtube.com/embed/dQw4w9WgXcQ"
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
+            allowFullScreen
           ></iframe>
-          
-          <textarea
-            className="textarea_journal"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Reflect on today's day..."
-            required
-          />
-          <button onClick={handleSubmit}>Submit Entry</button>
         </div>
+        <textarea
+          className="textarea-journal"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Reflect on today's day..."
+        />
+        <button className="button orange save-button" onClick={handleSubmit}>Save</button>
       </div>
     </div>
   );
 };
 
-export default Journal_video;
+export default JournalVideo;
+
