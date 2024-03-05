@@ -146,6 +146,7 @@ html, body {
     margin-bottom: 10px; /* Space below buttons */
   }
 }
+
 @media (max-width: 768px) {
   .sidebar {
     position: absolute;
