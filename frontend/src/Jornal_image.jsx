@@ -47,7 +47,6 @@ const Journal_image = () => {
           <button onClick={handleSubmit}>Submit Entry</button>
         </div>
         <div className="settings-icon">⚙</div>
-        <div className="settings-icon">⚙</div>
       </div>
     </div>
   );

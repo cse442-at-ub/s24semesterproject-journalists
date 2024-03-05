@@ -9,10 +9,11 @@ const Journal_Dashboard = () => {
     { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
     // ... more entries
   ]);
-  const navigate = useNavigate();
+
   const handleNewEntry = () => {
     console.log('New Entry clicked');
   };
+  const [newMessage, setNewMessage] = useState('');
 
   const togglePrompts = () => {
     setShowPrompts(!showPrompts);
@@ -54,7 +55,15 @@ const Journal_Dashboard = () => {
         <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
         <div>
           <h1 className="title-journal">Reflect on today's day</h1>
-          <textarea className="textarea_journal" placeholder="Reflect on today's day..." required />
+          <textarea
+            className="textarea_journal"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="Reflect on today's day..."
+            required
+          />
+          <button onClick={handleSubmit}>Submit Entry</button>
+
         </div>
        <div className="settings-icon"> <Link to='/edit-profile'>⚙</Link></div>
         <div className="settings-links">
