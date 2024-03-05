@@ -6,7 +6,6 @@ import JournalImage from "./Jornal_image";
 import JournalVideo from "./Journal_video";
 import SignupPage from './SignupPage.jsx';
 import LoginPage from './LoginPage.jsx';
-import Journal_Dashboard from './Journal_Dashboard';
 import SecurityPage from './SecurityPage.jsx';
 import About from './About.jsx';
 
