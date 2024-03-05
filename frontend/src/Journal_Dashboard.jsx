@@ -1,73 +1,80 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Journal_Dashboard.css";
 import { Link } from "react-router-dom";
+import "./Journal_Dashboard.css";
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
-  const [journalEntries, setJournalEntries] = useState([
-    {
-      date: "Feb 1, 2024",
-      content: "Reflect on today’s day. Today was a busy day at work...",
-    },
-    // ... more entries
-  ]);
-
-  const fetchEntries = async () => {
-    try {
-      const response = await axios.get("/backend/journal/read.php", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Replace yourAuthToken with the actual token
-        },
-      });
-      if (response.data) {
-        setJournalEntries(response.data);
-        console.log("successfully retrieved entries");
-        console.log(response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching journal entries:", error);
-    }
-  };
+  const [journalEntries, setJournalEntries] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
+    const fetchEntries = async () => {
+      try {
+        const response = await axios.get("/backend/journal/read.php", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setJournalEntries(response.data);
+      } catch (error) {
+        console.error("Error fetching journal entries:", error);
+      }
+    };
+
     fetchEntries();
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // To prevent the form from refreshing the page
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", newTitle);
+    formData.append("body", newMessage);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
 
     try {
-      const formData = new FormData();
-      formData.append("title", "Your Title Here"); // Modify as needed
-      formData.append("body", newMessage);
-      // If you're including file uploads, append them here as well
-      // formData.append('image', selectedFile); // Assuming you have a file input
-
       const response = await axios.post(
         "/backend/journal/create.php",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Replace yourAuthToken with the actual token
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
       if (response.status === 201) {
-        console.log("Journal entry created:", response.data);
-        // Optionally, refresh entries or update UI accordingly
-        fetchEntries(); // If you want to immediately see the new entry in your list
+        const newEntry = {
+          id: response.data.id,
+          title: newTitle,
+          date: new Date().toLocaleDateString(),
+          content: newMessage,
+          image_path: response.data.image_path || "",
+        };
+        setJournalEntries([...journalEntries, newEntry]);
+        setNewMessage("");
+        setNewTitle("");
+        setImageFile(null);
       }
     } catch (error) {
       console.error("Error submitting journal entry:", error);
     }
   };
 
-  /*useEffect(() => {
-    fetchMessages();
-  }, []);*/
+  const handleNewEntry = () => {
+    // Reset the form for a new entry
+    setNewMessage("");
+    setNewTitle("");
+    setImageFile(null);
+  };
+
+  const togglePrompts = () => {
+    setShowPrompts(!showPrompts);
+  };
 
   return (
     <div className="app-container-journal">
@@ -95,6 +102,10 @@ const Journal_Dashboard = () => {
               <div key={index} className="journal-entry">
                 <p>{entry.date}</p>
                 <p>{entry.content}</p>
+                {/* Display image if available */}
+                {entry.image_path && (
+                  <img src={entry.image_path} alt="Journal Entry" />
+                )}
               </div>
             ))}
           </div>
@@ -107,11 +118,25 @@ const Journal_Dashboard = () => {
         </div>
         <div>
           <h1 className="title-journal">Reflect on today's day</h1>
+          <input
+            type="text"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            placeholder="Title of your journal entry"
+            required
+          />
           <textarea
             className="textarea_journal"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Reflect on today's day..."
             required
           />
+          <input
+            type="file"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
+          <button onClick={handleSubmit}>Submit Entry</button>
         </div>
         <div className="settings-icon">⚙</div>
         <div className="settings-links">
