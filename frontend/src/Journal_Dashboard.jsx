@@ -1,28 +1,70 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './Journal_Dashboard.css';
-import { Link } from 'react-router-dom';
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Journal_Dashboard.css";
+import { Link } from "react-router-dom";
 
 const Journal_Dashboard = () => {
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
 
   const [journalEntries, setJournalEntries] = useState([
-    { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
+    {
+      date: "Feb 1, 2024",
+      content: "Reflect on today’s day. Today was a busy day at work...",
+    },
     // ... more entries
   ]);
 
-  const fetchMessages = async () => {
-    // ... existing fetchMessages function
+  const fetchEntries = async () => {
+    try {
+      const response = await axios.get("/backend/journal/read.php", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Replace yourAuthToken with the actual token
+        },
+      });
+      if (response.data) {
+        setJournalEntries(response.data);
+        console.log("successfully retrieved entries");
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching journal entries:", error);
+    }
   };
 
-  const postMessage = async (messageContent) => {
-    // ... existing postMessage function
-  };
+  useEffect(() => {
+    fetchEntries();
+  }, []);
 
-  const handleSubmit = (e) => {
-    // ... existing handleSubmit function
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // To prevent the form from refreshing the page
+
+    try {
+      const formData = new FormData();
+      formData.append("title", "Your Title Here"); // Modify as needed
+      formData.append("body", newMessage);
+      // If you're including file uploads, append them here as well
+      // formData.append('image', selectedFile); // Assuming you have a file input
+
+      const response = await axios.post(
+        "/backend/journal/create.php",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Replace yourAuthToken with the actual token
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log("Journal entry created:", response.data);
+        // Optionally, refresh entries or update UI accordingly
+        fetchEntries(); // If you want to immediately see the new entry in your list
+      }
+    } catch (error) {
+      console.error("Error submitting journal entry:", error);
+    }
   };
 
   /*useEffect(() => {
@@ -47,7 +89,9 @@ const Journal_Dashboard = () => {
         <button className="logout-btn">Logout</button>
       </div>
       <div className="right-column-journal">
-        <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
+        <div className="date-display-journal">
+          Date: {new Date().toLocaleDateString()}
+        </div>
         <div>
           <h1 className="title-journal">Reflect on today's day</h1>
           <textarea
@@ -58,13 +102,18 @@ const Journal_Dashboard = () => {
             required
           />
         </div>
-        <div className="settings-icon" >⚙</div>
+        <div className="settings-icon">⚙</div>
         <div className="settings-links">
-    <Link to="/edit-profile" className="settings-link">Edit Profile</Link>
-    <Link to="/journal-image" className="settings-link">Journal Image</Link>
-    <Link to="/journal-video" className="settings-link">Journal Video</Link>
-  </div>
-
+          <Link to="/edit-profile" className="settings-link">
+            Edit Profile
+          </Link>
+          <Link to="/journal-image" className="settings-link">
+            Journal Image
+          </Link>
+          <Link to="/journal-video" className="settings-link">
+            Journal Video
+          </Link>
+        </div>
       </div>
     </div>
   );
