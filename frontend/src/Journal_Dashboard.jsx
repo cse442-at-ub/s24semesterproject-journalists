@@ -24,6 +24,7 @@ const Journal_Dashboard = () => {
   const togglePrompts = () => {
     setShowPrompts(!showPrompts);
   };
+  
 
   return (
     <div className="app-container-journal">
