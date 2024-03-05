@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Journal_Dashboard.css';
-
+import { useNavigate } from 'react-router-dom';
 const Journal_video = () => {
   const [journalEntries, setJournalEntries] = useState([
     { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...', imageUrl: '' },
@@ -8,7 +8,7 @@ const Journal_video = () => {
   ]);
   const [newMessage, setNewMessage] = useState('');
   const [newImage, setNewImage] = useState(''); // State to hold the new image URL
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you might want to handle the upload to your server or a cloud service
@@ -18,6 +18,11 @@ const Journal_video = () => {
     setNewMessage('');
     setNewImage('');
   };
+
+  const handleLogout = () => {
+    navigate('/login-page');
+    console.log("Logged out!");
+  }
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -42,7 +47,7 @@ const Journal_video = () => {
             ))}
           </div>
         </div>
-        <button className="logout-btn">Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
       <div className="right-column-journal">
         <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>

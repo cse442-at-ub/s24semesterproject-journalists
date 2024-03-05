@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Journal_Dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 const Journal_image = () => {
   const [journalEntries, setJournalEntries] = useState([
@@ -7,6 +8,12 @@ const Journal_image = () => {
     // ... more entries
   ]);
   const [newMessage, setNewMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate('/login-page');
+    console.log("Logged out!");
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +38,7 @@ const Journal_image = () => {
             ))}
           </div>
         </div>
-        <button className="logout-btn">Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
       <div className="right-column-journal">
         <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
