@@ -4,9 +4,7 @@ import "./Journal_Dashboard.css";
 import { Link } from "react-router-dom";
 
 const Journal_Dashboard = () => {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-
+  const [showPrompts, setShowPrompts] = useState(false);
   const [journalEntries, setJournalEntries] = useState([
     {
       date: "Feb 1, 2024",
@@ -76,7 +74,22 @@ const Journal_Dashboard = () => {
       <div className="left-column-journal">
         <div>
           <div className="journalist-label">Journalist</div>
-          <button className="new-entry-btn">New Entry</button>
+          <button onClick={handleNewEntry} className="new-entry-btn">
+            New Entry
+          </button>
+          <div
+            className={`prompt-dropdown ${showPrompts ? "show-prompts" : ""}`}
+          >
+            <button onClick={togglePrompts} className="prompt-toggle-btn">
+              Prompts {showPrompts ? "▲" : "▼"}
+            </button>
+            {showPrompts && (
+              <div className="prompt-buttons">
+                <button className="prompt-btn">Video Prompt</button>
+                <button className="prompt-btn">Image Prompt</button>
+              </div>
+            )}
+          </div>
           <div className="journal-history">
             {journalEntries.map((entry, index) => (
               <div key={index} className="journal-entry">
@@ -96,8 +109,6 @@ const Journal_Dashboard = () => {
           <h1 className="title-journal">Reflect on today's day</h1>
           <textarea
             className="textarea_journal"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Reflect on today's day..."
             required
           />
@@ -112,6 +123,9 @@ const Journal_Dashboard = () => {
           </Link>
           <Link to="/journal-video" className="settings-link">
             Journal Video
+          </Link>
+          <Link to="/about" className="settings-link">
+            About Us
           </Link>
         </div>
       </div>
