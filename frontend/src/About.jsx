@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./About.css";
+import { Link } from "react-router-dom";
 //import { ReactComponent as HomeIcon } from './home-icon.svg';
 
 const About = () => {
   return (
     <div className="container">
       <div className="sidebar">
-        <div className="menu-item home">Home</div>
+        <div className="menu-item home"><Link to='/journal'>Home</Link></div>
         <div className="menu">
-          <div className="menu-item">Edit Profile</div>
-          <div className="menu-item">Security</div>
-          <div className="menu-item active">About</div>
+          <div className="menu-item"><Link to='/edit-profile'>Edit Profile</Link></div>
+          <div className="menu-item"><Link to='/security-page'>Security</Link></div>
+          <div className="menu-item active"><Link to='/about'>About</Link></div>
         </div>
       </div>
       <div className="content">

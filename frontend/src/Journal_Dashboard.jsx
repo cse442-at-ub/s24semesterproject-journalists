@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import "./Journal_Dashboard.css";
+
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
@@ -71,11 +68,17 @@ const Journal_Dashboard = () => {
     setNewTitle("");
     setImageFile(null);
   };
+  const [newMessage, setNewMessage] = useState('');
 
   const togglePrompts = () => {
     setShowPrompts(!showPrompts);
   };
+  
 
+  const handleLogout = () => {
+    navigate('/login-page');
+    console.log("Logged out!");
+  }
   return (
     <div className="app-container-journal">
       <div className="left-column-journal">
@@ -110,7 +113,7 @@ const Journal_Dashboard = () => {
             ))}
           </div>
         </div>
-        <button className="logout-btn">Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
       <div className="right-column-journal">
         <div className="date-display-journal">
@@ -118,13 +121,7 @@ const Journal_Dashboard = () => {
         </div>
         <div>
           <h1 className="title-journal">Reflect on today's day</h1>
-          <input
-            type="text"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Title of your journal entry"
-            required
-          />
+
           <textarea
             className="textarea_journal"
             value={newMessage}
@@ -132,13 +129,9 @@ const Journal_Dashboard = () => {
             placeholder="Reflect on today's day..."
             required
           />
-          <input
-            type="file"
-            onChange={(e) => setImageFile(e.target.files[0])}
-          />
-          <button onClick={handleSubmit}>Submit Entry</button>
+
         </div>
-        <div className="settings-icon">⚙</div>
+       <div className="settings-icon"> <Link to='/edit-profile'>⚙</Link></div>
         <div className="settings-links">
           <Link to="/edit-profile" className="settings-link">
             Edit Profile

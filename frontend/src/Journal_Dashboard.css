@@ -124,31 +124,33 @@
   cursor: pointer;
 }
 
+
+
+.show-prompts .prompt-buttons {
+  display: block;
+}
+
+
 .prompt-buttons {
   display: none;
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
-  background: #fff;
+  background: #d9534f; /* Same as the toggle button for consistency */
   z-index: 100;
-}
-
-.show-prompts .prompt-buttons {
-  display: block;
+  border-radius: 0 0 4px 4px; /* Rounded corners for dropdown */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: Adds shadow for depth */
 }
 
 .prompt-btn {
   width: 100%;
   padding: 10px 20px;
-  text-align: left;
-  background-color: transparent;
+  text-align: center; /* Center the text */
+  background-color: #fff; /* White background for the buttons */
   border: none;
-  color: white;
+  color: #333; /* Dark text for readability */
   cursor: pointer;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #ccc; /* Light border for separation */
 }
 
-.prompt-btn:last-child {
-  border-bottom: none;
-}
