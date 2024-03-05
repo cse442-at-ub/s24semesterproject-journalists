@@ -1,27 +1,55 @@
-import React, { useState } from 'react';
-import './SignupPage.css'; // Make sure to create a corresponding CSS file
-import journalistFigure from './assets/journalistfigure.svg';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState } from "react";
+import axios from "axios"; // Import Axios
+import "./SignupPage.css";
+import journalistFigure from "./assets/journalistfigure.svg";
+import { useNavigate } from "react-router-dom";
 
 const SignupPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
-
 
   const handleSignup = (e) => {
     e.preventDefault();
     // Handle the signup logic here
     navigate("/journal");
-    console.log('Signup with', email, password, confirmPassword);
+    console.log("Signup with", email, password, confirmPassword);
+
+    // Basic validation for demo purposes
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    // Sending the signup request to the backend
+    axios
+      .post("/backend/account/create_account.php", {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        // Handle response here
+        console.log("Verification Email Sent", response);
+        if (response.status === 201) {
+          // You can redirect the user to login page or display a success message
+          alert(
+            "Signup successful! Please check your email to verify your account."
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Signup error", error);
+        alert("An error occurred during signup. Please try again.");
+      });
   };
 
   return (
     <div className="signup-container">
       <form className="signup-form" onSubmit={handleSignup}>
-        <h1>Welcome to <span className="journalist-color">Journalist</span></h1>
+        <h1>
+          Welcome to <span className="journalist-color">Journalist</span>
+        </h1>
         <input
           type="email"
           placeholder="Enter email address"
@@ -44,9 +72,8 @@ const SignupPage = () => {
           required
         />
         <button type="submit">Signup</button>
-        <br></br>
-        <br></br>
-
+        <br />
+        <br />
         <p>
           Already have an account? <a href="/login-page">Login</a>
         </p>
@@ -55,7 +82,6 @@ const SignupPage = () => {
         <img src={journalistFigure} alt="Journalist Figure" />
       </div>
     </div>
-    
   );
 };
 

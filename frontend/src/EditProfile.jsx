@@ -1,54 +1,63 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './EditProfile.css'; // Make sure this path is correct.
+import React, { useState } from "react";
+import axios from "axios";
+import "./EditProfile.css"; // Make sure this path is correct.
 //import { Link } from 'react-router-dom';
 function EditProfile() {
   // Initialize state for each input field
   const [profile, setProfile] = useState({
-    firstName: '',
-    lastName: '',               
-    email: '',
-    address: '',
-    contactNumber: '',
-    city: '',
-    state: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    contactNumber: "",
+    city: "",
+    state: "",
   });
-  
+
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
-  
+
   // This function will handle the change for every input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfile(prevState => ({
+    setProfile((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
   // This function will be called when the form is submitted
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Make a post request to save the data
-    axios.post('/api/profile', profile)
-      .then(response => {
-        console.log('Profile updated!', response.data);
+
+    // Get the token from local storage or state management where it is stored
+    console.log(localStorage.getItem("token"));
+    axios
+      .post("/backend/setting/edit-profile.php", profile, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("Profile updated!", response.data);
         // Handle the success case - maybe redirect or show a success message
       })
-      .catch(error => {
-        console.error('Error updating profile:', error);
+      .catch((error) => {
+        console.error("Error updating profile:", error);
         // Handle the error case - maybe show an error message
       });
   };
- 
+
   return (
     <div className="profile-container">
       <aside className="sidebar">
         <nav>
           <ul>
+            <li><a href="/journal">Home</a></li>
             <li><a href="/edit-profile">Edit profile</a></li>
             <li><a href="/security-page">Security</a></li>
             <li><a href="/about">About</a></li>
@@ -143,8 +152,12 @@ function EditProfile() {
             />
           </div>
           <div className="form-actions">
-            <button type="button" className="cancel-button">Cancel</button>
-            <button type="submit" className="save-button">Save</button>
+            <button type="button" className="cancel-button">
+              Cancel
+            </button>
+            <button type="submit" className="save-button">
+              Save
+            </button>
           </div>
         </form>
       </main>
