@@ -154,6 +154,3 @@
   border-bottom: 1px solid #ccc; /* Light border for separation */
 }
 
-.prompt-btn:last-child {
-  border-bottom: none; /* No border for the last button to maintain consistency */
-}

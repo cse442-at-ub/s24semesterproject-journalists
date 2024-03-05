@@ -8,11 +8,24 @@
   }
   
   .sidebar {
-    flex-basis: 20%;
-    height: 100vh;
-    /* Sidebar styles */
+    position: fixed; /* Fix the sidebar to the left */
+    top: 0;
+    bottom: 0; /* Stretch from top to bottom */
+    left: 0; /* Align to the left side of the viewport */
+    width: 250px; /* Maintain a fixed width */
+    overflow-y: auto; /* Allows scrolling if the content overflows */
+    background: #fff; /* Background color for the sidebar */
+    transition: transform 0.3s; /* Smooth transition for toggling */
+    z-index: 1000; /* Ensure it's above other content but below the hamburger menu */
   }
   
+  /* Ensure the main content is pushed to the right to avoid being covered by the sidebar */
+  .security-page {
+    display: flex;
+    flex-direction: row;
+    padding-left: 250px; /* Adjust this value based on the sidebar width */
+  }
+    
   .security-form {
     flex-grow: 1;
     padding: 20px;
@@ -104,7 +117,7 @@
         position: fixed;
         top: 0;
         bottom: 0; /* Ensures the sidebar extends to the bottom of the page */
-        left: -250px; /* Start off-screen to the left */
+        left: -250; /* Start off-screen to the left */
         width: 250px; /* Width of the sidebar */
         overflow-y: auto; /* Allows scrolling if the content overflows */
         background: #fff; /* Background color for the sidebar */
@@ -151,5 +164,24 @@
   .sidebar {
     -ms-overflow-style: none;  /* For Internet Explorer and Edge */
     scrollbar-width: none;  /* For Firefox */
+  }
+  @media (max-width: 768px) {
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+    }
+  
+    .sidebar.open {
+      transform: translateX(0);
+    }
+  
+  
+    .security-page {
+      padding-left: 0; /* Remove padding on mobile */
+    }
+  
+    .hamburger-menu {
+      display: flex; /* Show the menu */
+    }
   }
   

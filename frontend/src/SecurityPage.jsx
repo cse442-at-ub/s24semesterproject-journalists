@@ -22,6 +22,9 @@ const SecurityPage = () => {
     <div className="security-page">
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         {/* Sidebar content here */}
+        <a href="/journal">Home</a>
+        <br></br>
+        <br></br>
         <a href="/edit-profile">Edit profile</a>
         <br></br>
         <br></br>
