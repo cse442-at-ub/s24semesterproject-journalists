@@ -152,3 +152,7 @@
 .prompt-btn:last-child {
   border-bottom: none;
 }
+
+.settings-link:not(:last-child) {
+  margin-right: 10px;
+}
