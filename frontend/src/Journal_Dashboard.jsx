@@ -19,6 +19,7 @@ const Journal_Dashboard = () => {
           },
         });
         setJournalEntries(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching journal entries:", error);
       }
