@@ -8,8 +8,8 @@ const About = () => {
   return (
     <div className="container">
       <div className="sidebar">
-        <div className="menu-item home"><Link to='/journal'>Home</Link></div>
         <div className="menu">
+        <div className="menu-item"><Link to='/journal'>Home</Link></div>
           <div className="menu-item"><Link to='/edit-profile'>Edit Profile</Link></div>
           <div className="menu-item"><Link to='/security-page'>Security</Link></div>
           <div className="menu-item active"><Link to='/about'>About</Link></div>

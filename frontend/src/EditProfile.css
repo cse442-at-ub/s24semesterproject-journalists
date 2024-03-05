@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
   }
   
   /* Base container for the profile area */
@@ -8,6 +9,8 @@ html, body {
     display: flex;
     min-height: 100vh;
     font-family: Arial, sans-serif; /* Use your preferred font here */
+    font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
+
   }
   
   /* Sidebar styling */
@@ -102,7 +105,7 @@ html, body {
   }
   
   .save-button {
-    background-color: red;
+    background-color: #F74923;
     color: white;
   }
   

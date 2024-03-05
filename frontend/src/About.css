@@ -1,6 +1,8 @@
 .container {
   display: flex;
   height: 100vh; /* Full height of the viewport */
+  font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
+
 }
 
 .sidebar {
