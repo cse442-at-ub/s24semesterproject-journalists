@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./About.css";
 import { Link } from "react-router-dom";
-//import { ReactComponent as HomeIcon } from './home-icon.svg';
 
 const About = () => {
+  // State to manage the visibility of the sidebar
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  // Toggle the visibility of the sidebar
+  const toggleSidebar = () => {
+    setIsSidebarVisible(!isSidebarVisible);
+  };
+
   return (
     <div className="container">
-      <div className="sidebar">
+      {/* Toggle button for the sidebar */}
+      <button className="menu-button" onClick={toggleSidebar}>Menu</button>
+
+      {/* Sidebar navigation, visibility toggled by state */}
+      <div className={`sidebar ${isSidebarVisible ? 'open' : ''}`}>
         <div className="menu">
-        <div className="menu-item"><Link to='/journal'>Home</Link></div>
+          <div className="menu-item"><Link to='/journal'>Home</Link></div>
           <div className="menu-item"><Link to='/edit-profile'>Edit Profile</Link></div>
           <div className="menu-item"><Link to='/security-page'>Security</Link></div>
           <div className="menu-item active"><Link to='/about'>About</Link></div>
         </div>
       </div>
+
       <div className="content">
         <div className="header">
           <h1 className="title">ABOUT</h1>
