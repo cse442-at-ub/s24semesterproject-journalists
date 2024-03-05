@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Journal_Dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
@@ -8,13 +9,6 @@ const Journal_Dashboard = () => {
     { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
     // ... more entries
   ]);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Since we're no longer handling images, we'll just add text entries
-    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage, imageUrl: '' };
-    setJournalEntries([...journalEntries, newEntry]);
-    setNewMessage('');
-  };
 
   const handleNewEntry = () => {
     console.log('New Entry clicked');
@@ -26,6 +20,10 @@ const Journal_Dashboard = () => {
   };
   
 
+  const handleLogout = () => {
+    navigate('/login-page');
+    console.log("Logged out!");
+  }
   return (
     <div className="app-container-journal">
       <div className="left-column-journal">
@@ -52,7 +50,7 @@ const Journal_Dashboard = () => {
             ))}
           </div>
         </div>
-        <button className="logout-btn">Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
       <div className="right-column-journal">
         <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
@@ -68,7 +66,7 @@ const Journal_Dashboard = () => {
           <button onClick={handleSubmit}>Submit Entry</button>
 
         </div>
-        <div className="settings-icon">⚙</div>
+       <div className="settings-icon"> <Link to='/edit-profile'>⚙</Link></div>
         <div className="settings-links">
           <Link to="/edit-profile" className="settings-link">Edit Profile</Link>
           <Link to="/journal-image" className="settings-link">Journal Image</Link>
