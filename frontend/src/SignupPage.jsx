@@ -30,7 +30,7 @@ const SignupPage = () => {
       })
       .then((response) => {
         // Handle response here
-        console.log("Signup successful", response);
+        console.log("Verification Email Sent", response);
         if (response.status === 201) {
           // You can redirect the user to login page or display a success message
           alert(

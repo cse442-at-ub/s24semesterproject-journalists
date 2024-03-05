@@ -10,21 +10,23 @@ const Journal_Dashboard = () => {
   const [newTitle, setNewTitle] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
-  useEffect(() => {
-    const fetchEntries = async () => {
-      try {
-        const response = await axios.get("/backend/journal/read.php", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        setJournalEntries(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching journal entries:", error);
-      }
-    };
+  const fetchEntries = async () => {
+    try {
+      const response = await axios.get("/backend/journal/read.php", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setJournalEntries(response.data);
+      console.log("entries fetched");
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching journal entries:", error);
+    }
+  };
 
+  // Call fetchEntries when the component mounts
+  useEffect(() => {
     fetchEntries();
   }, []);
 
@@ -49,17 +51,11 @@ const Journal_Dashboard = () => {
         }
       );
       if (response.status === 201) {
-        const newEntry = {
-          id: response.data.id,
-          title: newTitle,
-          date: new Date().toLocaleDateString(),
-          content: newMessage,
-          image_path: response.data.image_path || "",
-        };
-        setJournalEntries([...journalEntries, newEntry]);
+        console.log("entry added to database");
         setNewMessage("");
         setNewTitle("");
         setImageFile(null);
+        await fetchEntries(); // Refresh the entries after a successful submission
       }
     } catch (error) {
       console.error("Error submitting journal entry:", error);
