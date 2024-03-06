@@ -1,20 +1,8 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './EditProfile.css'; // Ensure this path matches your file structure
 
 function EditProfile() {
   // Initialize state for each input field in the user's profile
   const [profile, setProfile] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    address: '',
-    contactNumber: '',
-    city: '',
-    state: '',
-  });
 
-  // State to manage the visibility of the sidebar, initially hidden
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   // Toggle the visibility of the sidebar
@@ -22,10 +10,10 @@ function EditProfile() {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
-  // Update profile state as the user types in form fields
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfile(prevState => ({
+    setProfile((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -33,16 +21,7 @@ function EditProfile() {
 
   // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    // Post request to save profile data
-    axios.post('/api/profile', profile)
-      .then(response => {
-        console.log('Profile updated!', response.data);
-        // Implement success feedback (e.g., a success message)
-      })
-      .catch(error => {
-        console.error('Error updating profile:', error);
-        // Implement error feedback (e.g., an error message)
+
       });
   };
 
@@ -152,8 +131,12 @@ function EditProfile() {
             />
           </div>
           <div className="form-actions">
-            <button type="button" className="cancel-button">Cancel</button>
-            <button type="submit" className="save-button">Save</button>
+            <button type="button" className="cancel-button">
+              Cancel
+            </button>
+            <button type="submit" className="save-button">
+              Save
+            </button>
           </div>
         </form>
       </main>

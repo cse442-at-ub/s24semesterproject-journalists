@@ -8,11 +8,18 @@ header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 // Authentication and user verification (extracted user_id from token)
 $headers = getallheaders();
-$authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
-$token = '';
-if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+$authHeader = '';
+foreach ($headers as $header => $value) {
+    if (strtolower($header) == 'authorization') {
+        $authHeader = $value;
+        break;
+    }
+}
+
+if (preg_match('/Bearer\s(\S+)/i', $authHeader, $matches)) {
     $token = $matches[1];
 } else {
+    // Token not provided or invalid format
     http_response_code(401);
     echo json_encode(["error" => "Unauthorized - Token not provided or invalid"]);
     exit;

@@ -1,20 +1,18 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Journal_Dashboard.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import "./Journal_Dashboard.css";
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
-  const [journalEntries, setJournalEntries] = useState([
-    { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
-    // ... more entries
-  ]);
-  const navigate = useNavigate();
+
 
   const handleNewEntry = () => {
-    console.log('New Entry clicked');
+    // Reset the form for a new entry
+    setNewMessage("");
+    setNewTitle("");
+    setImageFile(null);
   };
-  const [newMessage, setNewMessage] = useState('');
 
   const handleSubmit = () => {
     const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
@@ -26,26 +24,20 @@ const Journal_Dashboard = () => {
     setShowPrompts(!showPrompts);
   };
 
-  const handleLogout = () => {
-    navigate('/login-page');
-    console.log("Logged out!");
-  }
-  const journalVideo = () => {
-    navigate('/journal-video')
-  }
-  const journalImage = () => {
-    navigate('/journal-image')
-  }
 
   return (
     <div className="app-container-journal">
       <div className="left-column-journal">
         <div>
           <div className="journalist-label">Journalist</div>
-          <button onClick={handleNewEntry} className="new-entry-btn">New Entry</button>
-          <div className={`prompt-dropdown ${showPrompts ? 'show-prompts' : ''}`}>
+          <button onClick={handleNewEntry} className="new-entry-btn">
+            New Entry
+          </button>
+          <div
+            className={`prompt-dropdown ${showPrompts ? "show-prompts" : ""}`}
+          >
             <button onClick={togglePrompts} className="prompt-toggle-btn">
-              Prompts {showPrompts ? '▲' : '▼'}
+              Prompts {showPrompts ? "▲" : "▼"}
             </button>
             {showPrompts && (
               <div className="prompt-buttons">
@@ -59,16 +51,29 @@ const Journal_Dashboard = () => {
               <div key={index} className="journal-entry">
                 <p>{entry.date}</p>
                 <p>{entry.content}</p>
+                {/* Display image if available */}
+                {entry.image_path && (
+                  <img src={entry.image_path} alt="Journal Entry" />
+                )}
               </div>
             ))}
           </div>
         </div>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <button className="logout-btn">Logout</button>
       </div>
       <div className="right-column-journal">
-        <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
+        <div className="date-display-journal">
+          Date: {new Date().toLocaleDateString()}
+        </div>
         <div>
           <h1 className="title-journal">Reflect on today's day</h1>
+          <input
+            type="text"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            placeholder="Title of your journal entry"
+            required
+          />
           <textarea
             className="textarea_journal"
             value={newMessage}
@@ -76,10 +81,13 @@ const Journal_Dashboard = () => {
             placeholder="Reflect on today's day..."
             required
           />
+          <input
+            type="file"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
           <button onClick={handleSubmit}>Submit Entry</button>
-
         </div>
-       <div className="settings-icon"> <Link to='/edit-profile'>⚙</Link></div>
+
       </div>
     </div>
   );
