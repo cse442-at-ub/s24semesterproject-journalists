@@ -5,62 +5,7 @@ import "./Journal_Dashboard.css";
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
-  const [journalEntries, setJournalEntries] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [newTitle, setNewTitle] = useState("");
-  const [imageFile, setImageFile] = useState(null);
 
-  const fetchEntries = async () => {
-    try {
-      const response = await axios.get("/backend/journal/read.php", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setJournalEntries(response.data);
-      console.log("entries fetched");
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching journal entries:", error);
-    }
-  };
-
-  // Call fetchEntries when the component mounts
-  useEffect(() => {
-    fetchEntries();
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", newTitle);
-    formData.append("body", newMessage);
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
-
-    try {
-      const response = await axios.post(
-        "/backend/journal/create.php",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      if (response.status === 201) {
-        console.log("entry added to database");
-        setNewMessage("");
-        setNewTitle("");
-        setImageFile(null);
-        await fetchEntries(); // Refresh the entries after a successful submission
-      }
-    } catch (error) {
-      console.error("Error submitting journal entry:", error);
-    }
-  };
 
   const handleNewEntry = () => {
     // Reset the form for a new entry
@@ -69,9 +14,16 @@ const Journal_Dashboard = () => {
     setImageFile(null);
   };
 
+  const handleSubmit = () => {
+    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
+    addJournalEntry(newEntry); // Assuming you have a function to add a new entry
+    setNewMessage(''); // Clear the textarea after submission
+  };
+  
   const togglePrompts = () => {
     setShowPrompts(!showPrompts);
   };
+
 
   return (
     <div className="app-container-journal">
@@ -89,8 +41,8 @@ const Journal_Dashboard = () => {
             </button>
             {showPrompts && (
               <div className="prompt-buttons">
-                <button className="prompt-btn">Video Prompt</button>
-                <button className="prompt-btn">Image Prompt</button>
+                <button className="prompt-btn" onClick={journalVideo}>Video Prompt</button>
+                <button className="prompt-btn" onClick={journalImage}>Image Prompt</button>
               </div>
             )}
           </div>
@@ -135,21 +87,7 @@ const Journal_Dashboard = () => {
           />
           <button onClick={handleSubmit}>Submit Entry</button>
         </div>
-        <div className="settings-icon">⚙</div>
-        <div className="settings-links">
-          <Link to="/edit-profile" className="settings-link">
-            Edit Profile
-          </Link>
-          <Link to="/journal-image" className="settings-link">
-            Journal Image
-          </Link>
-          <Link to="/journal-video" className="settings-link">
-            Journal Video
-          </Link>
-          <Link to="/about" className="settings-link">
-            About Us
-          </Link>
-        </div>
+
       </div>
     </div>
   );

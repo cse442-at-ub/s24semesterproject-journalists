@@ -1,26 +1,16 @@
-import React, { useState } from "react";
-import axios from "axios";
-import "./EditProfile.css"; // Make sure this path is correct.
-//import { Link } from 'react-router-dom';
+
 function EditProfile() {
-  // Initialize state for each input field
+  // Initialize state for each input field in the user's profile
   const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    address: "",
-    contactNumber: "",
-    city: "",
-    state: "",
-  });
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
+  // Toggle the visibility of the sidebar
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
-  // This function will handle the change for every input
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile((prevState) => ({
@@ -29,47 +19,36 @@ function EditProfile() {
     }));
   };
 
-  // This function will be called when the form is submitted
+  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
 
-    // Get the token from local storage or state management where it is stored
-    console.log(localStorage.getItem("token"));
-    axios
-      .post("/backend/setting/edit-profile.php", profile, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log("Profile updated!", response.data);
-        // Handle the success case - maybe redirect or show a success message
-      })
-      .catch((error) => {
-        console.error("Error updating profile:", error);
-        // Handle the error case - maybe show an error message
       });
   };
 
   return (
     <div className="profile-container">
-      <aside className="sidebar">
+      {/* Toggle button for the sidebar */}
+      <button className="menu-button" onClick={toggleSidebar}>Menu</button>
+
+      {/* Sidebar navigation, visibility toggled by state */}
+      <aside className={`sidebar ${isSidebarVisible ? 'open' : ''}`}>
         <nav>
           <ul>
             <li><a href="/journal">Home</a></li>
-            <li><a href="/edit-profile">Edit profile</a></li>
+            <li><a href="/edit-profile">Edit Profile</a></li>
             <li><a href="/security-page">Security</a></li>
             <li><a href="/about">About</a></li>
           </ul>
         </nav>
       </aside>
+
       <main className="profile-content">
         <header>
           <h1>Edit Profile —</h1>
           <span className="role">Journalist</span>
         </header>
         <form className="profile-form" onSubmit={handleSubmit}>
+          {/* Form fields for editing the profile */}
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="firstName">First Name</label>
@@ -79,7 +58,7 @@ function EditProfile() {
                 name="firstName"
                 value={profile.firstName}
                 onChange={handleChange}
-                placeholder="Enter your name"
+                placeholder="Enter your first name"
               />
             </div>
             <div className="form-group">
@@ -90,7 +69,7 @@ function EditProfile() {
                 name="lastName"
                 value={profile.lastName}
                 onChange={handleChange}
-                placeholder="Enter your Last Name"
+                placeholder="Enter your last name"
               />
             </div>
           </div>
@@ -113,7 +92,7 @@ function EditProfile() {
               name="address"
               value={profile.address}
               onChange={handleChange}
-              placeholder="Enter your Address"
+              placeholder="Enter your address"
             />
           </div>
           <div className="form-row">
@@ -148,7 +127,7 @@ function EditProfile() {
               name="contactNumber"
               value={profile.contactNumber}
               onChange={handleChange}
-              placeholder="Enter a valid phone number"
+              placeholder="Enter your contact number"
             />
           </div>
           <div className="form-actions">
@@ -164,4 +143,5 @@ function EditProfile() {
     </div>
   );
 }
+
 export default EditProfile;

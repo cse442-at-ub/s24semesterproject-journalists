@@ -1,55 +1,77 @@
-import React, { useState } from 'react';
-import './Journal_Dashboard.css';
 
-const Journal_image = () => {
+import React, { useState } from 'react';
+import './Journal_video.css'; // Ensure this path is correct
+import mona_lisa from './assets/mona_lisa.jpeg'; // Ensure this path is correct
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+const JournalImage = () => {
   const [journalEntries, setJournalEntries] = useState([
-    { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...', imageUrl: '' },
-    // ... more entries
+    { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
+    // ... add other entries if needed
   ]);
   const [newMessage, setNewMessage] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false); // Correctly added showDropdown state
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Since we're no longer handling images, we'll just add text entries
-    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage, imageUrl: '' };
+    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
     setJournalEntries([...journalEntries, newEntry]);
     setNewMessage('');
   };
 
+  const handleLogout = () => {
+    navigate('/login-page');
+    console.log("Logged out!");
+  };
+
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
+
   return (
-    <div className="app-container-journal">
-      <div className="left-column-journal">
-        <div>
-          <div className="journalist-label">Journalist</div>
-          <button className="new-entry-btn" onClick={() => {}}>New Entry</button>
-          <div className="journal-history">
-            {journalEntries.map((entry, index) => (
-              <div key={index} className="journal-entry">
-                <p>{entry.date}</p>
-                <p>{entry.content}</p>
+    <div className="journal-dashboard">
+      <div className="left-column">
+        <div className="header">
+          <h1> <Link to='/journal'>Journalist</Link></h1>
+          <div className="dropdown">
+            <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
+            {showDropdown && (
+              <div className="dropdown-content">
+                <button className="dropdown-item" onClick={() => {/* handle video journal entry */}}>Video Journal</button>
+                <button className="dropdown-item" onClick={() => {/* handle image journal entry */}}>Image Journal</button>
               </div>
-            ))}
+            )}
           </div>
         </div>
-        <button className="logout-btn">Logout</button>
-      </div>
-      <div className="right-column-journal">
-        <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
-        <div>
-          <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ababb152-13f6-4f84-ba28-aa04ce450fad/dfo6h61-2a1f10ef-928c-42b8-9ac6-017d88d0741f.png/v1/fit/w_672,h_700,q_70,strp/straight_face_cat_meme_by_y0urdist00rtedmeme_dfo6h61-375w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzAwIiwicGF0aCI6IlwvZlwvYWJhYmIxNTItMTNmNi00Zjg0LWJhMjgtYWEwNGNlNDUwZmFkXC9kZm82aDYxLTJhMWYxMGVmLTkyOGMtNDJiOC05YWM2LTAxN2Q4OGQwNzQxZi5wbmciLCJ3aWR0aCI6Ijw9NjcyIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.l_2i8alMHTn2Pc7bLx85KylqBk46c5DDkWE3Q1I68j0" alt="Reflect on today's day" />
-          <textarea
-            className="textarea_journal"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Reflect on today's day..."
-            required
-          />
-          <button onClick={handleSubmit}>Submit Entry</button>
+        <div className="entries">
+          {journalEntries.map((entry, index) => (
+            <button key={index} className="entry">
+              <p className="entry-date">{entry.date}</p>
+              <p className="entry-content">{entry.content}</p>
+            </button>
+          ))}
         </div>
-        <div className="settings-icon">⚙</div>
+        <button className="button orange logout-button" onClick={handleLogout}>Logout</button>
+      </div>
+      <div className="right-column">
+        <p className="date">Date: {new Date().toLocaleDateString()}</p>
+        <div className="image-container">
+          <img
+            className="journal-image"
+            src={mona_lisa}
+            alt="Journal Entry"
+          />
+        </div>        
+        <textarea
+          className="textarea-journal"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Reflect on today's day..."
+        />
+        <button className="button orange save-button" onClick={handleSubmit}>Save</button>
       </div>
     </div>
   );
 };
 
-export default Journal_image;
+export default JournalImage;
