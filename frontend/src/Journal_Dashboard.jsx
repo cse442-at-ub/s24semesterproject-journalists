@@ -1,31 +1,69 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Journal_Dashboard.css';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
-  const [journalEntries, setJournalEntries] = useState([
-    { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
-    // ... more entries
-  ]);
+  const [journalEntries, setJournalEntries] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+
+  const fetchEntries = async () => {
+    try {
+      const response = await axios.get("/backend/journal/read.php", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setJournalEntries(response.data);
+      console.log("entries fetched");
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching journal entries:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEntries();
+  }, [])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("title", newTitle);
+    formData.append("body", newMessage);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    try {
+      const response = await axios.post(
+        "/backend/journal/create.php",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (response.status === 201) {
+        console.log("entry added to database");
+        setNewMessage("");
+        setNewTitle("");
+        setImageFile(null);
+        await fetchEntries(); // Refresh the entries after a successful submission
+      }
+    } catch (error) {
+      console.error("Error submitting journal entry:", error);
+    }
+  };
   const navigate = useNavigate();
-
-  const handleNewEntry = () => {
-    console.log('New Entry clicked');
-  };
-  const [newMessage, setNewMessage] = useState('');
-
-  const handleSubmit = () => {
-    const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
-    addJournalEntry(newEntry); // Assuming you have a function to add a new entry
-    setNewMessage(''); // Clear the textarea after submission
-  };
-  
-  const togglePrompts = () => {
-    setShowPrompts(!showPrompts);
-  };
 
   const handleLogout = () => {
     navigate('/login-page');
@@ -37,6 +75,17 @@ const Journal_Dashboard = () => {
   const journalImage = () => {
     navigate('/journal-image')
   }
+
+  const handleNewEntry = () => {
+    // Reset the form for a new entry
+    setNewMessage("");
+    setNewTitle("");
+    setImageFile(null);
+  };
+
+  const togglePrompts = () => {
+    setShowPrompts(!showPrompts);
+  };
 
   return (
     <div className="app-container-journal">
@@ -67,9 +116,18 @@ const Journal_Dashboard = () => {
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
       <div className="right-column-journal">
-        <div className="date-display-journal">Date: {new Date().toLocaleDateString()}</div>
+        <div className="date-display-journal">
+          Date: {new Date().toLocaleDateString()}
+        </div>
         <div>
           <h1 className="title-journal">Reflect on today's day</h1>
+          <input
+            type="text"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            placeholder="Title of your journal entry"
+            required
+          />
           <textarea
             className="textarea_journal"
             value={newMessage}
@@ -77,10 +135,13 @@ const Journal_Dashboard = () => {
             placeholder="Reflect on today's day..."
             required
           />
+          <input
+            type="file"
+            onChange={(e) => setImageFile(e.target.files[0])}
+          />
           <button onClick={handleSubmit}>Submit Entry</button>
-
         </div>
-       <div className="settings-icon"> <Link to='/edit-profile'>⚙</Link></div>
+        <div className="settings-icon"> <Link to='/edit-profile'>⚙</Link></div>
       </div>
     </div>
   );
