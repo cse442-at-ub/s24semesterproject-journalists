@@ -20,21 +20,23 @@ const SecurityPage = () => {
   
   return (
     <div className="security-page">
-      <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-        {/* Sidebar content here */}
-        <a href="/journal">Home</a>
-        <br></br>
-        <br></br>
-        <a href="/edit-profile">Edit profile</a>
-        <br></br>
-        <br></br>
-        <a href="/security-page">Security</a>
-        <br></br>
-        <br></br>
-        <a href="/about">About</a>
-        <br></br>
-        <br></br>
-      </div>
+<div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+  {/* Existing Sidebar content */}
+  <a href="/journal">Home</a>
+  <br></br>
+  <br></br>
+  <a href="/edit-profile">Edit profile</a>
+  <br></br>
+  <br></br>
+  <a href="/security-page">Security</a>
+  <br></br>
+  <br></br>
+  <a href="/about">About</a>
+  <br></br>
+  <br></br>
+  {/* Add the Log Out link */}
+  <a href="/login-page" className="logout-button">Log Out</a>
+</div>
       <main className="security-form">
         <div className="hamburger-menu" onClick={handleToggleSidebar}>
           <div></div>

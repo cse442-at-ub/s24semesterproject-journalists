@@ -25,7 +25,15 @@
     flex-direction: row;
     padding-left: 250px; /* Adjust this value based on the sidebar width */
   }
-    
+  .logout-button {
+    background-color: #ff0000; /* Red background */
+    color: #ffffff; /* White text */
+    padding: 10px 15px; /* Padding for a better button appearance */
+    text-decoration: none; /* Remove underline from link */
+    display: inline-block; /* Allows padding and width adjustments */
+    border-radius: 5px; /* Optional: rounded corners */
+    margin-top: 20px; /* Add some space above the logout button */
+  }
   .security-form {
     flex-grow: 1;
     padding: 20px;

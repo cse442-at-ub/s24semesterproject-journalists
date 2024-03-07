@@ -10,21 +10,23 @@ const About = () => {
   };
 
   return (
-    <div className="container">
-      <div className="hamburger-menu" onClick={toggleSidebar}>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+<div className="container">
+  <div className="hamburger-menu" onClick={toggleSidebar}>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-      <div className={`sidebar ${isSidebarVisible ? 'open' : ''}`}>
-        <div className="menu">
-          <div className="menu-item"><Link to="/journal">Home</Link></div>
-          <div className="menu-item"><Link to="/edit-profile">Edit Profile</Link></div>
-          <div className="menu-item"><Link to="/security-page">Security</Link></div>
-          <div className="menu-item active"><Link to="/about">About</Link></div>
-        </div>
-      </div>
+  <div className={`sidebar ${isSidebarVisible ? 'open' : ''}`}>
+    <div className="menu">
+      <div className="menu-item"><Link to="/journal">Home</Link></div>
+      <div className="menu-item"><Link to="/edit-profile">Edit Profile</Link></div>
+      <div className="menu-item"><Link to="/security-page">Security</Link></div>
+      <div className="menu-item active"><Link to="/about">About</Link></div>
+      {/* Add the Log Out button here */}
+      <div className="menu-item"><Link to="/login-page" className="logout-link">Log Out</Link></div>
+    </div>
+  </div>
 
       <div className="content">
         <div className="header">

@@ -47,16 +47,19 @@ function EditProfile() {
       </div>
 
       <aside className={`sidebar ${isSidebarVisible ? 'open' : ''}`}>
-        <nav>
-          <ul>
-            <li><a href="/journal">Home</a></li>
-            <li><a href="/edit-profile">Edit Profile</a></li>
-            <li><a href="/security-page">Security</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-        </nav>
-      </aside>
-
+  <nav>
+    <ul>
+      <li><a href="/journal">Home</a></li>
+      <li><a href="/edit-profile">Edit Profile</a></li>
+      <li><a href="/security-page">Security</a></li>
+      <li><a href="/about">About</a></li>
+      {/* Existing menu items */}
+    </ul>
+  </nav>
+  <div className="sidebar-footer">
+    <a href="/login-page" className="logout-button">Log Out</a>
+  </div>
+</aside>
       <main className="profile-content">
         <header>
           <h1>Edit Profile —</h1>

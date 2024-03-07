@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './Journal_Dashboard.css';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import JournalVideo from './Journal_video';
 
 
 const Journal_Dashboard = () => {
@@ -65,11 +66,8 @@ const Journal_Dashboard = () => {
   };
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate('/login-page');
-    console.log("Logged out!");
-  }
-  const journalVideo = () => {
+
+  const JournalVideo = () => {
     navigate('/journal-video')
   }
   const journalImage = () => {
@@ -92,14 +90,13 @@ const Journal_Dashboard = () => {
       <div className="left-column-journal">
         <div>
           <div className="journalist-label">Journalist</div>
-          <button onClick={handleNewEntry} className="new-entry-btn">New Entry</button>
           <div className={`prompt-dropdown ${showPrompts ? 'show-prompts' : ''}`}>
             <button onClick={togglePrompts} className="prompt-toggle-btn">
-              Prompts {showPrompts ? '▲' : '▼'}
+            New Entry {showPrompts ? '▲' : '▼'}
             </button>
             {showPrompts && (
               <div className="prompt-buttons">
-                <button className="prompt-btn" onClick={journalVideo}>Video Prompt</button>
+                <button className="prompt-btn" onClick={JournalVideo}>Video Prompt</button>
                 <button className="prompt-btn" onClick={journalImage}>Image Prompt</button>
               </div>
             )}
@@ -113,7 +110,6 @@ const Journal_Dashboard = () => {
             ))}
           </div>
         </div>
-        <button className="button orange logout-button" onClick={handleLogout}>Logout</button>
       </div>
       <div className="right-column-journal">
         <div className="date-display-journal">
