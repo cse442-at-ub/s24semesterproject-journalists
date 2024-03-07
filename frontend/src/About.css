@@ -103,6 +103,13 @@
   margin-top: 20px;
 }
 
+.sidebar .menu-item .logout-link {
+  background-color: #ff0000; /* Red background for the log out link */
+  color: #ffffff; /* White text color for better readability */
+  padding: 10px 15px; /* Add some padding to make it look like a button */
+  border-radius: 5px; /* Optional: rounds the corners for a button-like appearance */
+  text-decoration: none; /* Removes underline from the link */
+}
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;

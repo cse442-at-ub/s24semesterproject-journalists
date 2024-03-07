@@ -47,7 +47,6 @@ const JournalVideo = () => {
             </button>
           ))}
         </div>
-        <button className="button orange logout-button" onClick={handleLogout}>Logout</button>
       </div>
       <div className="right-column">
         <p className="date">Date: {new Date().toLocaleDateString()}</p>
