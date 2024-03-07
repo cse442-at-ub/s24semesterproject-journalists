@@ -17,10 +17,13 @@ const JournalVideo = () => {
     setNewMessage('');
   };
 
-  const handleLogout = () => {
-    navigate('/login-page');
-    console.log("Logged out!");
-  }
+  const journal = () => {
+    navigate('/journal');
+  };
+  const journalImage = () => {
+    navigate('/journal-image');
+  };
+  
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
@@ -32,9 +35,10 @@ const JournalVideo = () => {
           <div className="dropdown">
             <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
             {showDropdown && (
-              <div className="dropdown-content">
-                <button className="dropdown-item" onClick={() => {/* handle video journal entry */}}>Video Journal</button>
-                <button className="dropdown-item" onClick={() => {/* handle image journal entry */}}>Image Journal</button>
+              <div className={`dropdown-content${showDropdown ? ' show' : ''}`}>
+                {/* Updated onClick handlers to call the functions */}
+                <button className="dropdown-item" onClick={journal}>Journal</button>
+                <button className="dropdown-item" onClick={journalImage}>Image Journal</button>
               </div>
             )}
           </div>
@@ -73,4 +77,3 @@ const JournalVideo = () => {
 };
 
 export default JournalVideo;
-

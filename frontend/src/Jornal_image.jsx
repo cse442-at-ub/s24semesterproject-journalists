@@ -21,13 +21,16 @@ const JournalImage = () => {
     setNewMessage('');
   };
 
-  const handleLogout = () => {
-    navigate('/login-page');
-    console.log("Logged out!");
+  const journal = () => {
+    navigate('/journal');
+  };
+  const JournalVideo = () => {
+    navigate('/journal-video');
   };
 
-  const toggleDropdown = () => setShowDropdown(!showDropdown);
-
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  }
   return (
     <div className="journal-dashboard">
       <div className="left-column">
@@ -36,9 +39,9 @@ const JournalImage = () => {
           <div className="dropdown">
             <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
             {showDropdown && (
-              <div className="dropdown-content">
-                <button className="dropdown-item" onClick={() => {/* handle video journal entry */}}>Video Journal</button>
-                <button className="dropdown-item" onClick={() => {/* handle image journal entry */}}>Image Journal</button>
+              <div className={`dropdown-content${showDropdown ? ' show' : ''}`}>
+                <button className="dropdown-item" onClick={journal}>Journal</button>
+                <button className="dropdown-item" onClick={JournalVideo}>Video Journal</button>
               </div>
             )}
           </div>
