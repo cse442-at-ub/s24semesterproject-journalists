@@ -1,28 +1,72 @@
 .container {
   display: flex;
-  height: 100vh; /* Full height of the viewport */
-  font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
-
+  height: 100vh;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .sidebar {
   width: 20%;
-  background-color: #f0f0f0; /* Gray background */
+  background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+  position: fixed; /* Make sidebar overlay content without displacing it */
+  height: 100%; /* Ensure it covers full height */
+  top: 0; /* Align to top */
+  z-index: 90; /* Ensure it's under the hamburger menu */
 }
 
-.home-icon {
-  /* Add styles for the home icon */
-  margin-bottom: 30px; /* Spacing below the icon */
+.sidebar.open {
+  transform: translateX(0);
 }
 
-.menu {
+.hamburger-menu {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+.hamburger-menu span {
+  display: block;
+  height: 3px;
+  background-color: #333;
+  width: 100%;
+}
+
+.content {
+  width: 80%;
+  background-color: #ffffff;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+.hamburger-menu span {
+  display: block;
+  height: 3px;
+  background-color: #333;
+  width: 100%;
 }
 
 .menu-item {
@@ -34,31 +78,23 @@
   font-weight: bold;
 }
 
-.content {
-  width: 80%;
-  background-color: #ffffff; /* White background */
-  padding: 20px;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .title {
-  font-size: 2em; /* Large title */
-  margin: 0;
+  font-size: 2em;
 }
 
 .role {
-  font-size: 1.5em; /* Smaller than title */
-  align-self: center;
+  font-size: 1.5em;
 }
 
 .quote {
   font-style: italic;
-  margin-top: 50px; /* Spacing after header */
+  margin-top: 50px;
 }
 
 .author {
@@ -67,60 +103,12 @@
   margin-top: 20px;
 }
 
-/* Responsive design for smaller screens */
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .sidebar, .content {
+  .sidebar {
     width: 100%;
   }
 
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
+  .content {
+    width: 100%;
   }
-
-  .role {
-    align-self: flex-start;
-    margin-top: 10px;
-  }
-}
-
-.home-icon {
-  width: 30px;
-  height: 30px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.home-icon .roof {
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 15px solid black; /* Roof color */
-  position: absolute;
-  top: -15px;
-}
-
-.home-icon .body {
-  width: 20px;
-  height: 20px;
-  background-color: black; /* House body color */
-  position: absolute;
-  bottom: 0;
-}
-
-.menu-item.home {
-  margin-bottom: 30px; /* Space below the "Home" text */
-  cursor: pointer;
-  font-weight: lighter; /* Make it stand out like an icon */
-  text-align: center;
-  width: 100%;
-  padding: 10px 0;
 }

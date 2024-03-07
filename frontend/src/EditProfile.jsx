@@ -3,7 +3,6 @@ import axios from 'axios';
 import './EditProfile.css'; // Ensure this path matches your file structure
 
 function EditProfile() {
-  // Initialize state for each input field in the user's profile
   const [profile, setProfile] = useState({
     firstName: '',
     lastName: '',
@@ -14,15 +13,12 @@ function EditProfile() {
     state: '',
   });
 
-  // State to manage the visibility of the sidebar, initially hidden
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
-  // Toggle the visibility of the sidebar
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
-  // Update profile state as the user types in form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile(prevState => ({
@@ -31,27 +27,25 @@ function EditProfile() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    // Post request to save profile data
+    e.preventDefault();
     axios.post('/api/profile', profile)
       .then(response => {
         console.log('Profile updated!', response.data);
-        // Implement success feedback (e.g., a success message)
       })
       .catch(error => {
         console.error('Error updating profile:', error);
-        // Implement error feedback (e.g., an error message)
       });
   };
 
   return (
     <div className="profile-container">
-      {/* Toggle button for the sidebar */}
-      <button className="menu-button" onClick={toggleSidebar}>Menu</button>
+      <div className="hamburger-menu" onClick={toggleSidebar}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
-      {/* Sidebar navigation, visibility toggled by state */}
       <aside className={`sidebar ${isSidebarVisible ? 'open' : ''}`}>
         <nav>
           <ul>
@@ -69,7 +63,6 @@ function EditProfile() {
           <span className="role">Journalist</span>
         </header>
         <form className="profile-form" onSubmit={handleSubmit}>
-          {/* Form fields for editing the profile */}
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="firstName">First Name</label>
@@ -94,6 +87,7 @@ function EditProfile() {
               />
             </div>
           </div>
+
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -105,6 +99,7 @@ function EditProfile() {
               placeholder="Enter your email"
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="address">Address</label>
             <input
@@ -116,6 +111,7 @@ function EditProfile() {
               placeholder="Enter your address"
             />
           </div>
+
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="city">City</label>
@@ -140,6 +136,7 @@ function EditProfile() {
               />
             </div>
           </div>
+
           <div className="form-group">
             <label htmlFor="contactNumber">Contact Number</label>
             <input
@@ -151,6 +148,7 @@ function EditProfile() {
               placeholder="Enter your contact number"
             />
           </div>
+
           <div className="form-actions">
             <button type="button" className="cancel-button">Cancel</button>
             <button type="submit" className="save-button">Save</button>

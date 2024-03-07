@@ -1,29 +1,28 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "./About.css";
 import { Link } from "react-router-dom";
+import "./About.css"; // Ensure this path is correct
 
 const About = () => {
-  // State to manage the visibility of the sidebar
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
-  // Toggle the visibility of the sidebar
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
   return (
     <div className="container">
-      {/* Toggle button for the sidebar */}
-      <button className="menu-button" onClick={toggleSidebar}>Menu</button>
+      <div className="hamburger-menu" onClick={toggleSidebar}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
 
-      {/* Sidebar navigation, visibility toggled by state */}
       <div className={`sidebar ${isSidebarVisible ? 'open' : ''}`}>
         <div className="menu">
-          <div className="menu-item"><Link to='/journal'>Home</Link></div>
-          <div className="menu-item"><Link to='/edit-profile'>Edit Profile</Link></div>
-          <div className="menu-item"><Link to='/security-page'>Security</Link></div>
-          <div className="menu-item active"><Link to='/about'>About</Link></div>
+          <div className="menu-item"><Link to="/journal">Home</Link></div>
+          <div className="menu-item"><Link to="/edit-profile">Edit Profile</Link></div>
+          <div className="menu-item"><Link to="/security-page">Security</Link></div>
+          <div className="menu-item active"><Link to="/about">About</Link></div>
         </div>
       </div>
 

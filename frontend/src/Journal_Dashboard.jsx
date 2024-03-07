@@ -113,7 +113,7 @@ const Journal_Dashboard = () => {
             ))}
           </div>
         </div>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <button className="button orange logout-button" onClick={handleLogout}>Logout</button>
       </div>
       <div className="right-column-journal">
         <div className="date-display-journal">
