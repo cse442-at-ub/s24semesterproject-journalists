@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './EditProfile.css'; // Ensure this path matches your file structure
 
@@ -13,28 +13,60 @@ function EditProfile() {
     state: '',
   });
 
+  useEffect(() => {
+    // Fetch the profile data from the backend when the component mounts
+    const fetchProfileData = async () => {
+      try {
+        const response = await axios.get('/api/profile', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setProfile(response.data); // Assume the data is in the correct format
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+        // Handle the error appropriately
+      }
+    };
+
+    fetchProfileData();
+  }, []);
+
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
 
+  // This function will handle the change for every input
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfile(prevState => ({
+    setProfile((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
+  // This function will be called when the form is submitted
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/api/profile', profile)
-      .then(response => {
-        console.log('Profile updated!', response.data);
+
+    // Get the token from local storage or state management where it is stored
+    console.log(localStorage.getItem("token"));
+    axios
+      .post("/backend/setting/edit-profile.php", profile, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
       })
-      .catch(error => {
-        console.error('Error updating profile:', error);
+      .then((response) => {
+        console.log("Profile updated!", response.data);
+        // Handle the success case - maybe redirect or show a success message
+      })
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+        // Handle the error case - maybe show an error message
       });
   };
 
