@@ -1,11 +1,9 @@
-
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './Journal_Dashboard.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./Journal_Dashboard.css";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import JournalVideo from './Journal_video';
-
+import JournalVideo from "./Journal_video";
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
@@ -14,13 +12,34 @@ const Journal_Dashboard = () => {
   const [newTitle, setNewTitle] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
+  // State for selected entry
+  const [selectedEntry, setSelectedEntry] = useState(null);
+
+  // Fetch entries periodically
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchEntries();
+    }, 5000); // polls every 5 seconds
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Function to handle selecting an entry
+  const handleSelectEntry = (entry) => {
+    setSelectedEntry(entry);
+  };
+
   const fetchEntries = async () => {
     try {
-      const response = await axios.get("/backend/journal/read.php", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.get(
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/read.php",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       setJournalEntries(response.data);
       console.log("entries fetched");
       console.log(response.data);
@@ -31,7 +50,7 @@ const Journal_Dashboard = () => {
 
   useEffect(() => {
     fetchEntries();
-  }, [])
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +63,7 @@ const Journal_Dashboard = () => {
 
     try {
       const response = await axios.post(
-        "/backend/journal/create.php",
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/create.php",
         formData,
         {
           headers: {
@@ -66,13 +85,12 @@ const Journal_Dashboard = () => {
   };
   const navigate = useNavigate();
 
-
   const JournalVideo = () => {
-    navigate('/journal-video')
-  }
+    navigate("/journal-video");
+  };
   const journalImage = () => {
-    navigate('/journal-image')
-  }
+    navigate("/journal-image");
+  };
 
   const handleNewEntry = () => {
     // Reset the form for a new entry
@@ -90,22 +108,34 @@ const Journal_Dashboard = () => {
       <div className="left-column-journal">
         <div>
           <div className="journalist-label">Journalist</div>
-          <div className={`prompt-dropdown ${showPrompts ? 'show-prompts' : ''}`}>
+          <div
+            className={`prompt-dropdown ${showPrompts ? "show-prompts" : ""}`}
+          >
             <button onClick={togglePrompts} className="prompt-toggle-btn">
-            New Entry {showPrompts ? '▲' : '▼'}
+              New Entry {showPrompts ? "▲" : "▼"}
             </button>
             {showPrompts && (
               <div className="prompt-buttons">
-                <button className="prompt-btn" onClick={JournalVideo}>Video Prompt</button>
-                <button className="prompt-btn" onClick={journalImage}>Image Prompt</button>
+                <button className="prompt-btn" onClick={JournalVideo}>
+                  Video Prompt
+                </button>
+                <button className="prompt-btn" onClick={journalImage}>
+                  Image Prompt
+                </button>
               </div>
             )}
           </div>
           <div className="journal-history">
             {journalEntries.map((entry, index) => (
-              <div key={index} className="journal-entry">
+              <div
+                key={index}
+                className={`journal-entry ${
+                  selectedEntry && selectedEntry.id === entry.id ? "active" : ""
+                }`}
+                onClick={() => setSelectedEntry(entry)}
+              >
                 <p>{entry.date}</p>
-                <p>{entry.content}</p>
+                <p>{entry.title}</p> {/* Assuming each entry has a title */}
               </div>
             ))}
           </div>
@@ -115,29 +145,47 @@ const Journal_Dashboard = () => {
         <div className="date-display-journal">
           Date: {new Date().toLocaleDateString()}
         </div>
-        <div>
-          <h1 className="title-journal">Reflect on today's day</h1>
-          <input
-            type="text"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Title of your journal entry"
-            required
-          />
-          <textarea
-            className="textarea_journal"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Reflect on today's day..."
-            required
-          />
-          <input
-            type="file"
-            onChange={(e) => setImageFile(e.target.files[0])}
-          />
-          <button onClick={handleSubmit}>Submit Entry</button>
+        {selectedEntry ? (
+          <div>
+            <h1 className="title-journal">{selectedEntry.title}</h1>
+            <p className="textarea_journal">{selectedEntry.body}</p>
+            {/* If there is an image with the entry, display it */}
+            {selectedEntry.image && (
+              <img src={selectedEntry.image_path} alt="Journal entry" />
+            )}
+            {/* You might want to have a button to clear the selection and show the entry form again */}
+            <button onClick={() => setSelectedEntry(null)}>
+              Write New Entry
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h1 className="title-journal">Reflect on today's day</h1>
+            <input
+              type="text"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="Title of your journal entry"
+              required
+            />
+            <textarea
+              className="textarea_journal"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Reflect on today's day..."
+              required
+            />
+            <input
+              type="file"
+              onChange={(e) => setImageFile(e.target.files[0])}
+            />
+            <button onClick={handleSubmit}>Submit Entry</button>
+          </div>
+        )}
+        <div className="settings-icon">
+          {" "}
+          <Link to="/edit-profile">⚙</Link>
         </div>
-        <div className="settings-icon"> <Link to='/edit-profile'>⚙</Link></div>
       </div>
     </div>
   );

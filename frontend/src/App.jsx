@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import EditProfile from "./EditProfile.jsx";
 import Journal from "./Journal_Dashboard";
 import JournalImage from "./Jornal_image";
@@ -11,7 +11,7 @@ import About from "./About.jsx";
 
 const App = () => {
   return (
-    <Router>
+    <>
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/edit-profile" element={<EditProfile />} />
@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/security-page" element={<SecurityPage />} />
         <Route path="/about" element={<About />} />
       </Routes>
-    </Router>
+    </>
   );
 };
 

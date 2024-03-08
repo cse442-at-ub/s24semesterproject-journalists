@@ -1,42 +1,49 @@
-import React, { useState } from 'react';
-import './SecurityPage.css'; // Make sure to create a corresponding CSS file
+import React, { useState } from "react";
+import "./SecurityPage.css"; // Make sure to create a corresponding CSS file
+import { Link } from "react-router-dom";
 
 const SecurityPage = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-  
-    const handleToggleSidebar = () => {
-      setSidebarOpen(!sidebarOpen);
-    };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      // Handle the password change logic here
-      console.log('Change password:', currentPassword, newPassword, confirmPassword);
-    };
-  
-  
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleToggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle the password change logic here
+    console.log(
+      "Change password:",
+      currentPassword,
+      newPassword,
+      confirmPassword
+    );
+  };
+
   return (
     <div className="security-page">
-<div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-  {/* Existing Sidebar content */}
-  <a href="/journal">Home</a>
-  <br></br>
-  <br></br>
-  <a href="/edit-profile">Edit profile</a>
-  <br></br>
-  <br></br>
-  <a href="/security-page">Security</a>
-  <br></br>
-  <br></br>
-  <a href="/about">About</a>
-  <br></br>
-  <br></br>
-  {/* Add the Log Out link */}
-  <a href="/login-page" className="logout-button">Log Out</a>
-</div>
+      <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+        {/* Existing Sidebar content */}
+        <Link to="/journal">Home</Link>
+        <br></br>
+        <br></br>
+        <Link to="/edit-profile">Edit profile</Link>
+        <br></br>
+        <br></br>
+        <Link to="/security-page">Security</Link>
+        <br></br>
+        <br></br>
+        <Link to="/about">About</Link>
+        <br></br>
+        <br></br>
+        {/* Add the Log Out link */}
+        <Link to="/login-page" className="logout-button">
+          Log Out
+        </Link>
+      </div>
       <main className="security-form">
         <div className="hamburger-menu" onClick={handleToggleSidebar}>
           <div></div>
@@ -77,8 +84,12 @@ const SecurityPage = () => {
             />
           </label>
           <div className="form-actions">
-            <button type="button" className="cancel">Cancel</button>
-            <button type="submit" className="save">Save</button>
+            <button type="button" className="cancel">
+              Cancel
+            </button>
+            <button type="submit" className="save">
+              Save
+            </button>
           </div>
         </form>
       </main>

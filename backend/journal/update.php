@@ -1,10 +1,7 @@
 <?php
 require_once '../config/config.php';
 
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json; charset=UTF-8');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+
 
 // Authentication and user verification (extracted user_id from token)
 $headers = getallheaders();
@@ -45,7 +42,8 @@ $body = $_POST['body'];
 // Handle file upload if an image is provided
 $imagePath = ''; // Default to empty, indicating no change to existing image path
 if (isset($_FILES['image'])) {
-    $targetDirectory = "C:\\xampp\\htdocs\\React-Guestbook\\backend\\uploads\\"; // Ensure this directory exists and is writable
+    $targetDirectory = "/web/CSE442-542/2024-Spring/cse-442l/backend/uploads/";
+    // Ensure this directory exists and is writable
     $targetFile = $targetDirectory . basename($_FILES['image']['name']);
 
     if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {

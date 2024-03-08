@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import Axios
+import axios from "axios";
 import "./SignupPage.css";
 import journalistFigure from "./assets/journalistfigure.svg";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
@@ -12,9 +13,12 @@ const SignupPage = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    // Handle the signup logic here
-    navigate("/journal");
-    console.log("Signup with", email, password, confirmPassword);
+
+    // Check if password meets the length requirement
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long!");
+      return;
+    }
 
     // Basic validation for demo purposes
     if (password !== confirmPassword) {
@@ -24,17 +28,23 @@ const SignupPage = () => {
 
     // Sending the signup request to the backend
     axios
-      .post("/backend/account/create_account.php", {
-        email: email,
-        password: password,
-      })
+      .post(
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/create_account.php",
+        {
+          email: email,
+          password: password,
+        }
+      )
       .then((response) => {
         // Handle response here
         console.log("Verification Email Sent", response);
-        if (response.status === 201) {
-          // You can redirect the user to login page or display a success message
+        if (response.data.verified) {
+          // Assuming your backend sends a `verified` flag in response
+          navigate("/journal");
+          alert("Email verified! Welcome to your Journal.");
+        } else {
           alert(
-            "Signup successful! Please check your email to verify your account."
+            "Signup successful! Please check your email to verify your account. And then hit login to sign in!"
           );
         }
       })
@@ -59,7 +69,7 @@ const SignupPage = () => {
         />
         <input
           type="password"
-          placeholder="Enter password"
+          placeholder="Enter password (min 6 characters)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -75,7 +85,7 @@ const SignupPage = () => {
         <br />
         <br />
         <p>
-          Already have an account? <a href="/login-page">Login</a>
+          Already have an account? <Link to="/login-page">Login</Link>
         </p>
       </form>
       <div className="svg-container">

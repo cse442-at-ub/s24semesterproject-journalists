@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './EditProfile.css'; // Ensure this path matches your file structure
+import React, { useState } from "react";
+import axios from "axios";
+import "./EditProfile.css"; // Ensure this path matches your file structure
+import { Link } from "react-router-dom";
 
 function EditProfile() {
   const [profile, setProfile] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    address: '',
-    contactNumber: '',
-    city: '',
-    state: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    contactNumber: "",
+    city: "",
+    state: "",
   });
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -21,20 +22,36 @@ function EditProfile() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfile(prevState => ({
+    setProfile((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
+  // This function will be called when the form is submitted
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/api/profile', profile)
-      .then(response => {
-        console.log('Profile updated!', response.data);
+
+    // Get the token from local storage or state management where it is stored
+    console.log(localStorage.getItem("token"));
+    axios
+      .post(
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/setting/edit-profile.php",
+        profile,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Profile updated!", response.data);
+        // Handle the success case - maybe redirect or show a success message
       })
-      .catch(error => {
-        console.error('Error updating profile:', error);
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+        // Handle the error case - maybe show an error message
       });
   };
 
@@ -46,20 +63,30 @@ function EditProfile() {
         <span></span>
       </div>
 
-      <aside className={`sidebar ${isSidebarVisible ? 'open' : ''}`}>
-  <nav>
-    <ul>
-      <li><a href="/journal">Home</a></li>
-      <li><a href="/edit-profile">Edit Profile</a></li>
-      <li><a href="/security-page">Security</a></li>
-      <li><a href="/about">About</a></li>
-      {/* Existing menu items */}
-    </ul>
-  </nav>
-  <div className="sidebar-footer">
-    <a href="/login-page" className="logout-button">Log Out</a>
-  </div>
-</aside>
+      <aside className={`sidebar ${isSidebarVisible ? "open" : ""}`}>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/journal">Home</Link>
+            </li>
+            <li>
+              <Link to="/edit-profile">Edit Profile</Link>
+            </li>
+            <li>
+              <Link to="/security-page">Security</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            {/* Existing menu items */}
+          </ul>
+        </nav>
+        <div className="sidebar-footer">
+          <Link to="/login-page" className="logout-button">
+            Log Out
+          </Link>
+        </div>
+      </aside>
       <main className="profile-content">
         <header>
           <h1>Edit Profile —</h1>
@@ -153,8 +180,12 @@ function EditProfile() {
           </div>
 
           <div className="form-actions">
-            <button type="button" className="cancel-button">Cancel</button>
-            <button type="submit" className="save-button">Save</button>
+            <button type="button" className="cancel-button">
+              Cancel
+            </button>
+            <button type="submit" className="save-button">
+              Save
+            </button>
           </div>
         </form>
       </main>

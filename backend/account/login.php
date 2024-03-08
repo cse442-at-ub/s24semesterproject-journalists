@@ -1,11 +1,6 @@
 <?php
 require_once '../config/config.php'; // Ensure this path is correct
 
-// Enabling CORS for local development
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json; charset=UTF-8');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
 // Initialize variables
 $email = $password = "";
@@ -59,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $token = bin2hex(random_bytes(16)); // 32 characters long
 
                             // Insert token into the database
-                            $insert_sql = "INSERT INTO user_tokens (user_id, token, expires_at) VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 1 HOUR))";
+                            $insert_sql = "INSERT INTO user_tokens (user_id, token, expires_at, type) VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 1 HOUR), 'login')";
                             if ($insert_stmt = $pdo->prepare($insert_sql)) {
                                 $insert_stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
                                 $insert_stmt->bindParam(":token", $token, PDO::PARAM_STR);
