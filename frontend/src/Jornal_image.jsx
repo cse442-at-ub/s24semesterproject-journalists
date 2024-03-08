@@ -10,7 +10,6 @@ const JournalImage = () => {
       date: "Feb 1, 2024",
       content: "Reflect on today’s day. Today was a busy day at work...",
     },
-    // ... add other entries if needed
   ]);
   const [newMessage, setNewMessage] = useState("");
   const [showDropdown, setShowDropdown] = useState(false); // Correctly added showDropdown state
