@@ -13,6 +13,25 @@ function EditProfile() {
     state: '',
   });
 
+  /// Uncomment this code to test setprofile with a local mockData JSON
+  ///////////////////////////////////////////////////////////////////////////////////////////////////
+  // useEffect(() => {
+  //   // Simulate a delay like a real network request
+  //   setTimeout(() => {
+  //     const mockData = {
+  //       firstName: 'Ahmed',
+  //       lastName: 'Bouhraoua',
+  //       email: 'ahmedbou@buffalo.edu',
+  //       address: 'University At Buffalo',
+  //       contactNumber: '123-456-7890',
+  //       city: 'Buffalo',
+  //       state: 'New York',
+  //     };
+  //     setProfile(mockData);
+  //   }, 10); //change the delay here 
+  // }, []);
+  
+  
   useEffect(() => {
     // Fetch the profile data from the backend when the component mounts
     const fetchProfileData = async () => {
