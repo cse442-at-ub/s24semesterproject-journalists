@@ -12,10 +12,10 @@ const Journal_Dashboard = () => {
   const [newTitle, setNewTitle] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
-  // State for selected entry
+  // State for selected entry.
   const [selectedEntry, setSelectedEntry] = useState(null);
 
-  // Fetch entries periodically
+  // Fetch entries periodically.
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchEntries();
