@@ -1,0 +1,174 @@
+/* Journal_Dashboard.css */
+* {
+    box-sizing: border-box;
+  }
+  .header h1 a {
+    color: inherit; /* Inherits the color from the h1 */
+    text-decoration: none; /* Removes the underline */
+  }
+  
+  body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #e5e5e5;
+  }
+  
+  .journal-dashboard {
+    display: flex;
+    max-width: 900px;
+    margin: 20px auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .left-column {
+    width: 35%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .button.orange {
+    background-color: #ff4500;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+  }
+  
+  .entries button {
+    width: 100%;
+    background-color: #f9f9f9;
+    border: none;
+    margin-bottom: 10px;
+    padding: 15px;
+    text-align: left;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .entries button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .entry-date {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .entry-content {
+    color: #666;
+  }
+  
+  .right-column {
+    width: 65%;
+    background: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .date {
+    align-self: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-top: 56.25%;
+    margin-bottom: 20px;
+  }
+  
+  .journal-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  
+  .textarea-journal {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    resize: none;
+  }
+  
+  .button.orange:last-child {
+    align-self: flex-end;
+    padding: 10px 20px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff; /* Change the dropdown background to white */
+    min-width: 160px;
+    border: 1px solid #ddd; /* Add border to the dropdown */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Existing style */
+    z-index: 1000; /* Make sure the dropdown is on top of other elements */
+  }
+  .dropdown-content.show {
+    display: block;
+  }
+  .dropdown-item {
+    color: #333; /* Darker text for better readability */
+    padding: 12px 20px; /* More padding for a better click area */
+    text-align: left; /* Align text to the left */
+    background-color: #fff; /* White background */
+    display: block; /* Ensure it takes up the entire width of dropdown */
+    border-bottom: 1px solid #ddd; /* Borders between dropdown items */
+    transition: background-color 0.2s; /* Smooth transition for hover effect */
+  }
+  
+  /* Hover state for dropdown items */
+  .dropdown-item:hover {
+    background-color: #f5f5f5; /* Light grey background on hover */
+  }
+  @media (max-width: 768px) {
+    .journal-dashboard {
+      flex-direction: column;
+    }
+  
+    .left-column,
+    .right-column {
+      width: 100%;
+    }
+  }
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* This maintains a 16:9 aspect ratio; adjust as needed */
+    margin-bottom: 20px;
+  }
+  
+  .journal-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This ensures the image covers the area, adjust as needed */
+    border-radius: 4px; /* Optional: if you want rounded corners */
+  }
+  

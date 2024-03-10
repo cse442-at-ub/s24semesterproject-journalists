@@ -1,0 +1,133 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
+}
+
+.profile-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif; /* Use your preferred font here */
+  font-family: 'Josefin Sans', sans-serif; /* Add fallback fonts */
+}
+
+.sidebar {
+  background-color: #f0f0f0;
+  padding: 20px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Adjusted to accommodate footer */
+}
+
+.sidebar li {
+  list-style: none;
+  padding: 10px 0;
+}
+
+.sidebar a {
+  color: black;
+  text-decoration: none;
+}
+
+.profile-content {
+  flex-grow: 1;
+  padding: 40px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center children horizontally */
+}
+
+.profile-content header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* Space title and subtitle */
+  align-items: baseline;
+}
+
+.profile-content header h1 {
+  margin: 0;
+  font-size: 2em; /* Adjust title size */
+}
+
+.profile-content header .role {
+  font-size: 1em; /* Adjust subtitle size */
+  color: #999; /* Subtitle color */
+}
+
+.profile-form {
+  width: 100%;
+  max-width: 600px; /* Adjust based on your preference */
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px; /* Space between each form group */
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cancel-button,
+.save-button {
+  padding: 10px 30px; /* Larger padding for buttons */
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px; /* Space between buttons */
+  font-weight: bold;
+  transition: transform 0.1s ease, box-shadow 0.1s ease; /* Transition for press effect and shadow */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: black;
+}
+
+.save-button {
+  background-color: #F74923;
+  color: white;
+}
+
+.cancel-button:active,
+.save-button:active {
+  transform: scale(0.96); /* Scales the button to 96% to give a press effect */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Adjusts the shadow to give the impression of being pressed */
+}
+
+/* Sidebar footer containing the Log Out button */
+.sidebar-footer {
+  padding: 20px;
+  text-align: left;
+}
+
+.logout-button {
+  padding: 10px 20px;
+  background-color: #F74923; /* Adjust the color as needed */
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  display: inline-block; /* Allows text alignment */
+  width: auto; /* Auto width for text content */
+}
+
+@media (max-width: 768px) {
+  /* Your existing responsive styles here */
+
+  /* Adjustments for sidebar footer at mobile sizes */
+  .sidebar-footer {
+    text-align: center; /* Center align the button on mobile */
+    padding-bottom: 10px; /* Adjust padding as needed */
+  }
+}
