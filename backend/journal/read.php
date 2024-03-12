@@ -1,6 +1,10 @@
 <?php
 require_once '../config/config.php';
 
+// Enabling CORS and setting headers
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json; charset=UTF-8');
+
 
 // Get the Bearer Token from the Authorization header
 $headers = getallheaders();
