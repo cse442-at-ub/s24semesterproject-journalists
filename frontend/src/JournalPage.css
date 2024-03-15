@@ -117,7 +117,25 @@
   margin: 0;
   margin-bottom: 16px; /* Spacing between description and button */
 }
-
+.media img {
+  max-width: 100%; /* ensures image is not wider than the container */
+  max-height: 100%; /* ensures image is not taller than the container */
+  object-fit: contain; /* keeps aspect ratio, but can result in letterboxing */
+}
+.middle-placeholder {
+  background-color: #eeeeee; /* Placeholder background color */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center cards in the middle */
+  overflow-y: auto; /* Enables vertical scrolling */
+  height: calc(100vh - 20px); /* Adjust the height value to account for padding or other elements */
+}
+.media iframe {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 /* Style for the comment button */
 .comment-button {
   background-color: #e91e63; /* A pink color for the button */
@@ -149,5 +167,9 @@
   .dropdown-content {
     right: auto; /* Resets the alignment */
     left: 0; /* Aligns to the left on smaller screens */
+  }
+  .media iframe {
+    height: 100%;
+    display: block;
   }
 }
