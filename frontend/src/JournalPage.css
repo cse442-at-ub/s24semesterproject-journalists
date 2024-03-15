@@ -1,3 +1,4 @@
+
 .dashboard {
   display: flex;
   width: 100%;
@@ -15,7 +16,7 @@
 }
 
 .middle-placeholder {
-  background-color: #eeeeee; /* Placeholder background color */
+  background-color: #ffffff; /* Placeholder background color */
   display: flex;
   flex-direction: column;
   align-items: center; /* Center cards in the middle */
@@ -123,12 +124,13 @@
   object-fit: contain; /* keeps aspect ratio, but can result in letterboxing */
 }
 .middle-placeholder {
-  background-color: #eeeeee; /* Placeholder background color */
+  background-color: #ffffff; /* Set background color to white */
   display: flex;
   flex-direction: column;
   align-items: center; /* Center cards in the middle */
   overflow-y: auto; /* Enables vertical scrolling */
-  height: calc(100vh - 20px); /* Adjust the height value to account for padding or other elements */
+  height: calc(100vh - 20px); /* Adjust height based on the total padding */
+  padding: 10px 0; /* Vertical padding inside the container */
 }
 .media iframe {
   top: 0;
