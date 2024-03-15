@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Journal_video.css';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { FiSettings, FiBookOpen } from 'react-icons/fi';
+
 const JournalVideo = () => {
   const [journalEntries, setJournalEntries] = useState([
     { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
@@ -50,6 +52,12 @@ const JournalVideo = () => {
             </button>
           ))}
         </div>
+        <footer>
+      <Link to="/journal-history" className="icon-link"><FiBookOpen /></Link>
+        <Link to="/edit-profile" className="icon-link"><FiSettings /></Link>
+
+      </footer>
+
       </div>
       <div className="right-column">
         <p className="date">Date: {new Date().toLocaleDateString()}</p>
@@ -70,6 +78,7 @@ const JournalVideo = () => {
           placeholder="Reflect on today's day..."
         />
         <button className="button orange save-button" onClick={handleSubmit}>Save</button>
+  
       </div>
     </div>
   );

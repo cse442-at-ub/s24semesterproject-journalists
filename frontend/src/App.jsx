@@ -8,6 +8,7 @@ import SignupPage from "./SignupPage.jsx";
 import LoginPage from "./LoginPage.jsx";
 import SecurityPage from "./SecurityPage.jsx";
 import About from "./About.jsx";
+import JournalHistory from "./JournalHistory.jsx";
 
 const App = () => {
   return (
@@ -22,6 +23,8 @@ const App = () => {
         <Route path="/journal" element={<Journal />} />
         <Route path="/security-page" element={<SecurityPage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/journal-history" element={<JournalHistory />} />
+        
       </Routes>
     </>
   );

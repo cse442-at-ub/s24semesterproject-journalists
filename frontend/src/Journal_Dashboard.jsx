@@ -4,6 +4,7 @@ import "./Journal_Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import JournalVideo from "./Journal_video";
+import { FiSettings, FiBookOpen } from 'react-icons/fi';
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
@@ -184,7 +185,9 @@ const Journal_Dashboard = () => {
         )}
         <div className="settings-icon">
           {" "}
-          <Link to="/edit-profile">⚙</Link>
+          <Link to="/journal-history" className="icon-link"><FiBookOpen /></Link>
+          <Link to="/edit-profile" className="icon-link"><FiSettings /></Link>
+
         </div>
       </div>
     </div>

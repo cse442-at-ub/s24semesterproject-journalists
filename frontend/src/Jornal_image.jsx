@@ -3,6 +3,8 @@ import "./Journal_video.css"; // Ensure this path is correct
 import mona_lisa from "./assets/mona_lisa.jpeg"; // Ensure this path is correct
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { FiSettings, FiBookOpen } from 'react-icons/fi';
+
 
 const JournalImage = () => {
   const [journalEntries, setJournalEntries] = useState([
@@ -67,6 +69,12 @@ const JournalImage = () => {
             </button>
           ))}
         </div>
+        <footer>
+      <Link to="/journal-history" className="icon-link"><FiBookOpen /></Link>
+        <Link to="/edit-profile" className="icon-link"><FiSettings /></Link>
+
+      </footer>
+
       </div>
       <div className="right-column">
         <p className="date">Date: {new Date().toLocaleDateString()}</p>

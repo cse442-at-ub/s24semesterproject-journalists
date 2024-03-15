@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./EditProfile.css"; // Ensure this path matches your file structure
 import { Link } from "react-router-dom";
@@ -12,7 +12,12 @@ function EditProfile() {
     contactNumber: "",
     city: "",
     state: "",
+    // Assuming you'll fetch and set this URL when the component loads or profile is fetched
+    currentProfilePic: "", 
+
   });
+  const [profilePic, setProfilePic] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
@@ -27,33 +32,79 @@ function EditProfile() {
       [name]: value,
     }));
   };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfilePic(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  // This function will be called when the form is submitted
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Get the token from local storage or state management where it is stored
-    console.log(localStorage.getItem("token"));
-    axios
-      .post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/setting/edit-profile.php",
-        profile,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        console.log("Profile updated!", response.data);
-        // Handle the success case - maybe redirect or show a success message
-      })
-      .catch((error) => {
-        console.error("Error updating profile:", error);
-        // Handle the error case - maybe show an error message
-      });
+    const formData = new FormData();
+    // Append all text fields from the profile state
+    Object.keys(profile).forEach(key => {
+      if (key !== "currentProfilePic") { // Exclude the current profile picture URL
+        formData.append(key, profile[key]);
+      }
+    });
+    if (profilePic) {
+      formData.append("profilePic", profilePic);
+    }
+
+    axios.post(
+      "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/setting/edit-profile.php",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          // Removed 'Content-Type': 'application/json' because it's a multipart form data now
+        },
+      }
+    )
+    .then((response) => {
+      console.log("Profile updated!", response.data);
+      // Handle success
+    })
+    .catch((error) => {
+      console.error("Error updating profile:", error);
+      // Handle error
+    });
   };
+
+
+  // This function will be called when the form is submitted
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   // Get the token from local storage or state management where it is stored
+  //   console.log(localStorage.getItem("token"));
+  //   axios
+  //     .post(
+  //       "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/setting/edit-profile.php",
+  //       profile,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       console.log("Profile updated!", response.data);
+  //       // Handle the success case - maybe redirect or show a success message
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error updating profile:", error);
+  //       // Handle the error case - maybe show an error message
+  //     });
+  // };
 
   return (
     <div className="profile-container">
@@ -178,6 +229,20 @@ function EditProfile() {
               placeholder="Enter your contact number"
             />
           </div>
+          <div className="form-group">
+            <label htmlFor="profilePic">Profile Picture</label>
+            <input
+              type="file"
+              id="profilePic"
+              name="profilePic"
+              onChange={handleImageChange}
+              accept="image/*"
+            />
+            {previewUrl && (
+              <img src={previewUrl} alt="Profile Preview" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+            )}
+          </div>
+
 
           <div className="form-actions">
             <button type="button" className="cancel-button">
