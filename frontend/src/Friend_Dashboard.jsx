@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './JournalPage.css';
 import monaLisaImage from './assets/mona_lisa.jpeg'; // Adjust the import path as needed
+import selfie_girl from './assets/girl_pics_442.jpeg';
 
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
@@ -33,6 +34,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
       <div className="media">{renderMedia()}</div>
       <div className="description">
         <p>{description}</p>
+        <div className="comment-input-container">
         <input
           type="text"
           value={comment}
@@ -40,6 +42,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
           placeholder="Leave a comment..."
           className="comment-input"
         />
+        </div>
         <button onClick={handleCommentButtonClick} className="comment-button">
           Comment
         </button>
@@ -50,10 +53,22 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
 
 // Dashboard component
 const Dashboard = () => {
+   
+
   const [showDropdown, setShowDropdown] = useState(false);
+
+ // Add a new state for the list of friends' names
+  const [friendsList, setFriendsList] = useState([
+    { id: 1, name: 'Jake Gothem' },
+    { id: 2, name: 'Max Gothem' },
+    // ... more friends
+  ]);
+
+
   const [contentItems, setContentItems] = useState([
-    { id: 1, type: 'text', content: 'This is a text post.', description: 'Posted on Mar 10th' },
+    { id: 2, type: 'image', content: selfie_girl, description: 'remember that sorting can significantly affect the performance of your query, especially with large datasets. Indexes on columns you frequently sort by can help improve performance.' },
     { id: 2, type: 'image', content: monaLisaImage, description: 'Image posted on Mar 11th' },
+    { id: 1, type: 'text', content: 'This is a text post.', description: 'Reflect on today’s day. Today was a busy day at work...' },
     { id: 3, type: 'video', content: 'https://www.youtube.com/embed/ehJ6oQHSkCk', description: 'Video posted on Mar 11th' },
   ]);
 
@@ -71,10 +86,10 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <div className="left-sidebar">
-        <h1>Journalist</h1>
-        <button onClick={toggleDropdown} className="dropdown-button">
-          New Entry
-        </button>
+        <div className="journalist-header">
+          <h1>Journalist</h1>
+          <button onClick={toggleDropdown} className="new-entry-button">New Entry</button>
+        </div>
         {showDropdown && (
           <div className="dropdown-content">
             <div className="dropdown-item">Video Journal</div>
@@ -96,9 +111,31 @@ const Dashboard = () => {
           />
         ))}
       </div>
-      <div className="right-sidebar">
+      {/* <div className="right-sidebar">
         <h2>friend’s</h2>
         <input type="email" placeholder="Enter friend’s email" />
+      </div>
+    </div> */}
+    <div className="right-sidebar">
+        <div className="profile-section">
+        <img className="profile-pic" src={selfie_girl} alt="Profile picture" />
+
+          {/* <img src={profileIcon} alt="Profile" className="profile-pic" /> */}
+          <h2 className="username">Lauren Fox</h2>
+        </div>
+        <h3 className="invite-text">Invite your friends</h3>
+        <input type="email" placeholder="Enter friend’s email" className="friend-email-input" />
+        {/* Additional right sidebar content can go here */}
+
+        <div className="friends-list-container">
+          {friendsList.map(friend => (
+            <div key={friend.id} className="friend-name" onClick={() => console.log(friend.name)}>
+              {friend.name}
+            </div>
+          ))}
+        </div>
+
+
       </div>
     </div>
   );

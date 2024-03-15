@@ -27,17 +27,26 @@
   background-color: #ffffff;
 }
 
+
 /* Style the New Entry button */
+.journalist-header {
+    display: flex;
+    align-items: center;
+  }
+
 .left-sidebar button {
   background-color: #ff4500;
   color: white;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 1em;
 }
-
+.journalist-header {
+  display: flex;
+  align-items: center;
+}
 /* Style the input field in the right sidebar */
 .right-sidebar input[type="email"] {
   width: 100%;
@@ -46,14 +55,18 @@
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-
+.new-entry-button {
+    /* Style your button here, ensure margins for spacing */
+    margin-left: 10px; /* Adjust as needed */
+    /* ... (other button styles) */
+  }
 .dropdown-button {
   background-color: #ff4500;
   color: #ffffff;
   border: none;
   padding: 10px 15px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 2px;
   margin-left: 10px; /* Adds a little space between the title and the button */
 }
 
@@ -138,13 +151,25 @@
   width: 100%;
   height: 100%;
 }
+.comment-input {
+    width: 100%; /* Make input take full width of its container */
+    padding: 10px;
+    border-radius: 9px; /* Rounded corners for the input */
+    border: 1px solid #ccc; /* Light grey border */
+    font-size: 0.9em;
+}
+
+.comment-input-container {
+    margin-bottom: 16px; /* Spacing between input and button */
+  }
+
 /* Style for the comment button */
 .comment-button {
-  background-color: #e91e63; /* A pink color for the button */
+  background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%);
   color: white;
   border: none;
   padding: 12px 24px;
-  border-radius: 20px;
+  border-radius: 9px;
   cursor: pointer;
   width: 100%;
   font-weight: bold;
@@ -153,9 +178,66 @@
 }
 
 .comment-button:hover {
-  background-color: #c2185b;
+  background: #000000 
+}
+/* Add this to your JournalPage.css file */
+.right-sidebar {
+    /* Existing styles... */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Aligns items to the right */
+    padding-right: 20px; /* Adds padding on the right */
+  }
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-direction: row-reverse; /* Flips the order so username is on the left of the image */
+    justify-content: flex-end;
+  }
+.invite-text{
+    padding-right: 75px;
 }
 
+  .profile-pic {
+    width: 50px; /* size of the circle */
+    height: 50px; /* size of the circle */
+    border-radius: 50%; /* this will make it round */
+    object-fit: cover; /* this will ensure the image covers the area */
+    margin-right: 10px; /* space between the image and the name */
+  }
+  .username {
+    font-weight: bold;
+    margin: 0; /* Adjust as needed */
+    font-size: 1.2em; /* Adjust as needed */
+    margin-right: 10px;
+  }
+  
+.invite-text{
+    background: linear-gradient(90deg, #D96CFF 0%, #254ACC 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.friends-list-container {
+    overflow-y: auto; /* Make the container scrollable */
+    max-height: 150px; /* Set a max-height for scrolling */
+    width: 100%; /* Use the full width */
+    margin-top: 20px; /* Space above the list */
+  }
+  
+  .friend-name {
+    cursor: pointer; /* Indicate the item is clickable */
+    padding: 8px; /* Padding for each name */
+    border-bottom: 1px solid #ccc; /* Separator between names */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+  }
+  
+  .friend-name:hover {
+    background-color: #f2f2f2; /* Highlight on hover */
+  }
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .dashboard {
