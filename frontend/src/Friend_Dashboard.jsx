@@ -12,7 +12,6 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
       case 'image':
         return <img src={content} alt="user-post" />;
       case 'video':
-        // Assuming content is the embed URL
         return <iframe src={content} frameBorder="0" allowFullScreen title="video"></iframe>;
       case 'text':
       default:
