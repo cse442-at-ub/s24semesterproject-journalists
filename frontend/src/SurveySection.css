@@ -1,0 +1,31 @@
+.survey-section {
+    padding: 20px;
+  }
+  
+  .survey-section label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .survey-section input[type="radio"],
+  .survey-section input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .survey-section textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+  }
+  
+  .error {
+    color: red;
+    margin: 10px 0;
+  }
+  
+  @media (max-width: 768px) {
+    .survey-section {
+      padding: 10px;
+    }
+  }
+  
