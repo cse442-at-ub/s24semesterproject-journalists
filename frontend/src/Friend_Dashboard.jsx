@@ -66,7 +66,7 @@ const Dashboard = () => {
 
   const [contentItems, setContentItems] = useState([
     { id: 2, type: 'image', content: selfie_girl, description: 'remember that sorting can significantly affect the performance of your query, especially with large datasets. Indexes on columns you frequently sort by can help improve performance.' },
-    { id: 2, type: 'image', content: monaLisaImage, description: 'Image posted on Mar 11th' },
+    { id: 4, type: 'image', content: monaLisaImage, description: 'Image posted on Mar 11th' },
     { id: 1, type: 'text', content: 'This is a text post.', description: 'Reflect on today’s day. Today was a busy day at work...' },
     { id: 3, type: 'video', content: 'https://www.youtube.com/embed/ehJ6oQHSkCk', description: 'Video posted on Mar 11th' },
   ]);
@@ -87,15 +87,8 @@ const Dashboard = () => {
       <div className="left-sidebar">
         <div className="journalist-header">
           <h1>Journalist</h1>
-          <button onClick={toggleDropdown} className="new-entry-button">New Entry</button>
+          <button onClick={toggleDropdown} className="new-entry-button">Entry</button>
         </div>
-        {showDropdown && (
-          <div className="dropdown-content">
-            <div className="dropdown-item">Video Journal</div>
-            <div className="dropdown-item">Image Journal</div>
-            <div className="dropdown-item">Text Journal</div>
-          </div>
-        )}
         <div className="journal-entry">
           <p>Mar 10th</p>
           <p>Reflect on today's day. Today was a busy day at work...</p>
