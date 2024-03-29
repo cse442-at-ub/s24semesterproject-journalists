@@ -87,8 +87,13 @@ const Dashboard = () => {
       <div className="left-sidebar">
         <div className="journalist-header">
           <h1>Journalist</h1>
-          <button onClick={toggleDropdown} className="new-entry-button">Entry</button>
-        </div>
+          </div>
+          <div className="header-buttons">
+            <a href="/journal" className="header-button">text entry</a>
+            <a href="/journal-image" className="header-button">image entry</a>
+            <a href="/journal-video" className="header-button">video  entry</a>
+          </div>
+                  
         <div className="journal-entry">
           <p>Mar 10th</p>
           <p>Reflect on today's day. Today was a busy day at work...</p>
