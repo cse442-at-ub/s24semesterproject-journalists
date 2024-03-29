@@ -15,7 +15,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
         // Assuming content is the embed URL
         return <iframe src={content} frameBorder="0" allowFullScreen title="video"></iframe>;
       case 'text':
-        default:
+      default:
         return <p>{content}</p>;
     }
   };
@@ -52,7 +52,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
 };
 
 // Dashboard component
-const Dashboard = () => {
+const PublicProfile = () => {
    
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -63,7 +63,7 @@ const Dashboard = () => {
     { id: 2, name: 'Max Gothem' },
     // ... more friends
   ]);
-
+  const [userCity, setUserCity] = useState('New York');
 
   const [contentItems, setContentItems] = useState([
     { id: 2, type: 'image', content: selfie_girl, description: 'remember that sorting can significantly affect the performance of your query, especially with large datasets. Indexes on columns you frequently sort by can help improve performance.' },
@@ -83,12 +83,30 @@ const Dashboard = () => {
     }));
   };
 
+  const handleAddFriendClick = () => {
+    alert('Friend request sent successfully');
+  };    
+
+  const [isAddFriendDisabled, setIsAddFriendDisabled] = useState(false);
+
+//   const handleBlockClick = () => {
+//     // Disable the Add Friend button
+//     setIsAddFriendDisabled(true);
+//   };
+
+  const [isBlocked, setIsBlocked] = useState(false);
+
+  const handleBlockClick = () => {
+    setIsBlocked(!isBlocked); // Toggle the blocked state
+    setIsAddFriendDisabled(!isAddFriendDisabled); // Also toggle the disabled state of the Add Friend button
+  };    
+
   return (
     <div className="dashboard">
       <div className="left-sidebar">
         <div className="journalist-header">
           <h1>Journalist</h1>
-          <button onClick={toggleDropdown} className="new-entry-button">New Entry</button>
+          <button onClick={toggleDropdown} className="new-entry-button">Home</button>
         </div>
         {showDropdown && (
           <div className="dropdown-content">
@@ -97,9 +115,27 @@ const Dashboard = () => {
             <div className="dropdown-item">Text Journal</div>
           </div>
         )}
-        <div className="journal-entry">
+        <div className="user-details">
+          <h2 className="username-sidebar">Lauren Fox</h2>
+          <p className="user-city">{userCity}</p>
+        </div>
+        {/* <div className="journal-entry">
           <p>Mar 10th</p>
           <p>Reflect on today's day. Today was a busy day at work...</p>
+        </div> */}
+        <div className="button-container">
+            <div className="sidebar-buttons">
+            <button 
+            onClick={handleAddFriendClick} 
+            className={`add-friend-button ${isAddFriendDisabled ? 'disabled' : ''}`}
+            disabled={isAddFriendDisabled} // Disable the Add Friend button if blocked
+          >
+            Add Friend
+          </button>
+          <button onClick={handleBlockClick} className="block-button">
+            {isBlocked ? 'Blocked' : 'Block'} {/* Toggle button text */}
+          </button>
+            </div>
         </div>
       </div>
       <div className="middle-placeholder">
@@ -141,4 +177,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default PublicProfile;

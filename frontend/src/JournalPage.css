@@ -11,6 +11,7 @@
 }
 
 .left-sidebar {
+  position: relative;
   /* Styles for left sidebar */
   background-color: #ffffff;
 }
@@ -238,6 +239,83 @@
   .friend-name:hover {
     background-color: #f2f2f2; /* Highlight on hover */
   }
+
+  .home-button {
+    /* Add your styles here, for example: */
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    /* ... */
+  }
+  
+  /* Styles for user details section */
+  .user-details {
+    margin: 20px 0;
+  }
+  
+  .username-sidebar {
+    font-weight: bold;
+    font-size: 1.2em;
+    /* ... */
+  }
+  
+  .user-city {
+    font-size: 1em;
+    color: #777;
+    /* ... */
+  }
+  
+  /* Styles for the Add Friend and Block buttons */
+  .sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Adjust if needed */
+  }
+  
+  .left-sidebar .add-friend-button {
+    background-color: #00c32e; /* Make sure this is green if it exists */
+  }
+
+  .left-sidebar .add-friend-button:hover {
+    background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%); /* Example gradient from darker to lighter green */
+    /* Transition for smooth color change */
+    transition: background 0.3s ease;
+  }
+
+  .left-sidebar .block-button {
+    background:  #1b1b1b;
+  }
+
+  .left-sidebar .add-friend-button.disabled {
+    background-color: #000000; /* Change color to black */
+    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+  }
+  .left-sidebar .add-friend-button:disabled {
+    background-color: #000000; /* Change color to black */
+    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+  }
+  
+
+  .add-friend-button {
+    background-color: #28a745; /* Green background */
+    color: white;
+    padding: 10px;
+    border: none;
+    margin-bottom: 10px; /* Spacing between buttons */
+    cursor: pointer;
+    border-radius: 5px;
+    /* ... */
+  }
+  
+  .block-button {
+    background-color: #9E9E9E; /* Grey background */
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    /* ... */
+  }
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .dashboard {
