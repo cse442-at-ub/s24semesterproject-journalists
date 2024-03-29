@@ -140,7 +140,7 @@ const PublicProfile = () => {
             Add Friend
           </button>
           <button onClick={handleBlockClick} className="block-button">
-            {isBlocked ? 'Blocked' : 'Block'} {/* Toggle button text */}
+            {isBlocked ? 'Unblock' : 'Block'} {/* Toggle button text */}
           </button>
             </div>
         </div>
