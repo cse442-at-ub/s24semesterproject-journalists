@@ -74,6 +74,24 @@
 .dropdown {
   position: relative; /* This is crucial for positioning the dropdown content correctly */
 }
+.friends-list-container {
+  width: 100%;
+  max-height: 150px; /* Adjust height as necessary for scrolling */
+  overflow-y: auto; /* Allow scrolling */
+  margin-bottom: 20px; /* Space below the friends list */
+}
+
+.friend-name, .pending-request {
+  width: 100%; /* Full width */
+  padding: 10px;
+  border-bottom: 1px solid #ccc; /* Separator between items */
+}
+
+/* Additional styling for pending requests */
+.pending-request {
+  color: #FFA500; /* Orange color to indicate pending status */
+  font-style: italic;
+}
 
 .dropdown-content {
   display: none;
@@ -143,7 +161,8 @@
   flex-direction: column;
   align-items: center; /* Center cards in the middle */
   overflow-y: auto; /* Enables vertical scrolling */
-  height: calc(100vh - 20px); /* Adjust height based on the total padding */
+  height: calc(100vh - 20px); /* Adj  const toggleDropdown = () => setShowDropdown(!showDropdown);
+  ust height based on the total padding */
   padding: 10px 0; /* Vertical padding inside the container */
 }
 .media iframe {
@@ -240,82 +259,6 @@
     background-color: #f2f2f2; /* Highlight on hover */
   }
 
-  .home-button {
-    /* Add your styles here, for example: */
-    background-color: #4CAF50; /* Green background */
-    color: white;
-    /* ... */
-  }
-  
-  /* Styles for user details section */
-  .user-details {
-    margin: 20px 0;
-  }
-  
-  .username-sidebar {
-    font-weight: bold;
-    font-size: 1.2em;
-    /* ... */
-  }
-  
-  .user-city {
-    font-size: 1em;
-    color: #777;
-    /* ... */
-  }
-  
-  /* Styles for the Add Friend and Block buttons */
-  .sidebar-buttons {
-    display: flex;
-    flex-direction: column;
-    width: 100%; /* Adjust if needed */
-  }
-  
-  .left-sidebar .add-friend-button {
-    background-color: #00c32e; /* Make sure this is green if it exists */
-  }
-
-  .left-sidebar .add-friend-button:hover {
-    background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%); /* Example gradient from darker to lighter green */
-    /* Transition for smooth color change */
-    transition: background 0.3s ease;
-  }
-
-  .left-sidebar .block-button {
-    background:  #1b1b1b;
-  }
-
-  .left-sidebar .add-friend-button.disabled {
-    background-color: #000000; /* Change color to black */
-    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
-  }
-  .left-sidebar .add-friend-button:disabled {
-    background-color: #000000; /* Change color to black */
-    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
-  }
-  
-
-  .add-friend-button {
-    background-color: #28a745; /* Green background */
-    color: white;
-    padding: 10px;
-    border: none;
-    margin-bottom: 10px; /* Spacing between buttons */
-    cursor: pointer;
-    border-radius: 5px;
-    /* ... */
-  }
-  
-  .block-button {
-    background-color: #9E9E9E; /* Grey background */
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    /* ... */
-  }
-
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .dashboard {
@@ -333,5 +276,14 @@
   .media iframe {
     height: 100%;
     display: block;
+  }
+  .header-buttons {
+    flex-direction: column;
+    gap: 5px; /* Less gap in column layout for smaller screens */
+  }
+
+  .header-button {
+    width: 100%; /* Full width buttons on smaller screens */
+    margin: 5px 0; /* Adjust margin for top and bottom only */
   }
 }
