@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './JournalPage.css';
 import monaLisaImage from './assets/mona_lisa.jpeg'; // Adjust the import path as needed
 import selfie_girl from './assets/girl_pics_442.jpeg';
+import { useNavigate } from "react-router-dom";
+//import JournalHome from "./Journal_video";
 
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
@@ -101,12 +103,17 @@ const PublicProfile = () => {
     setIsAddFriendDisabled(!isAddFriendDisabled); // Also toggle the disabled state of the Add Friend button
   };    
 
+  const navigate = useNavigate();
+  const home = () => {
+    navigate("/Friend_Dashboard");
+  };
+
   return (
     <div className="dashboard">
       <div className="left-sidebar">
         <div className="journalist-header">
           <h1>Journalist</h1>
-          <button onClick={toggleDropdown} className="new-entry-button">Home</button>
+          <button onClick={home} className="new-entry-button">Home</button>
         </div>
         {showDropdown && (
           <div className="dropdown-content">
