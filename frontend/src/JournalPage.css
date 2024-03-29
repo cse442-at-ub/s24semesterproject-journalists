@@ -1,0 +1,294 @@
+
+.dashboard {
+  display: flex;
+  width: 100%;
+  height: 100vh; /* Adjust the height as necessary */
+}
+
+.left-sidebar, .middle-placeholder, .right-sidebar {
+  width: 33.3%;
+  padding: 10px;
+}
+
+.left-sidebar {
+  /* Styles for left sidebar */
+  background-color: #ffffff;
+}
+
+.middle-placeholder {
+  background-color: #ffffff; /* Placeholder background color */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center cards in the middle */
+}
+
+.right-sidebar {
+  /* Styles for right sidebar */
+  background-color: #ffffff;
+}
+
+
+/* Style the New Entry button */
+.journalist-header {
+    display: flex;
+    align-items: center;
+  }
+
+.left-sidebar button {
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 1em;
+}
+.journalist-header {
+  display: flex;
+  align-items: center;
+}
+/* Style the input field in the right sidebar */
+.right-sidebar input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.new-entry-button {
+    /* Style your button here, ensure margins for spacing */
+    margin-left: 10px; /* Adjust as needed */
+    /* ... (other button styles) */
+  }
+.dropdown-button {
+  background-color: #ff4500;
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px; /* Adds a little space between the title and the button */
+}
+
+.dropdown {
+  position: relative; /* This is crucial for positioning the dropdown content correctly */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+  left: 0; /* Position it from the left instead of right */
+  top: 100%; /* Position it directly below the dropdown button */
+}
+
+.dropdown-content .dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-content .dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Styles for the content card */
+.content-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  width: 100%; /* Make sure the card is full-width within its container */
+  margin: 16px 0; /* Spacing between cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white; /* Card background */
+}
+
+/* Styles for the media section */
+.media {
+  width: 100%;
+  height: 200px; /* Adjust height as needed */
+  background-color: #f2f2f2; /* Placeholder color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ccc;
+  margin-bottom: 16px; /* Spacing between media and text */
+}
+
+/* Styles for the description at the bottom of the card */
+.description p {
+  font-size: 0.9em;
+  color: #666;
+  background-color: #f9f9f9;
+  padding: 8px;
+  border-radius: 8px;
+  margin: 0;
+  margin-bottom: 16px; /* Spacing between description and button */
+}
+.media img {
+  max-width: 100%; /* ensures image is not wider than the container */
+  max-height: 100%; /* ensures image is not taller than the container */
+  object-fit: contain; /* keeps aspect ratio, but can result in letterboxing */
+}
+.middle-placeholder {
+  background-color: #ffffff; /* Set background color to white */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center cards in the middle */
+  overflow-y: auto; /* Enables vertical scrolling */
+  height: calc(100vh - 20px); /* Adj  const toggleDropdown = () => setShowDropdown(!showDropdown);
+  ust height based on the total padding */
+  padding: 10px 0; /* Vertical padding inside the container */
+}
+.media iframe {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.comment-input {
+    width: 100%; /* Make input take full width of its container */
+    padding: 10px;
+    border-radius: 9px; /* Rounded corners for the input */
+    border: 1px solid #ccc; /* Light grey border */
+    font-size: 0.9em;
+}
+
+.comment-input-container {
+    margin-bottom: 16px; /* Spacing between input and button */
+  }
+
+/* Style for the comment button */
+.comment-button {
+  background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 9px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  font-size: 0.9em;
+  transition: background-color 0.3s ease;
+}
+
+.comment-button:hover {
+  background: #000000 
+}
+/* Add this to your JournalPage.css file */
+.right-sidebar {
+    /* Existing styles... */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Aligns items to the right */
+    padding-right: 20px; /* Adds padding on the right */
+  }
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-direction: row-reverse; /* Flips the order so username is on the left of the image */
+    justify-content: flex-end;
+  }
+.invite-text{
+    padding-right: 75px;
+}
+
+  .profile-pic {
+    width: 50px; /* size of the circle */
+    height: 50px; /* size of the circle */
+    border-radius: 50%; /* this will make it round */
+    object-fit: cover; /* this will ensure the image covers the area */
+    margin-right: 10px; /* space between the image and the name */
+  }
+  .username {
+    font-weight: bold;
+    margin: 0; /* Adjust as needed */
+    font-size: 1.2em; /* Adjust as needed */
+    margin-right: 10px;
+  }
+  
+.invite-text{
+    background: linear-gradient(90deg, #D96CFF 0%, #254ACC 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.friends-list-container {
+    overflow-y: auto; /* Make the container scrollable */
+    max-height: 150px; /* Set a max-height for scrolling */
+    width: 100%; /* Use the full width */
+    margin-top: 20px; /* Space above the list */
+  }
+  
+  .friend-name {
+    cursor: pointer; /* Indicate the item is clickable */
+    padding: 8px; /* Padding for each name */
+    border-bottom: 1px solid #ccc; /* Separator between names */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+  }
+  
+  .friend-name:hover {
+    background-color: #f2f2f2; /* Highlight on hover */
+  }
+  .header-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 10px; /* This will create space between the buttons */
+  }
+  
+  .header-button {
+    padding: 5px 15px; /* Adjust padding as needed */
+    text-decoration: none;
+    color: white;
+    background-color: #ff0000; /* Set the background color to orange */
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* This will create space on the left side of each button */
+  }
+  
+  .header-button:first-child {
+    margin-left: 0; /* No space before the first button */
+  }
+  
+  .header-button:hover {
+    background-color: darkorange; /* Slightly darker orange on hover for a nice effect */
+  }
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .left-sidebar, .middle-placeholder, .right-sidebar {
+    width: 100%; /* Full width on mobile */
+  }
+
+  .dropdown-content {
+    right: auto; /* Resets the alignment */
+    left: 0; /* Aligns to the left on smaller screens */
+  }
+  .media iframe {
+    height: 100%;
+    display: block;
+  }
+  .header-buttons {
+    flex-direction: column;
+    gap: 5px; /* Less gap in column layout for smaller screens */
+  }
+
+  .header-button {
+    width: 100%; /* Full width buttons on smaller screens */
+    margin: 5px 0; /* Adjust margin for top and bottom only */
+  }
+}
