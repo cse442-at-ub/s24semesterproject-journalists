@@ -2,6 +2,12 @@
 require_once '../config/config.php'; // Make sure this path is correct
 
 
+// Enabling CORS for local development
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json; charset=UTF-8');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+
 // Initialize variables
 $email = $password = "";
 $response = [];
@@ -67,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->bindParam(":expires_at", $expires_at, PDO::PARAM_STR);
                     if ($stmt->execute()) {
                         // Send verification email
-                        $verificationLink = "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/verify.php?token=" . $token;
+                        $verificationLink = "http://localhost/React-Guestbook/backend/account/verify.php?token=" . $token;
                         $subject = "Verify Your Email for Journalist";
                         $headers = "From: no-reply@journalist.com\r\n";
                         $headers .= "Reply-To: no-reply@journalist.com\r\n";
