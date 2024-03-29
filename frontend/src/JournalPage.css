@@ -73,6 +73,24 @@
 .dropdown {
   position: relative; /* This is crucial for positioning the dropdown content correctly */
 }
+.friends-list-container {
+  width: 100%;
+  max-height: 150px; /* Adjust height as necessary for scrolling */
+  overflow-y: auto; /* Allow scrolling */
+  margin-bottom: 20px; /* Space below the friends list */
+}
+
+.friend-name, .pending-request {
+  width: 100%; /* Full width */
+  padding: 10px;
+  border-bottom: 1px solid #ccc; /* Separator between items */
+}
+
+/* Additional styling for pending requests */
+.pending-request {
+  color: #FFA500; /* Orange color to indicate pending status */
+  font-style: italic;
+}
 
 .dropdown-content {
   display: none;
