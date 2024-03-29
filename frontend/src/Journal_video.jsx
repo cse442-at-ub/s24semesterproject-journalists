@@ -26,6 +26,12 @@ const JournalVideo = () => {
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
+  const handleDeleteEntry = (indexToDelete) => {
+    const updatedEntries = journalEntries.filter((_, index) => index !== indexToDelete);
+    setJournalEntries(updatedEntries);
+  };
+
+
   return (
     <div className="journal-dashboard">
       <div className="left-column">
@@ -44,10 +50,16 @@ const JournalVideo = () => {
         </div>
         <div className="entries">
           {journalEntries.map((entry, index) => (
-            <button key={index} className="entry">
-              <p className="entry-date">{entry.date}</p>
-              <p className="entry-content">{entry.content}</p>
-            </button>
+            <div key={index} className="entry-container">
+              <button className="entry" onClick={() => {/* handle select entry if needed */}}>
+                <p className="entry-date">{entry.date}</p>
+                <p className="entry-content">{entry.content}</p>
+              </button>
+              {/* Delete button for each entry */}
+              <button className="button delete-button" onClick={() => handleDeleteEntry(index)}>
+                Delete
+              </button>
+            </div>
           ))}
         </div>
       </div>
