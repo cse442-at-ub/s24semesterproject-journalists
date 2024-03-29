@@ -22,7 +22,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
       case 'video':
         return <iframe src={content} frameBorder="0" allowFullScreen title="video"></iframe>;
       case 'text':
-      default:
+        default:
         return <p>{content}</p>;
     }
   };

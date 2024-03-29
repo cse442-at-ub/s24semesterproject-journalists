@@ -11,6 +11,7 @@
 }
 
 .left-sidebar {
+  position: relative;
   /* Styles for left sidebar */
   background-color: #ffffff;
 }
@@ -257,31 +258,7 @@
   .friend-name:hover {
     background-color: #f2f2f2; /* Highlight on hover */
   }
-  .header-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    gap: 10px; /* This will create space between the buttons */
-  }
-  
-  .header-button {
-    padding: 5px 15px; /* Adjust padding as needed */
-    text-decoration: none;
-    color: white;
-    background-color: #ff0000; /* Set the background color to orange */
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    margin-left: 10px; /* This will create space on the left side of each button */
-  }
-  
-  .header-button:first-child {
-    margin-left: 0; /* No space before the first button */
-  }
-  
-  .header-button:hover {
-    background-color: darkorange; /* Slightly darker orange on hover for a nice effect */
-  }
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .dashboard {
