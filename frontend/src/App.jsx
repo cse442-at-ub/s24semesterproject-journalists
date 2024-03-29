@@ -8,13 +8,15 @@ import SignupPage from "./SignupPage.jsx";
 import LoginPage from "./LoginPage.jsx";
 import SecurityPage from "./SecurityPage.jsx";
 import About from "./About.jsx";
+import Friend_Dashboard from "./Friend_Dashboard.jsx";
 
 const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Journal />} />
+        <Route path="/" element={<Friend_Dashboard />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/Friend_Dashboard" element={<Friend_Dashboard />} />
         <Route path="/journal-image" element={<JournalImage />} />
         <Route path="/journal-video" element={<JournalVideo />} />
         <Route path="/signup-page" element={<SignupPage />} />
