@@ -21,7 +21,12 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
         return <p>{content}</p>;
     }
   };
+  
 
+const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
@@ -56,15 +61,8 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
 // Dashboard component
 const PublicProfile = () => {
    
-
   const [showDropdown, setShowDropdown] = useState(false);
-
- // Add a new state for the list of friends' names
-  const [friendsList, setFriendsList] = useState([
-    { id: 1, name: 'Jake Gothem' },
-    { id: 2, name: 'Max Gothem' },
-    // ... more friends
-  ]);
+  const [friendsList, setFriendsList] = useState([{ id: 1, name: 'Jake Gothem' }, { id: 2, name: 'Max Gothem' }]);
   const [userCity, setUserCity] = useState('New York');
 
   const [contentItems, setContentItems] = useState([
@@ -84,23 +82,39 @@ const PublicProfile = () => {
       return item;
     }));
   };
+  const [pendingFriends, setPendingFriends] = useState([]);
+  const [friendEmail, setFriendEmail] = useState('');
 
+  const handleFriendEmailChange = (e) => {
+    setFriendEmail(e.target.value);
+  };
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  const handleAddFriend = () => {
+   
+    if (isValidEmail(friendEmail)) {
+      // If the email is valid, add it to the pending friends list
+      setPendingFriends(prev => [...prev, { email: friendEmail, status: 'Pending' }]);
+      setFriendEmail(''); // Reset the input field
+    } else {
+      // If the email is not valid, alert the user
+      alert('Please enter a valid email address.');
+    }
+  };
   const handleAddFriendClick = () => {
     alert('Friend request sent successfully');
   };    
 
   const [isAddFriendDisabled, setIsAddFriendDisabled] = useState(false);
 
-//   const handleBlockClick = () => {
-//     // Disable the Add Friend button
-//     setIsAddFriendDisabled(true);
-//   };
 
   const [isBlocked, setIsBlocked] = useState(false);
 
   const handleBlockClick = () => {
     setIsBlocked(!isBlocked); // Toggle the blocked state
-    setIsAddFriendDisabled(!isAddFriendDisabled); // Also toggle the disabled state of the Add Friend button
+    setIsAddFriendDisabled(!isAddFriendDisabled); 
   };    
 
   const navigate = useNavigate();
@@ -142,7 +156,7 @@ const PublicProfile = () => {
           <button onClick={handleBlockClick} className="block-button">
             {isBlocked ? 'Unblock' : 'Block'} {/* Toggle button text */}
           </button>
-            </div>
+            </div> 
         </div>
       </div>
       <div className="middle-placeholder">
@@ -162,24 +176,34 @@ const PublicProfile = () => {
     <div className="right-sidebar">
         <div className="profile-section">
         <img className="profile-pic" src={selfie_girl} alt="Profile picture" />
+        <h2 className="username">Lauren Fox</h2>
+         </div>
 
-          {/* <img src={profileIcon} alt="Profile" className="profile-pic" /> */}
-          <h2 className="username">Lauren Fox</h2>
-        </div>
-        <h3 className="invite-text">Invite your friends</h3>
-        <input type="email" placeholder="Enter friend’s email" className="friend-email-input" />
-        {/* Additional right sidebar content can go here */}
+            <h3 className="invite-text">Invite your friends</h3>
+            <input
+          type="email"
+          placeholder="Enter friend's email"
+          value={friendEmail}
+          onChange={handleFriendEmailChange}
+          className="friend-email-input"
+        />
+            <button onClick={handleAddFriend} className="add-friend-button">Search Friend</button>
+          <div className="friends-list-container">
+            <h4>Friends</h4>
+            {friendsList.map(friend => (
+              <div key={friend.id} className="friend-name">{friend.name}</div>
+            ))}
+          </div>
 
-        <div className="friends-list-container">
-          {friendsList.map(friend => (
-            <div key={friend.id} className="friend-name" onClick={() => console.log(friend.name)}>
-              {friend.name}
-            </div>
-          ))}
-        </div>
-
-
-      </div>
+          <div className="friends-list-container">
+  <h4>Pending Requests</h4>
+  {pendingFriends.map((friend, index) => (
+    <div key={index} className="pending-request">
+      {friend.email} ({friend.status})
+    </div>
+  ))}
+</div>
+</div>
     </div>
   );
 };

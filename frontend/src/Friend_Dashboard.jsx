@@ -123,33 +123,33 @@ const Dashboard = () => {
         ))}
       </div>
       <div className="right-sidebar">
-  <div className="profile-section">
-    <img className="profile-pic" src={selfie_girl} alt="Profile picture" />
-    <h2 className="username">Lauren Fox</h2>
-  </div>
+        <div className="profile-section">
+        <img className="profile-pic" src={selfie_girl} alt="Profile picture" />
+        <h2 className="username">Lauren Fox</h2>
+         </div>
 
-  <h3 className="invite-text">Invite your friends</h3>
-  <input
-    type="email"
-    placeholder="Enter friend's email"
-    value={friendEmail}
-    onChange={handleFriendEmailChange}
-    className="friend-email-input"
-  />
-  <button onClick={handleAddFriend} className="add-friend-button">Add Friend</button>
+            <h3 className="invite-text">Invite your friends</h3>
+             <input
+        type="email"
+        placeholder="Enter friend's email"
+        value={friendEmail}
+        onChange={handleFriendEmailChange}
+        className="friend-email-input"
+          />
+            <button onClick={handleAddFriend} className="add-friend-button">Add Friend</button>
 
-  <div className="friends-list-container">
-    <h4>Friends</h4>
-    {friendsList.map(friend => (
-      <div key={friend.id} className="friend-name">{friend.name}</div>
-    ))}
-  </div>
+          <div className="friends-list-container">
+            <h4>Friends</h4>
+            {friendsList.map(friend => (
+              <div key={friend.id} className="friend-name">{friend.name}</div>
+            ))}
+          </div>
 
-  <div className="friends-list-container">
-    <h4>Pending Requests</h4>
-    {pendingFriends.map((email, index) => (
+          <div className="friends-list-container">
+          <h4>Pending Requests</h4>
+         {pendingFriends.map((email, index) => (
       <div key={index} className="pending-request">{email} (Pending)</div>
-    ))}
+      ))}
   </div>
 </div>
     </div>
