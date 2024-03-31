@@ -11,6 +11,7 @@
 }
 
 .left-sidebar {
+  position: relative;
   /* Styles for left sidebar */
   background-color: #ffffff;
 }
@@ -142,8 +143,7 @@
   flex-direction: column;
   align-items: center; /* Center cards in the middle */
   overflow-y: auto; /* Enables vertical scrolling */
-  height: calc(100vh - 20px); /* Adj  const toggleDropdown = () => setShowDropdown(!showDropdown);
-  ust height based on the total padding */
+  height: calc(100vh - 20px); /* Adjust height based on the total padding */
   padding: 10px 0; /* Vertical padding inside the container */
 }
 .media iframe {
@@ -239,7 +239,107 @@
   .friend-name:hover {
     background-color: #f2f2f2; /* Highlight on hover */
   }
+
+  .home-button {
+    /* Add your styles here, for example: */
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    /* ... */
+  }
+  
+  /* Styles for user details section */
+  .user-details {
+    margin: 20px 0;
+  }
+  
+  .username-sidebar {
+    font-weight: bold;
+    font-size: 1.2em;
+    /* ... */
+  }
+  
+  .user-city {
+    font-size: 1em;
+    color: #777;
+    /* ... */
+  }
+  
+  /* Styles for the Add Friend and Block buttons */
+  .sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Adjust if needed */
+  }
+  
+  .left-sidebar .add-friend-button {
+    background-color: #00c32e; /* Make sure this is green if it exists */
+  }
+
+  .left-sidebar .add-friend-button:hover {
+    background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%); /* Example gradient from darker to lighter green */
+    /* Transition for smooth color change */
+    transition: background 0.3s ease;
+  }
+
+  .left-sidebar .block-button {
+    background:  #1b1b1b;
+  }
+
+  .left-sidebar .add-friend-button.disabled {
+    background-color: #000000; /* Change color to black */
+    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+  }
+  .left-sidebar .add-friend-button:disabled {
+    background-color: #000000; /* Change color to black */
+    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+  }
+  
+
+  .add-friend-button {
+    background-color: #28a745; /* Green background */
+    color: white;
+    padding: 10px;
+    border: none;
+    margin-bottom: 10px; /* Spacing between buttons */
+    cursor: pointer;
+    border-radius: 5px;
+    /* ... */
+  }
+  
+  .block-button {
+    background-color: #9E9E9E; /* Grey background */
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    /* ... */
+  }
   .header-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 10px; /* This will create space between the buttons */
+  }
+  
+  .header-button {
+    padding: 5px 15px; /* Adjust padding as needed */
+    text-decoration: none;
+    color: white;
+    background-color: #ff0000; /* Set the background color to orange */
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* This will create space on the left side of each button */
+  }
+  
+  .header-button:first-child {
+    margin-left: 0; /* No space before the first button */
+  }
+  
+  .header-button:hover {
+    background-color: darkorange; /* Slightly darker orange on hover for a nice effect */
+  }  .header-buttons {
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -281,14 +381,5 @@
   .media iframe {
     height: 100%;
     display: block;
-  }
-  .header-buttons {
-    flex-direction: column;
-    gap: 5px; /* Less gap in column layout for smaller screens */
-  }
-
-  .header-button {
-    width: 100%; /* Full width buttons on smaller screens */
-    margin: 5px 0; /* Adjust margin for top and bottom only */
   }
 }
