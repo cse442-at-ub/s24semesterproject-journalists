@@ -364,6 +364,50 @@
   .header-button:hover {
     background-color: darkorange; /* Slightly darker orange on hover for a nice effect */
   }
+  .user-bio {
+    font-size: 0.9em; /* Adjust font size as needed */
+    margin-bottom: 20px; /* Spacing between bio and next section */
+    color: #666; /* A softer color for the text */
+  }
+  
+  /* Styling for the website link */
+  .user-website a {
+    display: inline-block;
+    color: #007bff; /* Bootstrap default link color */
+    text-decoration: none;
+    margin-bottom: 20px; /* Spacing between website link and social media links */
+  }
+  
+  .user-website a:hover {
+    text-decoration: underline; /* Adds underline on hover for better user interaction */
+  }
+  
+  /* Social media links styling */
+  .social-links {
+    margin-bottom: 20px; /* Spacing between social links and other details */
+  }
+  
+  .social-links a {
+    display: inline-block;
+    margin-right: 10px; /* Spacing between social media icons */
+    color: #007bff; /* Consistent with the website link color */
+  }
+  
+  .social-links a:hover {
+    color: #0056b3; /* Darker blue on hover for interaction feedback */
+  }
+  
+  /* Styling for user join date and number of posts */
+  .user-info p {
+    font-size: 0.8em; /* Slightly smaller text for meta info */
+    color: #666; /* Soft color for the text */
+    margin-bottom: 5px; /* Reduce space between join date and number of posts */
+  }
+  
+  /* You might want to style the dropdown button if it's part of the enhancements */
+  .dropdown-button {
+    margin-bottom: 20px; /* Ensure spacing around dropdown button */
+  }
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .dashboard {

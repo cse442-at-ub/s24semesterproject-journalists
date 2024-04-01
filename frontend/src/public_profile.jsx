@@ -51,6 +51,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
   );
 };
 
+
 // Dashboard component
 const PublicProfile = () => {
   const navigate = useNavigate();
@@ -73,6 +74,16 @@ const PublicProfile = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  
+  const [bio, setBio] = useState('Avid photographer and writer. Exploring the world through the lens of my camera.');
+  const [websiteLink, setWebsiteLink] = useState('https://www.userwebsite.com');
+  const [socialLinks, setSocialLinks] = useState({
+    linkedin: 'https://www.linkedin.com/in/user',
+    twitter: 'https://twitter.com/user',
+    instagram: 'https://www.instagram.com/user',
+  });
+  const [joinDate, setJoinDate] = useState('March 2020');
+  const [numberOfPosts, setNumberOfPosts] = useState(47);
 
   const handleUpdateDescription = (id, newComment) => {
     setContentItems(contentItems.map(item => {
@@ -134,6 +145,22 @@ const PublicProfile = () => {
             </button>
           </div> 
         </div>
+        <div className="user-bio">
+          <p>{bio}</p>
+        </div>
+        <div className="user-website">
+          <a href={websiteLink} target="_blank" rel="noopener noreferrer">Personal Website</a>
+        </div>
+        <div className="social-links">
+          <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer">Twitter</a>
+          <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+        <div className="user-info">
+          <p>Joined: {joinDate}</p>
+          <p>Posts: {numberOfPosts}</p>
+        </div>
+        
       </div>
       <div className="middle-placeholder">
         {contentItems.map(item => (
