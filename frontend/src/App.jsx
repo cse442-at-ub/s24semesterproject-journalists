@@ -9,12 +9,14 @@ import LoginPage from "./LoginPage.jsx";
 import SecurityPage from "./SecurityPage.jsx";
 import About from "./About.jsx";
 import Friend_Dashboard from "./Friend_Dashboard.jsx";
+import PublicProfile from "./public_profile.jsx";
 
 
 const App = () => {
   return (
     <>
       <Routes>
+        <Route path="/" element={<JournalVideo />} />
 
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/public_profile" element={<PublicProfile />} />

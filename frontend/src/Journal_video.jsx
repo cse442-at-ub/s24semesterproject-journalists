@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Journal_video.css';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import mona_lisa from "./assets/mona_lisa.jpeg"; // Ensure this path is correct
 
 
 const JournalVideo = () => {
@@ -12,11 +13,15 @@ const JournalVideo = () => {
   const [newMessage, setNewMessage] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const [contentMode, setContentMode] = useState('video');
   const handleSubmit = (e) => {
     e.preventDefault();
     const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
     setJournalEntries([...journalEntries, newEntry]);
     setNewMessage('');
+  };
+  const handleDropdownSelection = (mode) => {
+    setContentMode(mode);
   };
 
   const journal = () => {
@@ -68,16 +73,17 @@ const JournalVideo = () => {
       <div className="left-column">
         <div className="header">
         <h1> <Link to='/journal'>Journalist</Link></h1>
-          <div className="dropdown">
-            <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
-            {showDropdown && (
-              <div className={`dropdown-content${showDropdown ? ' show' : ''}`}>
-                {/* Updated onClick handlers to call the functions */}
-                <button className="dropdown-item" onClick={journal}>Journal</button>
-                <button className="dropdown-item" onClick={journalImage}>Image Journal</button>
-              </div>
-            )}
-          </div>
+        <div className="dropdown">
+  <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
+  {showDropdown && (
+    <div className={`dropdown-content${showDropdown ? ' show' : ''}`}>
+      {/* Add new dropdown items for video and text journals */}
+      <button className="dropdown-item" onClick={() => handleDropdownSelection('text')}>Text Journal</button>
+      <button className="dropdown-item" onClick={() => handleDropdownSelection('video')}>Video Journal</button>
+      <button className="dropdown-item" onClick={() => handleDropdownSelection('image')}>Image Journal</button>
+    </div>
+  )}
+</div>
         </div>
         <div className="entries">
           {journalEntries.map((entry, index) => (
@@ -96,15 +102,33 @@ const JournalVideo = () => {
       </div>
       <div className="right-column">
         <p className="date">Date: {new Date().toLocaleDateString()}</p>
-        <div className="video-container">
-          <iframe
-            className="journal-video"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+        <div className="content-area">
+          {contentMode === 'text' && (
+            <div className="text-content">
+              <h2>How was your day?</h2>
+            </div>
+          )}
+          {contentMode === 'video' && (
+            <div className="video-container">
+              <iframe
+                className="journal-video"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>  
+            </div>
+          )}
+          {contentMode === 'image' && (
+            <div className="video-container">
+            <img
+              className="journal-image"
+              src="https://mediaproxy.salon.com/width/1200/https://media2.salon.com/2014/01/wolf_wall_street2.jpg"
+              alt="Journal Entry"
+            />
+          </div>
+          )}
         </div>
         <textarea
           className="textarea-journal"
