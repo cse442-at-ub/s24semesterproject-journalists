@@ -74,18 +74,18 @@ const JournalVideo = () => {
         <div className="header">
         <h1> <Link to='/Friend_Dashboard'>Journalist</Link></h1>
         <div className="dropdown">
-  <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
-  {showDropdown && (
-    <div className={`dropdown-content${showDropdown ? ' show' : ''}`}>
-      {/* Add new dropdown items for video and text journals */}
-      <button className="dropdown-item" onClick={() => handleDropdownSelection('text')}>Text Journal</button>
-      <button className="dropdown-item" onClick={() => handleDropdownSelection('video')}>Video Journal</button>
-      <button className="dropdown-item" onClick={() => handleDropdownSelection('image')}>Image Journal</button>
-    </div>
-  )}
-</div>
+            <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
+            {showDropdown && (
+            <div className={`dropdown-content${showDropdown ? ' show' : ''}`}>
+            {/* Add new dropdown items for video and text journals */}
+              <button className="dropdown-item" onClick={() => handleDropdownSelection('text')}>Text Journal</button>
+              <button className="dropdown-item" onClick={() => handleDropdownSelection('video')}>Video Journal</button>
+              <button className="dropdown-item" onClick={() => handleDropdownSelection('image')}>Image Journal</button>
+            </div>
+            )}
+          </div>
         </div>
-        <div className="entries">
+      <div className="entries">
           {journalEntries.map((entry, index) => (
             <div key={index} className="entry-container">
               <button className="entry" onClick={() => {/* handle select entry if needed */}}>
@@ -97,8 +97,8 @@ const JournalVideo = () => {
                 Delete
               </button>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
       </div>
       <div className="right-column">
         <p className="date">Date: {new Date().toLocaleDateString()}</p>

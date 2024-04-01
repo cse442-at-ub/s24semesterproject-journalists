@@ -17,10 +17,10 @@
   
   .journal-dashboard {
     display: flex;
-    max-width: 900px;
-    margin: 20px auto;
-    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);*/
-    background: #fff; /* Confirms that journal-dashboard is white */
+    width: 100vw; /* Set width to full viewport width */
+    height: 100vh; /* Set height to full viewport height */
+    margin: 0 auto; /* Remove top and bottom margins */
+    box-shadow: none; /* Optionally remove the shadow if you want to fill the page */
   }
   
   .left-column {
@@ -179,6 +179,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+}
+.entries {
+  overflow-y: auto; /* Makes the div scrollable */
+  max-height: calc(100vh - 160px); /* Adjust the max-height value as needed to fit the screen */
+  margin-bottom: 20px;
 }
 
 .entries .entry {
