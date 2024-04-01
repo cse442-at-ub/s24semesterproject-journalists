@@ -72,7 +72,7 @@ const JournalVideo = () => {
     <div className="journal-dashboard">
       <div className="left-column">
         <div className="header">
-        <h1> <Link to='/journal'>Journalist</Link></h1>
+        <h1> <Link to='/Friend_Dashboard'>Journalist</Link></h1>
         <div className="dropdown">
   <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
   {showDropdown && (

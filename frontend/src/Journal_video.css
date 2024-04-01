@@ -12,14 +12,15 @@
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background: #e5e5e5;
+    background: #fff; /* Updated to white */
   }
   
   .journal-dashboard {
     display: flex;
     max-width: 900px;
     margin: 20px auto;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);*/
+    background: #fff; /* Confirms that journal-dashboard is white */
   }
   
   .left-column {
@@ -41,14 +42,47 @@
     color: #333;
   }
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   .button.orange {
-    background-color: #ff4500;
+    background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%);
     color: #fff;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
     text-transform: uppercase;
+    transition: background 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+  }
+  
+  .button.orange:hover {
+    background: linear-gradient(90deg, #e63e00 0%, #7648cc 100%); /* Darken the gradient */
+    transform: scale(1.05); /* Slightly increase the button size */
   }
   
   .entries button {
