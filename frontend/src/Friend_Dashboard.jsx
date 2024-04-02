@@ -19,7 +19,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
         return <p>{content}</p>;
     }
   };
-  
+
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
@@ -51,9 +51,8 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
   );
 };
 
-
 // Dashboard component
-const PublicProfile = () => {
+const Friend = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [friendsList, setFriendsList] = useState([{ id: 1, name: 'Jake Gothem' }, { id: 2, name: 'Max Gothem' }]);
@@ -64,9 +63,6 @@ const PublicProfile = () => {
     { id: 1, type: 'text', content: 'This is a text post.', description: 'Reflect on today’s day. Today was a busy day at work...' },
     { id: 3, type: 'video', content: 'https://www.youtube.com/embed/ehJ6oQHSkCk', description: 'Video posted on Mar 11th' },
   ]);
-  const navigateToSearchFriends = () => {
-    navigate("/public_profile"); // Adjust the path as needed
-  };
 
   const [pendingFriends, setPendingFriends] = useState([]);
   const [friendEmail, setFriendEmail] = useState('');
@@ -77,7 +73,6 @@ const PublicProfile = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  
 
   const handleUpdateDescription = (id, newComment) => {
     setContentItems(contentItems.map(item => {
@@ -105,6 +100,10 @@ const PublicProfile = () => {
   const handleBlockClick = () => {
     setIsBlocked(!isBlocked);
     setIsAddFriendDisabled(!isAddFriendDisabled);
+  };
+
+  const navigateToSearchFriends = () => {
+    navigate("/public_profile", { state: { friendEmail: friendEmail } }); // Correctly use the state
   };
   return (
     <div className="dashboard">
@@ -156,4 +155,4 @@ const PublicProfile = () => {
   );
 };
 
-export default PublicProfile;
+export default Friend;

@@ -190,13 +190,13 @@
     padding-right: 20px; /* Adds padding on the right */
   }
 
-.profile-section {
+  .profile-section {
     display: flex;
     align-items: center;
+    justify-content: flex-start; /* Align to the left */
     margin-bottom: 20px;
-    flex-direction: row-reverse; /* Flips the order so username is on the left of the image */
-    justify-content: flex-end;
-  }
+    /* flex-direction: row; is default, so no need for row-reverse */
+}
 .invite-text{
     padding-right: 75px;
 }
@@ -332,7 +332,37 @@
     transition: background-color 0.3s ease;
     margin-left: 10px; /* This will create space on the left side of each button */
   }
+  .block-button {
+    margin-bottom: 30px; /* Increased space below the block button */
+  }
   
+  .user-details {
+    margin-bottom: 20px; /* Spacing below the user details section */
+  }
+  
+  .user-bio, .user-website, .social-links, .user-info {
+    margin-bottom: 15px; /* Consistent spacing between sections */
+  }
+  
+  .social-links a {
+    margin-right: 10px; /* Space between social links */
+    text-decoration: none; /* Typically, links in social media bars do not have underlines */
+  }
+  
+  .social-links a:hover {
+    opacity: 0.8; /* Slight visual feedback on hover */
+  }
+  
+  .user-info p {
+    line-height: 1.4; /* Improved line height for better readability */
+    color: #333; /* Slightly darker color for better contrast */
+  }
+  
+  /* If you're using borders as dividers */
+  .user-bio, .user-website, .social-links {
+    border-bottom: 1px solid #eee; /* Light border for a divider */
+    padding-bottom: 10px; /* Space above the border */
+  }
   .header-button:first-child {
     margin-left: 0; /* No space before the first button */
   }

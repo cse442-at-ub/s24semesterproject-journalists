@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './JournalPage.css';
-import monaLisaImage from './assets/mona_lisa.jpeg'; // Adjust the import path as needed
+import monaLisaImage from './assets/mona_lisa.jpeg';
 import selfie_girl from './assets/girl_pics_442.jpeg';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Correctly import both useNavigate and useLocation together
 
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
@@ -69,7 +69,8 @@ const PublicProfile = () => {
   };
 
   // Navigate to friend's profile
-
+  const location = useLocation(); // Access navigation state
+  const emailFromSearch = location.state?.friendEmail; 
 
   const [pendingFriends, setPendingFriends] = useState([]);
   const [friendEmail, setFriendEmail] = useState('');
@@ -139,9 +140,8 @@ const PublicProfile = () => {
           </div>
         )}
         <div className="user-details">
-          <h2 className="username-sidebar">Lauren Fox</h2>
-          <p className="user-city">{userCity}</p>
-        </div>
+  <h2 className="username-sidebar">{emailFromSearch || userCity}</h2> {/* Display the email or fallback to userCity */}
+</div>
         <div className="button-container">
           <div className="sidebar-buttons">
             <button onClick={handleAddFriend} className={`add-friend-button ${isAddFriendDisabled ? 'disabled' : ''}`} disabled={isAddFriendDisabled}>
