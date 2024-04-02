@@ -20,6 +20,47 @@ const JournalVideo = () => {
     setJournalEntries([...journalEntries, newEntry]);
     setNewMessage('');
   };
+
+  // The function to save a new journal entry
+  const saveEntry = async () => {
+    // Prevent the form from submitting if you're using a form element
+    // e.preventDefault();
+  
+    // Prepare the data to send in the POST request
+    const entryData = {
+      title: "Journal Entry", // Placeholder title, change as needed
+      body: newMessage,
+    };
+  
+    try {
+      // Make the POST request to your backend endpoint
+      const response = await axios({
+        method: 'post',
+        url: '/backend/journal/create.php', // Replace with your actual endpoint
+        data: entryData,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Replace with actual retrieval logic
+        },
+      });
+  
+      // Check if the POST request was successful
+      if (response.status === 201) {
+        // If successful, add the new entry to the state to update the UI
+        const savedEntry = { ...entryData, date: new Date().toLocaleDateString(), id: response.data.id };
+        setJournalEntries(prevEntries => [...prevEntries, savedEntry]);
+        setNewMessage(''); // Clear the input after saving
+        setShowDropdown(false); // Optionally, hide the dropdown
+      } else {
+        // Handle any non-200 status codes here
+        console.error('Failed to save the journal entry:', response);
+      }
+    } catch (error) {
+      // Handle errors here
+      console.error('Error while saving the journal entry:', error.response || error);
+    }
+  };
+
   const handleDropdownSelection = (mode) => {
     setContentMode(mode);
   };
