@@ -64,7 +64,10 @@ const PublicProfile = () => {
     { id: 1, type: 'text', content: 'This is a text post.', description: 'Reflect on today’s day. Today was a busy day at work...' },
     { id: 3, type: 'video', content: 'https://www.youtube.com/embed/ehJ6oQHSkCk', description: 'Video posted on Mar 11th' },
   ]);
-  
+  const navigateToSearchFriends = () => {
+    navigate("/public_profile"); // Adjust the path as needed
+  };
+
   const [pendingFriends, setPendingFriends] = useState([]);
   const [friendEmail, setFriendEmail] = useState('');
   const [isAddFriendDisabled, setIsAddFriendDisabled] = useState(false);
@@ -133,7 +136,7 @@ const PublicProfile = () => {
         </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input type="email" placeholder="Enter friend's email" value={friendEmail} onChange={handleFriendEmailChange} className="friend-email-input" />
-        <button onClick={handleAddFriend} className="add-friend-button">Search Friend</button>
+        <button onClick={navigateToSearchFriends} className="add-friend-button">Search Friend</button>
         <div className="friends-list-container">
           <h4>Friends</h4>
           {friendsList.map(friend => (
