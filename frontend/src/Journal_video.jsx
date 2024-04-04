@@ -19,6 +19,7 @@ const JournalVideo = () => {
     const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
     setJournalEntries([...journalEntries, newEntry]);
     setNewMessage('');
+    console.log("clicked")
   };
 
   // The function to save a new journal entry
