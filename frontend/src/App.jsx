@@ -9,10 +9,14 @@ import LoginPage from "./LoginPage.jsx";
 import SecurityPage from "./SecurityPage.jsx";
 import About from "./About.jsx";
 import Friend_Dashboard from "./Friend_Dashboard.jsx";
+import PublicProfile from "./public_profile.jsx"
+import SurveySection from "./SurveySection.jsx"
+
 const App = () => {
   return (
     <>
       <Routes>
+        <Route path="/" element={<SignupPage/>} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/public_profile" element={<PublicProfile />} />
         <Route path="/Friend_Dashboard" element={<Friend_Dashboard />} />
