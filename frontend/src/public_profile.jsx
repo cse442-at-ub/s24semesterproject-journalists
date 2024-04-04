@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './JournalPage.css';
-import monaLisaImage from './assets/mona_lisa.jpeg'; // Adjust the import path as needed
+import monaLisaImage from './assets/mona_lisa.jpeg';
 import selfie_girl from './assets/girl_pics_442.jpeg';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Correctly import both useNavigate and useLocation together
 
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
@@ -51,6 +51,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
   );
 };
 
+
 // Dashboard component
 const PublicProfile = () => {
   const navigate = useNavigate();
@@ -63,7 +64,14 @@ const PublicProfile = () => {
     { id: 1, type: 'text', content: 'This is a text post.', description: 'Reflect on today’s day. Today was a busy day at work...' },
     { id: 3, type: 'video', content: 'https://www.youtube.com/embed/ehJ6oQHSkCk', description: 'Video posted on Mar 11th' },
   ]);
-  
+  const navigateToSearchFriends = () => {
+    navigate("/public_profile"); // Adjust the path as needed
+  };
+
+  // Navigate to friend's profile
+  const location = useLocation(); // Access navigation state
+  const emailFromSearch = location.state?.friendEmail; 
+
   const [pendingFriends, setPendingFriends] = useState([]);
   const [friendEmail, setFriendEmail] = useState('');
   const [isAddFriendDisabled, setIsAddFriendDisabled] = useState(false);
@@ -73,6 +81,16 @@ const PublicProfile = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  
+  const [bio, setBio] = useState('Avid photographer and writer. Exploring the world through the lens of my camera.');
+  const [websiteLink, setWebsiteLink] = useState('https://www.userwebsite.com');
+  const [socialLinks, setSocialLinks] = useState({
+    linkedin: 'https://www.linkedin.com/in/user',
+    twitter: 'https://twitter.com/user',
+    instagram: 'https://www.instagram.com/user',
+  });
+  const [joinDate, setJoinDate] = useState('March 2020');
+  const [numberOfPosts, setNumberOfPosts] = useState(47);
 
   const handleUpdateDescription = (id, newComment) => {
     setContentItems(contentItems.map(item => {
@@ -82,6 +100,7 @@ const PublicProfile = () => {
       return item;
     }));
   };
+  
 
   const handleFriendEmailChange = (e) => {
     setFriendEmail(e.target.value);
@@ -121,9 +140,8 @@ const PublicProfile = () => {
           </div>
         )}
         <div className="user-details">
-          <h2 className="username-sidebar">Lauren Fox</h2>
-          <p className="user-city">{userCity}</p>
-        </div>
+  <h2 className="username-sidebar">{emailFromSearch || userCity}</h2> {/* Display the email or fallback to userCity */}
+</div>
         <div className="button-container">
           <div className="sidebar-buttons">
             <button onClick={handleAddFriend} className={`add-friend-button ${isAddFriendDisabled ? 'disabled' : ''}`} disabled={isAddFriendDisabled}>
@@ -134,6 +152,22 @@ const PublicProfile = () => {
             </button>
           </div> 
         </div>
+        <div className="user-bio">
+          <p>{bio}</p>
+        </div>
+        <div className="user-website">
+          <a href={websiteLink} target="_blank" rel="noopener noreferrer">Personal Website</a>
+        </div>
+        <div className="social-links">
+          <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer">Twitter</a>
+          <a href={socialLinks.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+        <div className="user-info">
+          <p>Joined: {joinDate}</p>
+          <p>Posts: {numberOfPosts}</p>
+        </div>
+        
       </div>
       <div className="middle-placeholder">
         {contentItems.map(item => (
@@ -147,7 +181,7 @@ const PublicProfile = () => {
         </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input type="email" placeholder="Enter friend's email" value={friendEmail} onChange={handleFriendEmailChange} className="friend-email-input" />
-        <button onClick={handleAddFriend} className="add-friend-button">Search Friend</button>
+        <button onClick={navigateToSearchFriends} className="add-friend-button">Search Friend</button>
         <div className="friends-list-container">
           <h4>Friends</h4>
           {friendsList.map(friend => (
