@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './SurveySection.css'; // Importing CSS for styling the survey components
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Main functional component for the survey section
 const SurveySection = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // Tracks the current question
   const [responses, setResponses] = useState({}); // Stores user responses
   const [errors, setErrors] = useState({}); // Stores validation errors
-
+  const navigate = useNavigate();
   // Sample structure for survey questions
   const questions = [
     { 
@@ -62,6 +64,13 @@ const SurveySection = () => {
 
   // Handles survey submission (placeholder for actual submission logic)
   const handleSubmit = () => {
+
+    event.preventDefault();
+
+    // Perform your submit actions...
+
+    // Then navigate to the Friend Dashboard
+    navigate('/Friend_Dashboard');
     console.log('Survey responses:', responses);
     // Ideally, you would send 'responses' to the server here
   };
