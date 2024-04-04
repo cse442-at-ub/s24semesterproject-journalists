@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Journal_video.css';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import mona_lisa from "./assets/mona_lisa.jpeg"; // Ensure this path is correct
 
 
 const JournalVideo = () => {
@@ -12,11 +13,57 @@ const JournalVideo = () => {
   const [newMessage, setNewMessage] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
+  const [contentMode, setContentMode] = useState('video');
   const handleSubmit = (e) => {
     e.preventDefault();
     const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
     setJournalEntries([...journalEntries, newEntry]);
     setNewMessage('');
+    console.log("clicked")
+  };
+
+  // The function to save a new journal entry
+  const saveEntry = async () => {
+    // Prevent the form from submitting if you're using a form element
+    // e.preventDefault();
+  
+    // Prepare the data to send in the POST request
+    const entryData = {
+      title: "Journal Entry", // Placeholder title, change as needed
+      body: newMessage,
+    };
+  
+    try {
+      // Make the POST request to your backend endpoint
+      const response = await axios({
+        method: 'post',
+        url: '/backend/journal/create.php', // Replace with your actual endpoint
+        data: entryData,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Replace with actual retrieval logic
+        },
+      });
+  
+      // Check if the POST request was successful
+      if (response.status === 201) {
+        // If successful, add the new entry to the state to update the UI
+        const savedEntry = { ...entryData, date: new Date().toLocaleDateString(), id: response.data.id };
+        setJournalEntries(prevEntries => [...prevEntries, savedEntry]);
+        setNewMessage(''); // Clear the input after saving
+        setShowDropdown(false); // Optionally, hide the dropdown
+      } else {
+        // Handle any non-200 status codes here
+        console.error('Failed to save the journal entry:', response);
+      }
+    } catch (error) {
+      // Handle errors here
+      console.error('Error while saving the journal entry:', error.response || error);
+    }
+  };
+
+  const handleDropdownSelection = (mode) => {
+    setContentMode(mode);
   };
 
   const journal = () => {
@@ -67,19 +114,20 @@ const JournalVideo = () => {
     <div className="journal-dashboard">
       <div className="left-column">
         <div className="header">
-        <h1> <Link to='/journal'>Journalist</Link></h1>
-          <div className="dropdown">
+        <h1> <Link to='/Friend_Dashboard'>Journalist</Link></h1>
+        <div className="dropdown">
             <button className="button orange" onClick={toggleDropdown}>New Entry &#9662;</button>
             {showDropdown && (
-              <div className={`dropdown-content${showDropdown ? ' show' : ''}`}>
-                {/* Updated onClick handlers to call the functions */}
-                <button className="dropdown-item" onClick={journal}>Journal</button>
-                <button className="dropdown-item" onClick={journalImage}>Image Journal</button>
-              </div>
+            <div className={`dropdown-content${showDropdown ? ' show' : ''}`}>
+            {/* Add new dropdown items for video and text journals */}
+              <button className="dropdown-item" onClick={() => handleDropdownSelection('text')}>Text Journal</button>
+              <button className="dropdown-item" onClick={() => handleDropdownSelection('video')}>Video Journal</button>
+              <button className="dropdown-item" onClick={() => handleDropdownSelection('image')}>Image Journal</button>
+            </div>
             )}
           </div>
         </div>
-        <div className="entries">
+      <div className="entries">
           {journalEntries.map((entry, index) => (
             <div key={index} className="entry-container">
               <button className="entry" onClick={() => {/* handle select entry if needed */}}>
@@ -91,20 +139,38 @@ const JournalVideo = () => {
                 Delete
               </button>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
       </div>
       <div className="right-column">
         <p className="date">Date: {new Date().toLocaleDateString()}</p>
-        <div className="video-container">
-          <iframe
-            className="journal-video"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+        <div className="content-area">
+          {contentMode === 'text' && (
+            <div className="text-content">
+              <h2>How was your day?</h2>
+            </div>
+          )}
+          {contentMode === 'video' && (
+            <div className="video-container">
+              <iframe
+                className="journal-video"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>  
+            </div>
+          )}
+          {contentMode === 'image' && (
+            <div className="video-container">
+            <img
+              className="journal-image"
+              src="https://mediaproxy.salon.com/width/1200/https://media2.salon.com/2014/01/wolf_wall_street2.jpg"
+              alt="Journal Entry"
+            />
+          </div>
+          )}
         </div>
         <textarea
           className="textarea-journal"
