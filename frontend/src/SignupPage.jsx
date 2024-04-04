@@ -40,7 +40,7 @@ const SignupPage = () => {
         console.log("Verification Email Sent", response);
         if (response.data.verified) {
           // Assuming your backend sends a `verified` flag in response
-          navigate("/survey-page");
+          navigate("/journal");
           alert("Email verified! Welcome to Survey page.");
         } else {
           alert(
