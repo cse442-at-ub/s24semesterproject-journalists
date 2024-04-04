@@ -1,0 +1,226 @@
+/* Container for both sections */
+.container {
+  display: flex;
+  min-height: 100vh; /* full height of the viewport */
+}
+
+/* Left section for Journalist */
+.journalist-section {
+  background-color: #fff; /* white background */
+  width: 30%; /* takes up 30% of the container's width */
+  /* styles for the Journalist section content */
+}
+
+/* Right section for Survey */
+.survey-section {
+  background-color: #ffffff; /* light gray background */
+  width: 70%; /* takes up the remaining 70% of the container's width */
+  padding: 20px; /* add padding as per your design */
+  /* more styles for the Survey section */
+}
+
+/* If you want to maintain this layout only on larger screens */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .journalist-section,
+  .survey-section {
+    width: 100%; /* each section takes the full width on smaller screens */
+  }
+}
+
+/* Additional styles to ensure consistency with your previous settings */
+
+
+/* Assuming this is in JournalLayout.css or your main CSS file */
+
+.journal-layout {
+  display: flex; /* Enables flexbox layout */
+  min-height: 100vh; /* Full height of the viewport */
+  font-family: Arial, sans-serif; /* Use the desired font family */
+}
+
+.logo-section {
+  flex-basis: 30%; /* Takes up 30% of the flex container */
+  background: rgb(255, 255, 255); /* White background for the logo section */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  padding: 20px; /* Padding as needed */
+}
+
+.survey-section {
+  flex-basis: 70%; /* Takes up 70% of the flex container */
+  background: #ffffff; /* Light gray background for the survey section */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  padding: 20px; /* Padding as needed */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.survey-section .question-container {
+  background: rgb(255, 255, 255); /* White background for question container */
+  border-radius: 8px; /* Rounded corners for the container */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  padding: 20px; /* Padding inside the question container */
+  margin-bottom: 20px; /* Space after the question container */
+}
+
+/* Don't forget to add responsive behavior if necessary */
+@media (max-width: 768px) {
+  .journal-layout {
+    flex-direction: column; /* Stack the sections on smaller screens */
+  }
+  
+  .logo-section,
+  .survey-section {
+    flex-basis: auto; /* Allow sections to size automatically on smaller screens */
+    width: 100%;
+  }
+}
+
+
+/* SurveySection.css - styles to match the journaling app */
+
+/* Basic reset for any inherited styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container for the survey */
+.survey-section {
+  font-family: 'Arial', sans-serif; /* or whatever font is used in the app */
+  color: rgb(0, 0, 0);
+  background-color: #fff;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px; /* assuming the app has rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* soft shadow like in the app */
+}
+
+/* Header styles to match the app's design */
+.survey-section header {
+  font-size: 24px; /* Large text for headers */
+  color: #333; /* Matching the app's text color */
+  margin-bottom: 20px; /* Spacing below the header */
+  padding-bottom: 10px;
+  border-bottom: 2px solid #F74923; /* Red underline for headers */
+  text-align: center;
+}
+
+/* Styling form elements - labels and inputs to match the app */
+.survey-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.survey-section label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.survey-section input[type="text"],
+.survey-section input[type="email"],
+.survey-section input[type="radio"],
+.survey-section input[type="checkbox"],
+.survey-section textarea {
+  font-size: 16px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px; /* rounded borders for inputs */
+}
+
+/* Customizing radio buttons and checkboxes might require additional CSS/JavaScript */
+
+/* Styling the error message to match the app's design */
+.error-message {
+  color: red; /* Error messages in red */
+  margin-bottom: 29px;
+}
+
+/* Button styles */
+.survey-section button {
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  background-color: #F74923; /* Red background for primary buttons */
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.survey-section button:hover {
+  background-color: #bf3920; /* Darker shade on hover */
+}
+
+/* Style the Previous button to be less prominent if needed */
+.prev-button {
+  background-color: #333; /* Dark background for secondary buttons */
+}
+
+/* Ensure the Next and Submit buttons stand out */
+.next-button,
+.submit-button {
+  background-color: #F74923; /* Red background for primary actions */
+}
+
+/* Responsive adjustments to match the app's responsiveness */
+@media (max-width: 768px) {
+  .survey-section {
+    width: auto;
+    margin: 10px;
+    padding: 15px;
+  }
+  
+  .survey-section header {
+    font-size: 20px;
+  }
+  
+  /* Adapt font sizes and paddings for smaller devices */
+  .survey-section button {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+}
+
+
+.survey-section {
+  padding: 20px;
+}
+
+.survey-section label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.survey-section input[type="radio"],
+.survey-section input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.survey-section textarea {
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .survey-section {
+    padding: 10px;
+  }
+}
