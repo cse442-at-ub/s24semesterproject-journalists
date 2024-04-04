@@ -3,10 +3,15 @@ import './JournalPage.css';
 import monaLisaImage from './assets/mona_lisa.jpeg'; // Adjust the import path as needed
 import selfie_girl from './assets/girl_pics_442.jpeg';
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
   const [comment, setComment] = useState('');
+
+  const navigate = useNavigate();
+
 
   const renderMedia = () => {
     switch (type) {
@@ -64,6 +69,9 @@ const Friend = () => {
     { id: 3, type: 'video', content: 'https://www.youtube.com/embed/ehJ6oQHSkCk', description: 'Video posted on Mar 11th' },
   ]);
 
+  const history = () => {
+    navigate("/journal-video");
+  };
   const [pendingFriends, setPendingFriends] = useState([]);
   const [friendEmail, setFriendEmail] = useState('');
   const [isAddFriendDisabled, setIsAddFriendDisabled] = useState(false);
@@ -113,9 +121,8 @@ const Friend = () => {
           <h1>Journalist</h1>
         </div>
         <div className="header-buttons">
-          <a href="/journal" className="header-button">Text Entry</a>
-          <a href="/journal-image" className="header-button">Image Entry</a>
-          <a href="/journal-video" className="header-button">Video Entry</a>
+        
+        <Link to="/journal-video" className="header-button">Journal History</Link>
         </div>
         <div className="journal-entry">
           <p>Mar 10th</p>
