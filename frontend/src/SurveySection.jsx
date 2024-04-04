@@ -9,9 +9,26 @@ const SurveySection = () => {
 
   // Sample structure for survey questions
   const questions = [
-    { id: 1, text: "What's your favorite color?", type: 'single-choice', options: ['Red', 'Blue', 'Green'], required: true },
-    { id: 2, text: "Select your hobbies", type: 'multi-select', options: ['Reading', 'Gaming', 'Traveling', 'Cooking'], required: false },
-    { id: 3, text: "Any suggestions for us?", type: 'text', required: false },
+    { 
+      id: 1, 
+      text: "Pick a color", 
+      type: 'single-choice', 
+      options: ['Red', 'Blue', 'Green'], 
+      required: true 
+    },
+    { 
+      id: 2, 
+      text: "Pick an activity", 
+      type: 'single-choice', 
+      options: ['Reading', 'Gaming', 'Traveling', 'Cooking'], 
+      required: true 
+    },
+    { 
+      id: 3, 
+      text: "A little bit about yourself you want to share to the world.", 
+      type: 'text', 
+      required: false 
+    },
     // Add more questions as needed
   ];
 
@@ -95,12 +112,16 @@ const SurveySection = () => {
             ))}
           </div>
         );
-      case 'text': // For open-ended questions, render a textarea
+      case 'text': // Added case for an open-ended text question
         return (
-          <textarea
-            value={responses[question.id] || ''}
-            onChange={(e) => handleResponseChange(question.id, e.target.value)}
-          />
+          <div key={question.id}>
+            <label>{question.text}</label>
+            <textarea
+              value={responses[question.id] || ''}
+              onChange={(e) => handleResponseChange(question.id, e.target.value)}
+              placeholder="Your answer..."
+            />
+          </div>
         );
       default:
         return null; // In case of an unrecognized question type
@@ -110,25 +131,46 @@ const SurveySection = () => {
   return (
     <div className="journal-layout">
       <div className="logo-section">
-        {/* Render your logo or any other content for the left side here */}
-        <h1>Journalist</h1> {/* Example logo text */}
+        <h1>Journalist</h1>
       </div>
       <div className="survey-section">
         {questions.length > 0 && (
-          <div>
-            <div>{renderQuestion(questions[currentQuestionIndex])}</div>
-            {/* Displays error message if present for the current question */}
-            {errors[questions[currentQuestionIndex].id] && <div className="error">{errors[questions[currentQuestionIndex].id]}</div>}
-            {/* Previous and Next buttons to navigate through questions */}
-            <button disabled={currentQuestionIndex === 0} onClick={handlePrevious}>Previous</button>
-            <button onClick={handleNext} disabled={currentQuestionIndex === questions.length - 1}>Next</button>
-            {/* Submit button shown on the last question */}
-            {currentQuestionIndex === questions.length - 1 && <button onClick={handleSubmit}>Submit</button>}
-          </div>
+          <>
+            <div className="question-container">
+              <h2>{questions[currentQuestionIndex].text}</h2>
+              {renderQuestion(questions[currentQuestionIndex])}
+              {errors[questions[currentQuestionIndex].id] && (
+                <div className="error-message">{errors[questions[currentQuestionIndex].id]}</div>
+              )}
+            </div>
+            <div className="navigation-buttons">
+              <button 
+                className="prev-button" 
+                onClick={handlePrevious} 
+                disabled={currentQuestionIndex === 0}>
+                Previous
+              </button>
+              {currentQuestionIndex < questions.length - 1 && (
+                <button 
+                  className="next-button" 
+                  onClick={handleNext}>
+                  Next
+                </button>
+              )}
+              {currentQuestionIndex === questions.length - 1 && (
+                <button 
+                  className="submit-button" 
+                  onClick={handleSubmit}>
+                  Submit
+                </button>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
   );
+  
 };
 
 export default SurveySection;

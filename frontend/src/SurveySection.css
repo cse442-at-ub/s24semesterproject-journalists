@@ -13,7 +13,7 @@
 
 /* Right section for Survey */
 .survey-section {
-  background-color: #5a5a5a; /* light gray background */
+  background-color: #ffffff; /* light gray background */
   width: 70%; /* takes up the remaining 70% of the container's width */
   padding: 20px; /* add padding as per your design */
   /* more styles for the Survey section */
@@ -53,7 +53,7 @@
 
 .survey-section {
   flex-basis: 70%; /* Takes up 70% of the flex container */
-  background: #808080; /* Light gray background for the survey section */
+  background: #ffffff; /* Light gray background for the survey section */
   display: flex;
   flex-direction: column;
   justify-content: center; /* Center vertically */
@@ -62,7 +62,7 @@
 }
 
 .survey-section .question-container {
-  background: rgb(119, 119, 119); /* White background for question container */
+  background: rgb(255, 255, 255); /* White background for question container */
   border-radius: 8px; /* Rounded corners for the container */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
   padding: 20px; /* Padding inside the question container */
@@ -95,7 +95,7 @@
 /* Container for the survey */
 .survey-section {
   font-family: 'Arial', sans-serif; /* or whatever font is used in the app */
-  color: #333;
+  color: rgb(0, 0, 0);
   background-color: #fff;
   max-width: 600px;
   margin: 20px auto;
