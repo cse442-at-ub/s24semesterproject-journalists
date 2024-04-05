@@ -27,7 +27,7 @@ const SecurityPage = () => {
     <div className="security-page">
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         {/* Existing Sidebar content */}
-        <Link to="/journal">Home</Link>
+        <Link to="/Friend_Dashboard">Home</Link>
         <br></br>
         <br></br>
         <Link to="/edit-profile">Edit profile</Link>

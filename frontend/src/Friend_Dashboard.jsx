@@ -113,9 +113,19 @@ const Friend = () => {
   const navigateToSearchFriends = () => {
     navigate("/public_profile", { state: { friendEmail: friendEmail } }); // Correctly use the state
   };
+
+  const navigateToSettings = () => {
+    navigate("/security-page"); // This will navigate to the SecurityPage component
+  };
+
   return (
     <div className="dashboard">
       <div className="left-sidebar">
+      <div className="settings-link-container">
+          <div className="settings-text" onClick={navigateToSettings}>
+            Settings
+          </div>
+        </div>
         {/* Existing left-sidebar content */}
         <div className="journalist-header">
           <h1>Journalist</h1>
@@ -128,6 +138,7 @@ const Friend = () => {
           <p>Mar 10th</p>
           <p>Reflect on today's day. Today was a busy day at work...</p>
         </div>
+        
       </div>
       <div className="middle-placeholder">
         {/* Map through your content items to display them */}
