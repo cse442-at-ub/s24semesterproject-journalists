@@ -106,16 +106,34 @@ const PublicProfile = () => {
     setFriendEmail(e.target.value);
   };
 
+  // const handleAddFriend = () => {
+  //   const newFriend = emailFromSearch;
+  //   if (isValidEmail(newFriend)) {
+  //     setPendingFriends(prev => [...prev, { email: friendEmail, status: 'Pending' }]);
+  //     setFriendEmail('');
+  //     alert('Friend request sent successfully');
+  //     setPendingFriends([...pendingFriends, { email: newFriend, status: 'Pending' }]);
+  //   } else {
+  //     alert('Please enter a valid email address.');
+  //   }
+  // };
+
   const handleAddFriend = () => {
-    if (isValidEmail(friendEmail)) {
-      setPendingFriends(prev => [...prev, { email: friendEmail, status: 'Pending' }]);
-      setFriendEmail('');
+    const newFriend = emailFromSearch; // This seems to be the email from a search field, not the input
+    // If you meant to use the input field, you should use friendEmail instead of emailFromSearch.
+    
+    // Just check if there is some input, not whether it's a valid email
+    if (newFriend) {
+      setPendingFriends(prev => [...prev, { email: newFriend, status: 'Pending' }]);
       alert('Friend request sent successfully');
     } else {
-      alert('Please enter a valid email address.');
+      alert('Please enter an email address.');
     }
+  
+    // After adding a friend, you may want to clear the input field.
+    // If you are using friendEmail from the input field, uncomment the line below.
+    // setFriendEmail(''); 
   };
-
   const handleBlockClick = () => {
     setIsBlocked(!isBlocked);
     setIsAddFriendDisabled(!isAddFriendDisabled);
