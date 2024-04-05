@@ -4,9 +4,20 @@ import './Journal_video.css';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import mona_lisa from "./assets/mona_lisa.jpeg"; // Ensure this path is correct
+import wolf from "./assets/wolf.jpg"
 
 
 const JournalVideo = () => {
+  // useEffect(() => {
+  //   // Convert the imported image URL to a blob, then to a file object
+  //   fetch(wolf)
+  //     .then(res => res.blob())
+  //     .then(blob => {
+  //       const file = new File([blob], "wolf.jpg", { type: "image/jpeg" });
+  //       setImageFile(file);
+  //     });
+  // }, []);
+
   const [journalEntries, setJournalEntries] = useState([
     { date: 'Feb 1, 2024', content: 'Reflect on today’s day. Today was a busy day at work...' },
   ]);
@@ -24,23 +35,22 @@ const JournalVideo = () => {
     console.log("clicked")
   };
 
+
   // The function to save a new journal entry
   const saveEntry = async () => {
     // Assuming newTitle, newMessage, and imageFile are already defined in your component's state
-    const formData = new FormData();
-    formData.append('title', newTitle); // Use actual title from state or input
-    formData.append('body', newMessage); // Use actual message body from state or input
-    
-    // Append image file if it exists
-    if (imageFile) {
-      formData.append('image', imageFile);
-    }
+    const imageUrl = wolf; // This should be the accessible URL path to the image
   
+    const entryData = {
+      title: newTitle,
+      body: newMessage,
+      image_path: imageUrl, // Assuming your backend can handle a direct URL string
+    };
     try {
       // Make the POST request to your backend endpoint with form-data
       const response = await axios.post(
         'http://localhost/Journalist/backend/journal/create.php', // Replace with your actual endpoint
-        formData, // Use FormData for multipart/form-data type
+        entryData, // Use FormData for multipart/form-data type
         {
           headers: {
             // The content type header will be set automatically to multipart/form-data by axios when FormData is passed
@@ -176,7 +186,7 @@ const JournalVideo = () => {
             <div className="video-container">
             <img
               className="journal-image"
-              src="https://mediaproxy.salon.com/width/1200/https://media2.salon.com/2014/01/wolf_wall_street2.jpg"
+              src= {wolf}
               alt="Journal Entry"
             />
           </div>

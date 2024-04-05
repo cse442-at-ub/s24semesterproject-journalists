@@ -30,7 +30,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
   };
 
   const handleCommentButtonClick = () => {
-    onUpdate(id, comment);
+    onUpdate(id, comment);  
     setComment('');
   };
 
