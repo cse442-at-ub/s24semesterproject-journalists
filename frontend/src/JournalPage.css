@@ -177,6 +177,26 @@
   font-size: 0.9em;
   transition: background-color 0.3s ease;
 }
+.journal-entry {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 13px;
+  margin: 16px 0; /* Spacing between entries */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+.journal-entry:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px); /* Slight raise effect on hover */
+}
+.journal-entry p {
+  margin: 0; /* Remove default margin */
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  color: #666;
+}
 
 .comment-button:hover {
   background: #000000 

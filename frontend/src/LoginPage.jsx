@@ -12,10 +12,10 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
+    console.log("login...")
     axios
       .post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/login.php",
+        "http://localhost/Journalist/backend/account/login.php",
         {
           email: email,
           password: password,

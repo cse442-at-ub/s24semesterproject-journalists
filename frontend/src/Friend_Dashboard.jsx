@@ -122,7 +122,7 @@ const Friend = () => {
         </div>
         <div className="header-buttons">
         
-        <Link to="/journal-video" className="header-button">Journal History</Link>
+        <Link to="/journal-video" className="header-button">New Journal Entry</Link>
         </div>
         <div className="journal-entry">
           <p>Mar 10th</p>
