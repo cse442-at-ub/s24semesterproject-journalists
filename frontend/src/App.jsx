@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<SignupPage/>} />
+        <Route path="/" element={<PublicProfile/>} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/public_profile" element={<PublicProfile />} />
         <Route path="/Friend_Dashboard" element={<Friend_Dashboard />} />
