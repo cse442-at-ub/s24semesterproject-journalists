@@ -40,7 +40,7 @@ const SignupPage = () => {
         console.log("Verification Email Sent", response);
         if (response.data.verified) {
           // Assuming your backend sends a `verified` flag in response
-          navigate("/journal");
+          navigate("/survey-page");
           alert("Email verified! Welcome to your Journal.");
         } else {
           alert(
@@ -85,7 +85,7 @@ const SignupPage = () => {
         <br />
         <br />
         <p>
-          Already have an account? <Link to="/login-page">Login</Link>
+          Already have an account? <Link to="/survey-page">Login</Link>
         </p>
       </form>
       <div className="svg-container">

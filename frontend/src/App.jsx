@@ -9,11 +9,14 @@ import LoginPage from "./LoginPage.jsx";
 import SecurityPage from "./SecurityPage.jsx";
 import About from "./About.jsx";
 import Friend_Dashboard from "./Friend_Dashboard.jsx";
+import PublicProfile from "./public_profile.jsx"
+import SurveySection from "./SurveySection.jsx"
 
 const App = () => {
   return (
     <>
       <Routes>
+        <Route path="/" element={<LoginPage/>} />
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/public_profile" element={<PublicProfile />} />
         <Route path="/Friend_Dashboard" element={<Friend_Dashboard />} />
@@ -24,6 +27,7 @@ const App = () => {
         <Route path="/journal" element={<Journal />} />
         <Route path="/security-page" element={<SecurityPage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/survey-page" element={<SurveySection />} />
       </Routes>
     </>
   );

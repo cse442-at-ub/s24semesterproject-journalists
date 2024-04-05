@@ -12,10 +12,10 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
+    console.log("login...")
     axios
       .post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/login.php",
+        "http://localhost/Journalist/backend/account/login.php",
         {
           email: email,
           password: password,
@@ -33,7 +33,7 @@ const LoginPage = () => {
 
           localStorage.setItem("token", response.data.token);
 
-          navigate("/journal"); // Only navigate to the journal/dashboard if login is successful and no error is present
+          navigate("/Friend_Dashboard"); // Only navigate to the journal/dashboard if login is successful and no error is present
         } else {
           // Handle any errors, such as invalid credentials or email not verified
           console.log("Login failed", response.data.error);
