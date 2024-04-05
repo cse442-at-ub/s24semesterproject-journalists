@@ -14,6 +14,8 @@ const JournalVideo = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const [contentMode, setContentMode] = useState('video');
+  const [newTitle, setNewTitle] = useState('');
+  const [imageFile, setImageFile] = useState(null);
   const handleSubmit = (e) => {
     e.preventDefault();
     const newEntry = { date: new Date().toLocaleDateString(), content: newMessage };
@@ -24,36 +26,39 @@ const JournalVideo = () => {
 
   // The function to save a new journal entry
   const saveEntry = async () => {
-    // Prevent the form from submitting if you're using a form element
-    // e.preventDefault();
-  
-    // Prepare the data to send in the POST request
-    const entryData = {
-      title: "Journal Entry", // Placeholder title, change as needed
-      body: newMessage,
-    };
+    // Assuming newTitle, newMessage, and imageFile are already defined in your component's state
+    const formData = new FormData();
+    formData.append('title', newTitle); // Use actual title from state or input
+    formData.append('body', newMessage); // Use actual message body from state or input
+    
+    // Append image file if it exists
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
   
     try {
-      // Make the POST request to your backend endpoint
-      const response = await axios({
-        method: 'post',
-        url: '/backend/journal/create.php', // Replace with your actual endpoint
-        data: entryData,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Replace with actual retrieval logic
-        },
-      });
+      // Make the POST request to your backend endpoint with form-data
+      const response = await axios.post(
+        'http://localhost/Journalist/backend/journal/create.php', // Replace with your actual endpoint
+        formData, // Use FormData for multipart/form-data type
+        {
+          headers: {
+            // The content type header will be set automatically to multipart/form-data by axios when FormData is passed
+            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ensure you're getting the token correctly
+          },
+        }
+      );
   
       // Check if the POST request was successful
       if (response.status === 201) {
-        // If successful, add the new entry to the state to update the UI
-        const savedEntry = { ...entryData, date: new Date().toLocaleDateString(), id: response.data.id };
-        setJournalEntries(prevEntries => [...prevEntries, savedEntry]);
-        setNewMessage(''); // Clear the input after saving
-        setShowDropdown(false); // Optionally, hide the dropdown
+        // If successful, process response data as needed, such as updating UI or state
+        console.log('Journal entry created successfully:', response.data);
+        // Optionally, reset the form state or update the UI here
+        setNewTitle('');
+        setNewMessage('');
+        setImageFile(null);
       } else {
-        // Handle any non-200 status codes here
+        // Handle any non-201 status codes here
         console.error('Failed to save the journal entry:', response);
       }
     } catch (error) {
@@ -73,6 +78,11 @@ const JournalVideo = () => {
     navigate('/journal-image');
   };
   
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]); // Set the image file when it's selected
+    }
+  };
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
@@ -84,7 +94,7 @@ const JournalVideo = () => {
       // const response = await axios.get({"/backend/journal/read.php"
       const response = await axios({
         method: 'delete',
-        url: '/backend/journal/delete.php',
+        url: 'http://localhost/Journalist/backend/journal/delete.php',
         data: {
           entry_id: entryId,
         },
@@ -178,7 +188,7 @@ const JournalVideo = () => {
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Reflect on today's day..."
         />
-        <button className="button orange save-button" onClick={handleSubmit}>Save</button>
+        <button className="button orange save-button" onClick={saveEntry}>Save</button>
       </div>
     </div>
   );
