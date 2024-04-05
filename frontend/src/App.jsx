@@ -10,12 +10,10 @@ import SecurityPage from "./SecurityPage.jsx";
 import About from "./About.jsx";
 import Friend_Dashboard from "./Friend_Dashboard.jsx";
 
-
 const App = () => {
   return (
     <>
       <Routes>
-
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/public_profile" element={<PublicProfile />} />
         <Route path="/Friend_Dashboard" element={<Friend_Dashboard />} />

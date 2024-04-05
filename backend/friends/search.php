@@ -4,6 +4,10 @@ require_once '../config/config.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Methods: GET');
+// Security
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('X-XSS-Protection: 1; mode=block');
 
 // Authenticate the request first (ensure authenticateRequest function is defined)
 $user_id = authenticateRequest($pdo);
