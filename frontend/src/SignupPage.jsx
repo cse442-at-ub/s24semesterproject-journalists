@@ -85,7 +85,7 @@ const SignupPage = () => {
         <br />
         <br />
         <p>
-          Already have an account? <Link to="/survey-page">Login</Link>
+          Already have an account? <Link to="/login-page">Login</Link>
         </p>
       </form>
       <div className="svg-container">

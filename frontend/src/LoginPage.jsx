@@ -12,28 +12,32 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("login...")
+    console.log("login...");
     axios
       .post(
-        "http://localhost/Journalist/backend/account/login.php",
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/login.php",
         {
           email: email,
           password: password,
         }
       )
       .then((response) => {
-        // Assuming the backend response includes a user_id and token when login is successful,
-        // and includes an error field when there is a problem (invalid credentials, email not verified)
+        // Check for a successful response including a user_id and token,
+        // and no reported errors
         if (
           response.data.user_id &&
           response.data.token &&
           !response.data.error
         ) {
           console.log("Login successful", response.data);
-
           localStorage.setItem("token", response.data.token);
 
-          navigate("/Friend_Dashboard"); // Only navigate to the journal/dashboard if login is successful and no error is present
+          // Use the first_login flag from the response to determine navigation
+          if (response.data.first_login) {
+            navigate("/survey-page"); // Navigate to the survey page on first login
+          } else {
+            navigate("/Friend_Dashboard"); // Navigate to the dashboard on subsequent logins
+          }
         } else {
           // Handle any errors, such as invalid credentials or email not verified
           console.log("Login failed", response.data.error);

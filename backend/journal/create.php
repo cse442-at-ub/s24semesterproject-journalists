@@ -2,16 +2,6 @@
 require_once '../config/config.php';
 
 // Enabling CORS for local development
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json; charset=UTF-8');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-// Security
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: SAMEORIGIN');
-header('X-XSS-Protection: 1; mode=block');
-
-
 // Decode JSON data for non-file fields
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -56,7 +46,13 @@ $imagePath = ''; // Default image path
 
 // Check if an image file is part of the request
 if (isset($_FILES['image'])) {
-    $targetDirectory = "/path/to/your/uploads/directory/"; // Use a path outside of the webroot if possible
+    $currentDirectory = __DIR__;
+    $targetDirectory = __DIR__ . '/../uploads/';
+
+    if (!file_exists($targetDirectory)) {
+        mkdir($targetDirectory, 0755, true);
+    }
+
 
     // Validate the image (check file type, size, etc.)
     $imageFileType = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
@@ -70,16 +66,28 @@ if (isset($_FILES['image'])) {
 
         // Attempt to move the uploaded file to the target directory
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-            // Here, convert the file system path to a URL or relative path to be used in your application
-            $imagePath = 'uploads/' . $uniqueName;
+            // Successfully moved the file
+            $imagePath = 'backend/uploads/' . $uniqueName;
+            // Include the current and target directories in the success response
+            http_response_code(201);
+            echo json_encode([
+                "message" => "Journal entry created successfully with image",
+                "current_directory" => $currentDirectory,
+                "target_directory" => $targetDirectory,
+                "target_path" => $targetFile,
+                "image_path" => $imagePath
+            ]);
         } else {
+            // Failed to move the file, include the current and target directories in the error response
             http_response_code(500);
-            echo json_encode(["error" => "Internal Server Error - Failed to upload image"]);
-            exit;
+            echo json_encode([
+                "error" => "Internal Server Error - Failed to upload image",
+                "current_directory" => $currentDirectory,
+                "target_directory" => $targetDirectory,
+                "target_path" => $targetFile,
+                "php_error" => $_FILES['image']['error']
+            ]);
         }
-    } else {
-        http_response_code(400);
-        echo json_encode(["error" => "Invalid file type or size"]);
         exit;
     }
 }

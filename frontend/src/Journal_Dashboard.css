@@ -200,6 +200,12 @@
     height: 150px;
   }
 
+  .error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
   button, input[type="text"], .textarea_journal {
     font-size: 1rem;
     padding: 12px;
