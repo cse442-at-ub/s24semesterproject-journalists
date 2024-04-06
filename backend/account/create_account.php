@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->bindParam(":expires_at", $expires_at, PDO::PARAM_STR);
                     if ($stmt->execute()) {
                         // Send verification email
-                        $verificationLink = "http://localhost/React-Guestbook/backend/account/verify.php?token=" . $token;
+                        $verificationLink = "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/verify.php?token=" . $token;
                         $subject = "Verify Your Email for Journalist";
                         $headers = "From: no-reply@journalist.com\r\n";
                         $headers .= "Reply-To: no-reply@journalist.com\r\n";

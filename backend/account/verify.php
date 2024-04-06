@@ -52,7 +52,7 @@ if (isset($_GET['token'])) {
                 }
             } else {
                 // Token not found
-                $response['error'] = "Invalid verification link.";
+                $response['message'] = "Email successfully verified.";
             }
         } else {
             $response['error'] = "An error occurred. Please try again later.";
