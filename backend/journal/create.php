@@ -1,7 +1,7 @@
 <?php
 require_once '../config/config.php';
 
-
+// Enabling CORS for local development
 // Decode JSON data for non-file fields
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -46,15 +46,48 @@ $imagePath = ''; // Default image path
 
 // Check if an image file is part of the request
 if (isset($_FILES['image'])) {
-    $targetDirectory = "C:\\xampp\\htdocs\\React-Guestbook\\backend\\uploads\\"; // Ensure this directory exists and is writable
-    $targetFile = $targetDirectory . basename($_FILES['image']['name']);
+    $currentDirectory = __DIR__;
+    $targetDirectory = __DIR__ . '/../uploads/';
 
-    // Attempt to move the uploaded file to the target directory
-    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-        $imagePath = $targetFile; // Here, you might want to adjust this path or convert it to a URL
-    } else {
-        http_response_code(500);
-        echo json_encode(["error" => "Internal Server Error - Failed to upload image"]);
+    if (!file_exists($targetDirectory)) {
+        mkdir($targetDirectory, 0755, true);
+    }
+
+
+    // Validate the image (check file type, size, etc.)
+    $imageFileType = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    $maxSize = 5000000; // 5 MB
+
+    if (in_array($imageFileType, $allowedTypes) && $_FILES['image']['size'] <= $maxSize) {
+        // Create a unique filename for the image to prevent overwrites and potential directory traversal issues
+        $uniqueName = md5(uniqid(rand(), true)) . '.' . $imageFileType;
+        $targetFile = $targetDirectory . $uniqueName;
+
+        // Attempt to move the uploaded file to the target directory
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+            // Successfully moved the file
+            $imagePath = 'backend/uploads/' . $uniqueName;
+            // Include the current and target directories in the success response
+            http_response_code(201);
+            echo json_encode([
+                "message" => "Journal entry created successfully with image",
+                "current_directory" => $currentDirectory,
+                "target_directory" => $targetDirectory,
+                "target_path" => $targetFile,
+                "image_path" => $imagePath
+            ]);
+        } else {
+            // Failed to move the file, include the current and target directories in the error response
+            http_response_code(500);
+            echo json_encode([
+                "error" => "Internal Server Error - Failed to upload image",
+                "current_directory" => $currentDirectory,
+                "target_directory" => $targetDirectory,
+                "target_path" => $targetFile,
+                "php_error" => $_FILES['image']['error']
+            ]);
+        }
         exit;
     }
 }

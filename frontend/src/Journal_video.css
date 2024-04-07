@@ -12,14 +12,15 @@
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background: #e5e5e5;
+    background: #fff; /* Updated to white */
   }
   
   .journal-dashboard {
     display: flex;
-    max-width: 900px;
-    margin: 20px auto;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100vw; /* Set width to full viewport width */
+    height: 100vh; /* Set height to full viewport height */
+    margin: 0 auto; /* Remove top and bottom margins */
+    box-shadow: none; /* Optionally remove the shadow if you want to fill the page */
   }
   
   .left-column {
@@ -41,14 +42,47 @@
     color: #333;
   }
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   .button.orange {
-    background-color: #ff4500;
+    background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%);
     color: #fff;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
     text-transform: uppercase;
+    transition: background 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+  }
+  
+  .button.orange:hover {
+    background: linear-gradient(90deg, #e63e00 0%, #7648cc 100%); /* Darken the gradient */
+    transform: scale(1.05); /* Slightly increase the button size */
   }
   
   .entries button {
@@ -115,9 +149,81 @@
   
   .button.orange:last-child {
     align-self: flex-end;
-    padding: 10px 20px;
+    padding: 10px px;
   }
   
+  .delete-button {
+    position: absolute; /* Absolute position to place it inside the card */
+    bottom: 5px; /* Adjust as needed to position the button inside the card */
+    right: 15px; /* Adjust as needed to position the button inside the card */
+    background-color: #ff4500; /* Orange color */
+    color: rgb(8, 8, 8);
+    border: none;
+    padding: 5px; /* Smaller padding to make the button smaller */
+    cursor: pointer;
+    border-radius: 50%; /* Circular button */
+    width: 20px; /* Small width for the button */
+    height: 20px; /* Small height for the button */
+    font-size: 12px; /* Smaller font size for the text inside the button */
+    line-height: 20px; /* Center the text vertically */
+    text-align: center; /* Center the text horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Optional: Adds a shadow for better visibility */
+  }
+  /* ... other styles ... */
+
+.entries .entry-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.entries {
+  overflow-y: auto; /* Makes the div scrollable */
+  max-height: calc(100vh - 160px); /* Adjust the max-height value as needed to fit the screen */
+  margin-bottom: 20px;
+}
+
+.entries .entry {
+  background-color: #f9f9f9;
+  border: none;
+  padding: 15px;
+  text-align: left;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-grow: 1; /* Take up available space */
+  margin-right: 10px; /* Add some space between entry and delete button */
+}
+
+.entries .delete-button {
+  background-color: #ff4500; /* Orange color */
+  color: white;
+  border: none;
+  padding: 5px 10px; /* Smaller padding to make the button smaller */
+  cursor: pointer;
+  border-radius: 5px; /* Rounded corners */
+  font-size: 0.8em; /* Smaller font size */
+  height: auto; /* Auto height to fit content */
+  line-height: normal; /* Normal line-height */
+  width: auto; /* Auto width to fit content */
+  /* Remove properties related to absolute positioning */
+}
+
+/* ... other styles ... */
+
+  /* Adjusts padding inside the button to zero to make it smaller */
+ 
+  
+  .entry-container {
+    display: flex;
+    position: relative;
+    align-items: center; /* Aligns button with text */
+    justify-content: space-between; /* Space between entry and delete button */
+  }
+
   .dropdown-content {
     display: none;
     position: absolute;

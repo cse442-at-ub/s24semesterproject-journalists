@@ -2,6 +2,12 @@
 require_once '../config/config.php'; // Make sure this path is correct
 
 
+// Enabling CORS for local development
+header('Access-Control-Allow-Origin: https://www-student.cse.buffalo.edu');
+// Security
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('X-XSS-Protection: 1; mode=block');
 // Initialize variables
 $email = $password = "";
 $response = [];

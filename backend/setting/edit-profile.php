@@ -1,6 +1,12 @@
 <?php
 require_once '../config/config.php';
 
+// Enabling CORS for local development
+header('Access-Control-Allow-Origin: https://www-student.cse.buffalo.edu');
+// Security
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('X-XSS-Protection: 1; mode=block');
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);

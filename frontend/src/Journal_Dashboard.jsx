@@ -3,31 +3,70 @@ import { Link } from "react-router-dom";
 import "./Journal_Dashboard.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import JournalVideo from "./Journal_video";
 
 const Journal_Dashboard = () => {
   const [showPrompts, setShowPrompts] = useState(false);
   const [journalEntries, setJournalEntries] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [newTitle, setNewTitle] = useState("");
+  const [errorMessages, setErrorMessages] = useState({
+    title: "",
+    message: "",
+  });
   const [imageFile, setImageFile] = useState(null);
-
-  // State for selected entry.
+  const [imagePreviewUrl, setImagePreviewUrl] = useState("");
   const [selectedEntry, setSelectedEntry] = useState(null);
 
-  // Fetch entries periodically.
+  const navigate = useNavigate();
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchEntries();
-    }, 5000); // polls every 5 seconds
-
-    // Clean up the interval on component unmount
+    }, 5000);
     return () => clearInterval(intervalId);
   }, []);
 
-  // Function to handle selecting an entry
+  useEffect(() => {
+    fetchEntries();
+  }, []);
+
   const handleSelectEntry = (entry) => {
     setSelectedEntry(entry);
+  };
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+      setImageFile(e.target.files[0]);
+    }
+  };
+
+  const handleDeleteEntry = async (entryId) => {
+    try {
+      const response = await axios.post(
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/delete.php",
+        JSON.stringify({ entry_id: entryId }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        // Assuming status 200 means delete was successful
+        // Now filter out the deleted entry from the journal entries
+        setJournalEntries(
+          journalEntries.filter((entry) => entry.id !== entryId)
+        );
+      }
+    } catch (error) {
+      console.error("Error deleting journal entry:", error);
+    }
   };
 
   const fetchEntries = async () => {
@@ -41,19 +80,36 @@ const Journal_Dashboard = () => {
         }
       );
       setJournalEntries(response.data);
-      console.log("entries fetched");
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching journal entries:", error);
     }
   };
 
-  useEffect(() => {
-    fetchEntries();
-  }, []);
+  const validateForm = () => {
+    let errors = {};
+    let formIsValid = true;
+
+    if (!newTitle.trim()) {
+      errors.title = "Title cannot be blank.";
+      formIsValid = false;
+    }
+
+    if (!newMessage.trim()) {
+      errors.message = "Message cannot be blank.";
+      formIsValid = false;
+    }
+
+    setErrorMessages(errors);
+    return formIsValid;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const formData = new FormData();
     formData.append("title", newTitle);
     formData.append("body", newMessage);
@@ -67,23 +123,22 @@ const Journal_Dashboard = () => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            // "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
       if (response.status === 201) {
-        console.log("entry added to database");
         setNewMessage("");
         setNewTitle("");
         setImageFile(null);
-        await fetchEntries(); // Refresh the entries after a successful submission
+        setImagePreviewUrl("");
+        await fetchEntries();
       }
     } catch (error) {
       console.error("Error submitting journal entry:", error);
     }
   };
-  const navigate = useNavigate();
 
   const JournalVideo = () => {
     navigate("/journal-video");
@@ -93,10 +148,11 @@ const Journal_Dashboard = () => {
   };
 
   const handleNewEntry = () => {
-    // Reset the form for a new entry
     setNewMessage("");
     setNewTitle("");
     setImageFile(null);
+    setImagePreviewUrl("");
+    setSelectedEntry(null); // Add this line to reset the selected entry
   };
 
   const togglePrompts = () => {
@@ -132,10 +188,22 @@ const Journal_Dashboard = () => {
                 className={`journal-entry ${
                   selectedEntry && selectedEntry.id === entry.id ? "active" : ""
                 }`}
-                onClick={() => setSelectedEntry(entry)}
               >
-                <p>{entry.date}</p>
-                <p>{entry.title}</p> {/* Assuming each entry has a title */}
+                <div onClick={() => handleSelectEntry(entry)}>
+                  <p className="entry-date">{entry.date}</p>
+                  <h3 className="entry-title">{entry.title}</h3>
+                  <p className="entry-snippet">
+                    {entry.body.length > 100
+                      ? `${entry.body.substring(0, 100)}...`
+                      : entry.body}
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleDeleteEntry(entry.id)}
+                  className="delete-button"
+                >
+                  Delete
+                </button>
               </div>
             ))}
           </div>
@@ -147,43 +215,68 @@ const Journal_Dashboard = () => {
         </div>
         {selectedEntry ? (
           <div>
+            {selectedEntry.image_path && (
+              <img
+                src={`/backend/${selectedEntry.image_path}`}
+                alt="Journal entry"
+                style={{ maxWidth: "100%", maxHeight: "300px" }}
+              />
+            )}
             <h1 className="title-journal">{selectedEntry.title}</h1>
             <p className="textarea_journal">{selectedEntry.body}</p>
-            {/* If there is an image with the entry, display it */}
-            {selectedEntry.image && (
-              <img src={selectedEntry.image_path} alt="Journal entry" />
-            )}
-            {/* You might want to have a button to clear the selection and show the entry form again */}
-            <button onClick={() => setSelectedEntry(null)}>
-              Write New Entry
-            </button>
+            <button onClick={handleNewEntry}>Write New Entry</button>
           </div>
         ) : (
           <div>
+            {imagePreviewUrl && (
+              <img
+                src={imagePreviewUrl}
+                alt="Preview"
+                style={{ maxWidth: "100%", maxHeight: "300px" }}
+              />
+            )}
             <h1 className="title-journal">Reflect on today's day</h1>
             <input
               type="text"
               value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
+              onChange={(e) => {
+                setNewTitle(e.target.value);
+                setErrorMessages((prevErrors) => ({
+                  ...prevErrors,
+                  title: "",
+                }));
+              }}
               placeholder="Title of your journal entry"
-              required
             />
+            {errorMessages.title && (
+              <div className="error-message">{errorMessages.title}</div>
+            )}
+
             <textarea
               className="textarea_journal"
               value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
+              onChange={(e) => {
+                setNewMessage(e.target.value);
+                setErrorMessages((prevErrors) => ({
+                  ...prevErrors,
+                  message: "",
+                }));
+              }}
               placeholder="Reflect on today's day..."
-              required
             />
-            <input
+            {errorMessages.message && (
+              <div className="error-message">{errorMessages.message}</div>
+            )}
+
+            {/* <input
               type="file"
-              onChange={(e) => setImageFile(e.target.files[0])}
-            />
+              accept=".png, .jpg, .jpeg"
+              onChange={handleImageChange}
+            /> */}
             <button onClick={handleSubmit}>Submit Entry</button>
           </div>
         )}
         <div className="settings-icon">
-          {" "}
           <Link to="/edit-profile">⚙</Link>
         </div>
       </div>

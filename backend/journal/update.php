@@ -1,7 +1,12 @@
 <?php
 require_once '../config/config.php';
 
-
+// Enabling CORS for local development
+header('Access-Control-Allow-Origin: https://www-student.cse.buffalo.edu');
+// Security
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('X-XSS-Protection: 1; mode=block');
 
 // Authentication and user verification (extracted user_id from token)
 $headers = getallheaders();

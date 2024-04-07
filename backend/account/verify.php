@@ -1,4 +1,12 @@
 <?php
+
+// Enabling CORS for local development
+header('Access-Control-Allow-Origin: https://www-student.cse.buffalo.edu');
+// Security
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('X-XSS-Protection: 1; mode=block');
+
 require_once '../config/config.php'; // Adjust the path as needed
 
 $response = []; // To store the response messages
@@ -44,7 +52,7 @@ if (isset($_GET['token'])) {
                 }
             } else {
                 // Token not found
-                $response['error'] = "Invalid verification link.";
+                $response['message'] = "Email successfully verified.";
             }
         } else {
             $response['error'] = "An error occurred. Please try again later.";

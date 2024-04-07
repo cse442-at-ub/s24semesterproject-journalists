@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./EditProfile.css"; // Ensure this path matches your file structure
+import "./EditProfile.css";
 import { Link } from "react-router-dom";
 
 function EditProfile() {
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
-    email: "",
     address: "",
     contactNumber: "",
     city: "",
@@ -15,6 +14,42 @@ function EditProfile() {
   });
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .post(
+          "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/setting/retrieve-profile.php",
+          {}, // Since we're using a Bearer token, no need for a body
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log("Profile data retrieved!", response.data);
+          // Map the snake_case properties from the backend to camelCase for the state
+          const mappedData = {
+            firstName: response.data.first_name || "",
+            lastName: response.data.last_name || "",
+            address: response.data.address || "",
+            city: response.data.city || "",
+            state: response.data.state || "",
+            contactNumber: response.data.contact_number || "", // Assuming your backend sends this as 'contact_number'
+          };
+          setProfile((prevState) => ({
+            ...prevState,
+            ...mappedData,
+          }));
+        })
+        .catch((error) => {
+          console.error("Error retrieving profile data:", error);
+        });
+    }
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -28,11 +63,9 @@ function EditProfile() {
     }));
   };
 
-  // This function will be called when the form is submitted
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Get the token from local storage or state management where it is stored
     console.log(localStorage.getItem("token"));
     axios
       .post(
@@ -47,11 +80,9 @@ function EditProfile() {
       )
       .then((response) => {
         console.log("Profile updated!", response.data);
-        // Handle the success case - maybe redirect or show a success message
       })
       .catch((error) => {
         console.error("Error updating profile:", error);
-        // Handle the error case - maybe show an error message
       });
   };
 
@@ -116,18 +147,6 @@ function EditProfile() {
                 placeholder="Enter your last name"
               />
             </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={profile.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-            />
           </div>
 
           <div className="form-group">
