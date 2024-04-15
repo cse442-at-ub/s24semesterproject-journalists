@@ -108,7 +108,7 @@ const Friend = () => {
 
     try {
       const response = await axios.get(
-        `https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/search.php?query=${friendEmail}`,
+        `/backend/friends/search.php?query=${friendEmail}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the authorization header
