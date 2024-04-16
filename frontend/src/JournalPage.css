@@ -260,8 +260,7 @@
 
   .pending-request {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* This will align the email to the left and buttons to the right */
     padding: 8px;
     border-bottom: 1px solid #ccc;
   }
@@ -270,9 +269,20 @@
   margin-right: auto; /* This will push the buttons to the right */
 }
 
+.button-container {
+  display: flex;
+}
+
 .pending-request .button-container {
   display: flex;
   gap: 5px; /* This creates a small space between the buttons */
+}
+
+.accept-button,
+.decline-button {
+  padding: 5px 10px; /* Adjust the padding as needed */
+  margin-left: 5px; /* This will put a little space between the buttons */
+  /* ... other styles remain unchanged */
 }
   
   .friend-button {
@@ -291,8 +301,6 @@
     background-color: #28a745; /* Green background */
     color: white;
     border: none;
-    padding: 5px 10px;
-    margin-right: 5px; /* Space between the buttons */
     cursor: pointer;
     border-radius: 4px;
     font-size: 0.8em;
@@ -307,7 +315,6 @@
     background-color: #dc3545; /* Red background */
     color: white;
     border: none;
-    padding: 5px 10px;
     cursor: pointer;
     border-radius: 4px;
     font-size: 0.8em;

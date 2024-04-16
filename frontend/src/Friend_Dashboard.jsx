@@ -451,8 +451,10 @@ const fetchFriendsList = async () => {
   {pendingRequests.map((request, index) => (
     <div key={index} className="pending-request">
       {request.email} ({request.status})
-      <button onClick={() => handleAcceptFriendRequest(request.id)} className="accept-button">Yes</button>
-      <button onClick={() => handleDeclineFriendRequest(request.id)} className="decline-button">No</button>
+      <div className="button-container">
+    <button onClick={() => handleAcceptFriendRequest(request.id)} className="accept-button">Yes</button>
+    <button onClick={() => handleDeclineFriendRequest(request.id)} className="decline-button">No</button>
+  </div>
     </div>
   ))}
 </div>
