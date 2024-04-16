@@ -260,12 +260,20 @@
 
   .pending-request {
     display: flex;
-    justify-content: space-between; /* This will push the button to the right */
-    cursor: pointer; /* Indicate the item is clickable */
-    padding: 8px; /* Padding for each name */
-    border-bottom: 1px solid #ccc; /* Separator between names */
-    transition: background-color 0.3s; /* Smooth transition for hover */
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
   }
+
+.pending-request .friend-email {
+  margin-right: auto; /* This will push the buttons to the right */
+}
+
+.pending-request .button-container {
+  display: flex;
+  gap: 5px; /* This creates a small space between the buttons */
+}
   
   .friend-button {
     background-color: #000000; /* Black background */
@@ -278,6 +286,38 @@
     margin-left: 10px; /* Add space between the email and the button if needed */
     transition: background-color 0.3s ease;
   }
+
+  .accept-button {
+    background-color: #28a745; /* Green background */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px; /* Space between the buttons */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .accept-button:hover {
+    background-color: #218838; /* Darker green on hover */
+  }
+  
+  .decline-button {
+    background-color: #dc3545; /* Red background */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .decline-button:hover {
+    background-color: #c82333; /* Darker red on hover */
+  }
+
   
   .friend-button:hover {
     background: linear-gradient(90deg, #D96CFF 0%, #254ACC 100%); /* Darker shade on hover for interaction feedback */
