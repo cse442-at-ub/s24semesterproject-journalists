@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
   const [comment, setComment] = useState("");
@@ -31,6 +32,24 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
     }
   };
 
+  const [likes, setLikes] = useState(0);
+  const [likers, setLikers] = useState([]);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const toggleLike = () => {
+    setIsLiked(!isLiked); // Toggle the like state
+    setLikes(isLiked ? likes - 1 : likes + 1); // Adjust the likes count
+    if (hasLiked) {
+      setLikes(likes - 1);
+      setLikers(likers.filter((liker) => liker !== "currentUser")); // Replace "currentUser" with actual user ID or username
+    } else {
+      setLikes(likes + 1);
+      setLikers([...likers, "currentUser"]); // Replace "currentUser" with actual user ID or username
+    }
+    setHasLiked(!hasLiked);
+  };
+
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
@@ -38,6 +57,12 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
   const handleCommentButtonClick = () => {
     onUpdate(id, comment);
     setComment("");
+  };
+
+  const showLikers = () => {
+    // Logic to display the list of likers, e.g., open a modal or tooltip
+    // This could be a state change that triggers a modal to open
+    console.log(likers); // Placeholder to show likers
   };
 
   return (
@@ -57,6 +82,15 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
         <button onClick={handleCommentButtonClick} className="comment-button">
           Comment
         </button>
+        <div className="like-section">
+          <button onClick={toggleLike} className="like-button">
+            {isLiked ? '❤️' : '🤍'} {/* Red heart for liked, white heart for not liked */}
+          </button>
+          <span className="likes-count" onClick={showLikers}>
+            {likes} likes
+          </span>
+            {/* You can create a modal or tooltip to show likers when likes-count is clicked */}
+          </div>
       </div>
     </div>
   );

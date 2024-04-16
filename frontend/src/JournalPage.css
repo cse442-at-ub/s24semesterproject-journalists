@@ -201,6 +201,46 @@
 .comment-button:hover {
   background: #000000 
 }
+
+.comment-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.likes-container {
+  display: flex;
+  align-items: center;
+}
+
+.likes-section {
+  display: flex;
+  align-items: center;
+  padding: 8px; /* Adjust this value as needed for padding */
+}
+
+.like-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px; /* Adjust the size of the hearts */
+  line-height: 24px; /* Adjust the line height to match the size of the hearts */
+  padding: 0;
+  margin-right: 8px;
+}
+
+.like-button.liked {
+  color: blue; /* Change this to the color when liked, e.g., red for a heart */
+}
+
+.likes-count {
+  margin-left: 8px; /* Space between the heart icon and the number of likes */
+  font-size: 0.9em;
+  color: #262626;
+  cursor: pointer; /* To indicate the likes count is clickable */
+  user-select: none; /* Prevent text selection */
+}
+
 /* Add this to your JournalPage.css file */
 .right-sidebar {
     /* Existing styles... */
