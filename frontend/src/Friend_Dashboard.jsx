@@ -100,7 +100,9 @@ const Friend = () => {
       description: "Video posted on Mar 11th",
     },
   ]);
-
+  const navigateToFriendProfile = (friendId) => {
+    navigate(`/friend-profile/${friendId}`); // Adjust the path as needed
+  };
   // const handleAcceptFriendRequest = async (requestID) => {
   //   try {
   //     const request = pendingRequests.find(req => req.id === requestID);
@@ -437,6 +439,10 @@ const fetchFriendsList = async () => {
           {friendsList.map((friend) => (
             <div key={friend.id} className="friend-name">
               {friend.name}
+              {/* Button to navigate to the friend's profile */}
+              <button onClick={() => navigateToFriendProfile(friend.id)} className="view-profile-button">
+                View Profile
+              </button>
             </div>
           ))}
         </div>
