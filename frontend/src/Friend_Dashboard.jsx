@@ -226,11 +226,11 @@ const Friend = () => {
         <button onClick={handleSearchFriends} className="add-friend-button">
           Search Friend
         </button>
-        <div className="search-results-container">
+        <div className="friends-list-container">
           <h4>Search Results</h4>
           {searchResults.length > 0 ? (
             searchResults.map((result) => (
-              <div key={result.id} className="search-result">
+              <div key={result.id} className="friend-name">
                 {result.email}
               </div>
             ))
