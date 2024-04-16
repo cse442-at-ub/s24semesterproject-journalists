@@ -138,9 +138,10 @@ const Friend = () => {
   // };
 
   const handleAcceptFriendRequest = async (requestID) => {
-    try {
+
       const request = pendingRequests.find(req => req.id === requestID);
       if (!request) {
+        alert('Friend request not found.');
         throw new Error('Request not found.');
       }
   
@@ -148,38 +149,38 @@ const Friend = () => {
       setPendingRequests(prev => prev.filter(req => req.id !== requestID));
       setFriendsList(prev => [...prev, { id: request.id, name: request.email }]);
   
-      // Send the accept request to the backend
-      const response = await axios.post('/backend/friends/request.php', 
-        JSON.stringify({
-          action: 'accept',
-          request_id: requestID
-        }), 
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          },
+      try {
+        // Send the accept request to the backend
+        const response = await axios.post('/backend/friends/request.php',
+            JSON.stringify({
+                action: 'accept',
+                request_id: requestID
+            }),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                },
+            }
+        );
+
+        if (response.data.message === "Friend request accepted successfully") {
+            // Assuming the backend will send the friend's user id and email
+            const newFriend = { id: request.user_id, name: request.email };
+            setFriendsList(prev => [...prev, newFriend]);
+        } else {
+            // If not successful, show an error message
+            alert(response.data.error || "Failed to accept friend request.");
+            // Revert the optimistic UI update
+            setPendingRequests(prev => [request, ...prev]);
         }
-      );
-  
-      if (response.data.message !== "Friend request accepted successfully") {
-        // If not successful, revert the optimistic update
-        setFriendsList(prev => prev.filter(friend => friend.id !== request.id));
-        setPendingRequests(prev => [request, ...prev]);
-        alert(response.data.error || "Failed to accept friend request.");
-      } else {
-        // Refresh the friends list from the backend
-        await fetchFriendsList();
-      }
     } catch (error) {
-      console.error("Error accepting friend request:", error);
-      alert("An error occurred while accepting the friend request.");
-      // Revert state updates if an error occurs
-      setFriendsList(prev => prev.filter(friend => friend.id !== request.id));
-      setPendingRequests(prev => [request, ...prev]);
+        console.error("Error accepting friend request:", error);
+        alert("An error occurred while accepting the friend request.");
+        // Revert the optimistic UI update
+        setPendingRequests(prev => [request, ...prev]);
     }
-  };
-  
+};
 
   // Function to decline a friend request
   const handleDeclineFriendRequest = async (requestID) => {

@@ -532,27 +532,27 @@
     margin-bottom: 20px; /* Ensure spacing around dropdown button */
   }
 
-  .settings-link-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%; /* Ensure the container spans the width of the sidebar */
-  }
+
   
   .settings-text {
-    position: absolute; /* or fixed, depending on layout */
-    bottom: 0; /* Adjust as needed */
-    left: 0; /* Adjust as needed */
     cursor: pointer;
-    padding: 5px;
-    font-size: 16px; /* Adjust the font size as you see fit */
-    color: #000000; /* e.g., #4A90E2 for a blue text */
-    width: 100%;
-    /* Add more styling as needed */
+    font-size: 1em; /* Adjust the font size as needed */
+    color: #333; /* A darker color for better readability */
+    text-align: center; /* Center the text inside the container */
+    width: 100%; /* Ensure the text spans the width of the container */
+    padding: 10px 0; /* Padding to add space around the text */
+    border-top: 1px solid #ccc; /* A line to separate the settings from the content above */
+  }
+
+  .settings-text:hover {
+    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.9); /* A light grey on hover */
+    transition: background-color 0.3s; /* Smooth transition for the background color */
   }
   
 /* Mobile responsiveness */
 @media (max-width: 768px) {
+
   .dashboard {
     flex-direction: column;
   }
@@ -569,6 +569,8 @@
     height: 100%;
     display: block;
   }
+
+
 }
 
 
