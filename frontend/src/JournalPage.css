@@ -257,6 +257,15 @@
     border-bottom: 1px solid #ccc; /* Separator between names */
     transition: background-color 0.3s; /* Smooth transition for hover */
   }
+
+  .pending-request {
+    display: flex;
+    justify-content: space-between; /* This will push the button to the right */
+    cursor: pointer; /* Indicate the item is clickable */
+    padding: 8px; /* Padding for each name */
+    border-bottom: 1px solid #ccc; /* Separator between names */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+  }
   
   .friend-button {
     background-color: #000000; /* Black background */
@@ -271,7 +280,7 @@
   }
   
   .friend-button:hover {
-    background-color: #00c32e; /* Darker shade on hover for interaction feedback */
+    background: linear-gradient(90deg, #D96CFF 0%, #254ACC 100%); /* Darker shade on hover for interaction feedback */
   }
   .friend-name:hover {
     background-color: #f2f2f2; /* Highlight on hover */
