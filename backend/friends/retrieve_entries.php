@@ -21,18 +21,18 @@ if (!$requested_user_id) {
     exit;
 }
 
-$stmtProfile = $pdo->prepare("SELECT user_id, first_name, last_name, address, city, state, contact_number FROM profiles WHERE user_id = :user_id");
-$stmtProfile->execute(['user_id' => $requested_user_id]);
-$profile = $stmtProfile->fetch(PDO::FETCH_ASSOC);
+$stmtJournalEntries = $pdo->prepare("SELECT id, title, body, created_at, updated_at, image_path FROM journal_entries WHERE user_id = :user_id ORDER BY created_at DESC");
+$stmtJournalEntries->execute(['user_id' => $requested_user_id]);
+$journalEntries = $stmtJournalEntries->fetchAll(PDO::FETCH_ASSOC);
 
-if (!$profile) {
+if (!$journalEntries) {
     http_response_code(404);
-    echo json_encode(["error" => "Profile not found"]);
+    echo json_encode(["message" => "This user has no journal entries"]);
     exit;
 }
 
 http_response_code(200);
-echo json_encode(['profile' => $profile]);
+echo json_encode(['journalEntries' => $journalEntries]);
 
 function authenticateRequest($pdo)
 {
