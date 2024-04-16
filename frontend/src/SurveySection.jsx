@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './SurveySection.css'; // Importing CSS for styling the survey components
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 // Main functional component for the survey section
 const SurveySection = () => {
@@ -63,17 +64,46 @@ const SurveySection = () => {
   };
 
   // Handles survey submission (placeholder for actual submission logic)
-  const handleSubmit = () => {
+ // Handles survey submission
+const handleSubmit = async () => {
+  event.preventDefault();
 
-    event.preventDefault();
+  // Array to hold all the Axios promises for submitting each question-answer pair
+  const submitPromises = [];
 
-    // Perform your submit actions...
+  // Token for Authorization header
+  const token = localStorage.getItem("token");
 
-    // Then navigate to the Friend Dashboard
+  // Iterate over the responses state object
+  for (const questionId in responses) {
+    const question = questions.find(q => q.id.toString() === questionId);
+    if (!question) continue;  // Skip if no matching question found (defensive)
+
+    const payload = {
+      question: question.text,
+      answer: responses[questionId]
+    };
+
+    // Create a POST request for each question-answer pair
+    const submitPromise = axios.post('/backend/survey/add_survey.php', payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    submitPromises.push(submitPromise);
+  }
+
+  try {
+    // Wait for all Axios requests to complete
+    await Promise.all(submitPromises);
+    console.log('All survey responses submitted successfully.');
+    // Navigate to another route upon successful submission
     navigate('/Friend_Dashboard');
-    console.log('Survey responses:', responses);
-    // Ideally, you would send 'responses' to the server here
-  };
+  } catch (error) {
+    console.error('Error submitting survey responses:', error);
+  }
+};
 
   // Renders the current question based on its type (single-choice, multi-select, or text)
   const renderQuestion = (question) => {
