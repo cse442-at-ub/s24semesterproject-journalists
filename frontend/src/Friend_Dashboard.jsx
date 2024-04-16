@@ -150,18 +150,46 @@ const Friend = () => {
     setFriendEmail(e.target.value);
   };
 
-  const handleAddFriend = () => {
-    if (isValidEmail(friendEmail)) {
-      setPendingFriends((prev) => [
-        ...prev,
-        { email: friendEmail, status: "Pending" },
-      ]);
-      setFriendEmail("");
-      alert("Friend request sent successfully");
-    } else {
-      alert("Please enter a valid email address.");
+  const handleAddFriend = async (email) => {
+    try {
+      // Send the request to the backend to add the friend
+      const response = await axios.post(
+        '/backend/friends/request.php',
+        JSON.stringify({
+          action: 'send',
+          friend_email: email
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          },
+        }
+      );
+  
+      // Check if the backend process was successful
+      if (response.data.message === "Friend request sent successfully") {
+        // Update the pendingFriends state to include the new friend
+        setPendingFriends(prev => [
+          ...prev,
+          { email: email, status: "Pending" }
+        ]);
+  
+        // Remove the friend from the search results
+        setSearchResults(prev => prev.filter(result => result.email !== email));
+  
+        alert("Friend request sent successfully.");
+      } else {
+        // Handle any other messages returned by the backend
+        alert(response.data.error || "Failed to send friend request.");
+      }
+    } catch (error) {
+      // Handle any errors in the request itself, such as network issues
+      console.error("Error sending friend request:", error);
+      alert("An error occurred while sending the friend request.");
     }
   };
+  
 
   const handleBlockClick = () => {
     setIsBlocked(!isBlocked);
@@ -232,6 +260,7 @@ const Friend = () => {
             searchResults.map((result) => (
               <div key={result.id} className="friend-name">
                 {result.email}
+                <button onClick={() => handleAddFriend(result.email)} className="friend-button">Add Friend</button>
               </div>
             ))
           ) : (
