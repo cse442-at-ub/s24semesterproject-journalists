@@ -11,8 +11,21 @@ function EditProfile() {
     contactNumber: "",
     city: "",
     state: "",
+    photo: "",
   });
-
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setProfile((prevState) => ({
+                ...prevState,
+                photo: e.target.result, // Base64 string
+            }));
+        };
+        reader.readAsDataURL(file);
+    }
+};
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   useEffect(() => {
@@ -124,6 +137,24 @@ function EditProfile() {
           <span className="role">Journalist</span>
         </header>
         <form className="profile-form" onSubmit={handleSubmit}>
+      
+        {profile.photo && (
+    <div className="profile-photo-preview">
+      <img src={profile.photo} alt="Profile" />
+    </div>
+  )}
+        <div className="form-group">
+            <label htmlFor="photo">Profile Photo</label>
+            <input
+              type="file"
+              id="photo"
+              name="photo"
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+
+          </div>
+         
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="firstName">First Name</label>
@@ -159,6 +190,7 @@ function EditProfile() {
               onChange={handleChange}
               placeholder="Enter your address"
             />
+            
           </div>
 
           <div className="form-row">
