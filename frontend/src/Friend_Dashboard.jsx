@@ -100,85 +100,46 @@ const Friend = () => {
   const navigateToFriendProfile = (friendId) => {
     navigate(`/friend-profile/${friendId}`); // Adjust the path as needed
   };
-  // const handleAcceptFriendRequest = async (requestID) => {
-  //   try {
-  //     const request = pendingRequests.find(req => req.id === requestID);
-  //     if (!request) {
-  //       throw new Error('Request not found.');
-  //     }
   
-  //     const response = await axios.post('/backend/friends/request.php', 
-  //       JSON.stringify({
-  //         action: 'accept',
-  //         request_id: requestID
-  //       }), 
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`
-  //         },
-  //       }
-  //     );
+  const handleAcceptFriendRequest = async (request) => {
+    try {
+      const response = await axios.post('/backend/friends/request.php', 
+        JSON.stringify({
+          action: 'accept',
+          request_id: request.request_id, // Use the request_id from the request object
+        }), 
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
   
-  //     if (response.data.message === "Friend request accepted successfully") {
-  //       // Remove from pending and add to friends list
-  //       setPendingRequests(prev => prev.filter(req => req.id !== requestID));
-  //       setFriendsList(prev => [...prev, { id: request.id, name: request.email }]);
-  //       await fetchFriendsList(); // Refresh the friends list
-  //     } else {
-  //       alert(response.data.error || "Failed to accept friend request.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error accepting friend request:", error);
-  //     alert("An error occurred while accepting the friend request.");
-  //   }
-  // };
-
-  const handleAcceptFriendRequest = async (requestID) => {
-
-      const request = pendingRequests.find(req => req.id === requestID);
-      if (!request) {
-        console.error('Request not found.');
-        alert('Friend request not found.');
-        throw new Error('Request not found.');
+      // If response.data is undefined or null, this will now gracefully handle the condition
+      if (!response.data) {
+        throw new Error('No data received from the server.');
       }
   
-      // Optimistically update the UI
-      setPendingRequests(prev => prev.filter(req => req.id !== requestID));
-      setFriendsList(prev => [...prev, { id: request.id, name: request.email }]);
-  
-      try {
-        // Send the accept request to the backend
-        const response = await axios.post('/backend/friends/request.php',
-            JSON.stringify({
-                action: 'accept',
-                request_id: requestID
-            }),
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                },
-            }
-        );
-
-        if (response.data.message === "Friend request accepted successfully") {
-            // Assuming the backend will send the friend's user id and email
-            const newFriend = { id: request.user_id, name: request.email };
-            setFriendsList(prev => [...prev, newFriend]);
-        } else {
-            // If not successful, show an error message
-            alert(response.data.error || "Failed to accept friend request.");
-            // Revert the optimistic UI update
-            setPendingRequests(prev => [request, ...prev]);
-        }
+      // Assuming response.data.message is a string when it exists
+      if (typeof response.data.message === 'string' && response.data.message.includes("accepted friend request from")) {
+        // Update friends list and pending requests upon success
+        setFriendsList(prevFriends => [...prevFriends, { id: request.user_id, name: request.email }]);
+        setPendingRequests(prevRequests => prevRequests.filter(req => req.request_id !== request.request_id));
+        alert(response.data.message); // Display the backend message to the user
+      } else {
+        // Handle scenarios where the backend operation did not succeed
+        throw new Error(response.data.error || "Failed to accept friend request.");
+      }
     } catch (error) {
-        console.error("Error accepting friend request:", error);
-        alert("An error occurred while accepting the friend request.");
-        // Revert the optimistic UI update
-        setPendingRequests(prev => [request, ...prev]);
+      console.error("Error accepting friend request:", error);
+      alert(error.toString());
+      // If there's an error, you may want to handle state updates or retries as necessary
     }
-};
+  };
+  
+  
+
 
   // Function to decline a friend request
   const handleDeclineFriendRequest = async (requestID) => {
@@ -209,29 +170,7 @@ const Friend = () => {
   };
 
   
-  // Function to fetch incoming friend requests
-  // const fetchIncomingRequests = async () => {
-  //   try {
-  //     const response = await axios.get('/backend/friends/incoming_pending.php', {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       },
-  //     });
-  //     if (response.data && response.data.length > 0) {
-  //       // Combine the new incoming requests with the existing ones without duplicates
-  //       setPendingFriends(prev => {
-  //         // Create a map of email to easily check for duplicates
-  //         const existingEmails = new Set(prev.map(req => req.email));
-  //         // Filter out duplicates and then concatenate with the existing list
-  //         const newRequests = response.data.filter(req => !existingEmails.has(req.email));
-  //         return [...prev, ...newRequests];
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching incoming friend requests:', error);
-  //   }
-  // };
-
+ 
   const fetchIncomingRequests = async () => {
     try {
       const response = await axios.get('/backend/friends/incoming_pending.php', {
@@ -484,15 +423,15 @@ const fetchFriendsList = async () => {
       </div>
         <div className="friends-list-container">
   <h4>Pending Requests</h4>
-  {pendingRequests.map((request, index) => (
-    <div key={index} className="pending-request">
-      {request.email} ({request.status})
-      <div className="button-container">
-    <button onClick={() => handleAcceptFriendRequest(request.id)} className="accept-button">Yes</button>
-    <button onClick={() => handleDeclineFriendRequest(request.id)} className="decline-button">No</button>
-  </div>
+  {pendingRequests.map((request) => (
+  <div key={request.request_id}>
+    {request.email}
+    <button onClick={() => handleAcceptFriendRequest(request)} className="accept-button">Accept</button>
+      <button onClick={() => handleDeclineFriendRequest(request)} className="decline-button">Decline</button>
     </div>
-  ))}
+ 
+))}
+
 </div>
       </div>
     </div>
