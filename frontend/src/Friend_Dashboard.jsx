@@ -116,25 +116,23 @@ const Friend = () => {
         }
       );
   
-      // If response.data is undefined or null, this will now gracefully handle the condition
       if (!response.data) {
         throw new Error('No data received from the server.');
       }
   
-      // Assuming response.data.message is a string when it exists
       if (typeof response.data.message === 'string' && response.data.message.includes("accepted friend request from")) {
-        // Update friends list and pending requests upon success
-        setFriendsList(prevFriends => [...prevFriends, { id: request.user_id, name: request.email }]);
+        // Update pending requests
         setPendingRequests(prevRequests => prevRequests.filter(req => req.request_id !== request.request_id));
         alert(response.data.message); // Display the backend message to the user
+        // Fetch the updated friends list
+        fetchFriendsList();
       } else {
-        // Handle scenarios where the backend operation did not succeed
+        // Handle errors
         throw new Error(response.data.error || "Failed to accept friend request.");
       }
     } catch (error) {
       console.error("Error accepting friend request:", error);
       alert(error.toString());
-      // If there's an error, you may want to handle state updates or retries as necessary
     }
   };
   
@@ -221,17 +219,18 @@ const Friend = () => {
       }
     };
 
-    // Call both functions after the component mounts
-    fetchPendingRequests();
-    fetchFriendsList();
+  // Set up the interval to refresh friends list every 5 seconds
+  const friendsListIntervalId = setInterval(fetchFriendsList, 5000); // 5000 milliseconds is 5 seconds
 
   // Set up the interval to refresh pending requests every 15 seconds
-  const intervalId = setInterval(fetchPendingRequests, 15000); // 15000 milliseconds is 15 seconds
+  const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 15000); // 15000 milliseconds is 15 seconds
 
-  // Clear the interval when the component is unmounted
-  return () => clearInterval(intervalId);
-  }, []); // The empty array ensures the effect is only run on mount and unmount
-
+  // Clear the intervals when the component is unmounted
+  return () => {
+    clearInterval(friendsListIntervalId);
+    clearInterval(pendingRequestsIntervalId);
+  };
+}, []);
 
 
   const handleSearchFriends = async () => {
