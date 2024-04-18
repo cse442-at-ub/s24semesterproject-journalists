@@ -140,30 +140,36 @@ const Friend = () => {
 
 
   // Function to decline a friend request
-  const handleDeclineFriendRequest = async (requestID) => {
+  const handleDeclineFriendRequest = async (request) => {
     try {
       const response = await axios.post('/backend/friends/request.php', 
         JSON.stringify({
           action: 'decline',
-          request_id: requestID
+          request_id: request.request_id, // Use the request_id from the request object
         }), 
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
-      if (response.data.message === "Friend request declined successfully") {
-        // Remove declined request from pendingRequests
-        setPendingRequests(prev => prev.filter(request => request.email !== email));
+  
+      if (!response.data) {
+        throw new Error('No data received from the server.');
+      }
+  
+      if (typeof response.data.message === 'string' && response.data.message.includes("declined friend request from")) {
+        // Update pending requests
+        setPendingRequests(prevRequests => prevRequests.filter(req => req.request_id !== request.request_id));
+        alert(response.data.message); // Display the backend message to the user
       } else {
-        alert(response.data.error || "Failed to decline friend request.");
+        // Handle errors
+        throw new Error(response.data.error || "Failed to decline friend request.");
       }
     } catch (error) {
       console.error("Error declining friend request:", error);
-      alert("An error occurred while declining the friend request.");
+      alert(error.toString());
     }
   };
 
