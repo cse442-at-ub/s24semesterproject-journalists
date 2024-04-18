@@ -103,138 +103,97 @@ const Friend = () => {
   const navigateToFriendProfile = (friendId) => {
     navigate(`/friend-profile/${friendId}`); // Adjust the path as needed
   };
-  // const handleAcceptFriendRequest = async (requestID) => {
-  //   try {
-  //     const request = pendingRequests.find(req => req.id === requestID);
-  //     if (!request) {
-  //       throw new Error('Request not found.');
-  //     }
   
-  //     const response = await axios.post('/backend/friends/request.php', 
-  //       JSON.stringify({
-  //         action: 'accept',
-  //         request_id: requestID
-  //       }), 
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`
-  //         },
-  //       }
-  //     );
-  
-  //     if (response.data.message === "Friend request accepted successfully") {
-  //       // Remove from pending and add to friends list
-  //       setPendingRequests(prev => prev.filter(req => req.id !== requestID));
-  //       setFriendsList(prev => [...prev, { id: request.id, name: request.email }]);
-  //       await fetchFriendsList(); // Refresh the friends list
-  //     } else {
-  //       alert(response.data.error || "Failed to accept friend request.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error accepting friend request:", error);
-  //     alert("An error occurred while accepting the friend request.");
-  //   }
-  // };
-
-  const handleAcceptFriendRequest = async (requestID) => {
-
-      const request = pendingRequests.find(req => req.id === requestID);
-      if (!request) {
-        console.error('Request not found.');
-        alert('Friend request not found.');
-        throw new Error('Request not found.');
-      }
-  
-      // Optimistically update the UI
-      setPendingRequests(prev => prev.filter(req => req.id !== requestID));
-      setFriendsList(prev => [...prev, { id: request.id, name: request.email }]);
-  
-      try {
-        // Send the accept request to the backend
-        const response = await axios.post('/backend/friends/request.php',
-            JSON.stringify({
-                action: 'accept',
-                request_id: requestID
-            }),
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                },
-            }
-        );
-
-        if (response.data.message === "Friend request accepted successfully") {
-            // Assuming the backend will send the friend's user id and email
-            const newFriend = { id: request.user_id, name: request.email };
-            setFriendsList(prev => [...prev, newFriend]);
-        } else {
-            // If not successful, show an error message
-            alert(response.data.error || "Failed to accept friend request.");
-            // Revert the optimistic UI update
-            setPendingRequests(prev => [request, ...prev]);
-        }
-    } catch (error) {
-        console.error("Error accepting friend request:", error);
-        alert("An error occurred while accepting the friend request.");
-        // Revert the optimistic UI update
-        setPendingRequests(prev => [request, ...prev]);
-    }
-};
-
-  // Function to decline a friend request
-  const handleDeclineFriendRequest = async (requestID) => {
+  const handleAcceptFriendRequest = async (request) => {
     try {
       const response = await axios.post('/backend/friends/request.php', 
         JSON.stringify({
-          action: 'decline',
-          request_id: requestID
+          action: 'accept',
+          request_id: request.request_id, // Use the request_id from the request object
         }), 
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
-      if (response.data.message === "Friend request declined successfully") {
-        // Remove declined request from pendingRequests
-        setPendingRequests(prev => prev.filter(request => request.email !== email));
+  
+      if (!response.data) {
+        throw new Error('No data received from the server.');
+      }
+  
+      if (typeof response.data.message === 'string' && response.data.message.includes("accepted friend request from")) {
+        // Update pending requests
+        setPendingRequests(prevRequests => prevRequests.filter(req => req.request_id !== request.request_id));
+        alert(response.data.message); // Display the backend message to the user
+        // Fetch the updated friends list
+        fetchFriendsList();
       } else {
-        alert(response.data.error || "Failed to decline friend request.");
+        // Handle errors
+        throw new Error(response.data.error || "Failed to accept friend request.");
+      }
+    } catch (error) {
+      console.error("Error accepting friend request:", error);
+      alert(error.toString());
+    }
+  };
+  
+  
+
+
+  // Function to decline a friend request
+  const handleDeclineFriendRequest = async (request) => {
+    try {
+      const response = await axios.post('/backend/friends/request.php', 
+        JSON.stringify({
+          action: 'decline',
+          request_id: request.request_id, // Use the request_id from the request object
+        }), 
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+  
+      if (!response.data) {
+        throw new Error('No data received from the server.');
+      }
+  
+      if (typeof response.data.message === 'string' && response.data.message.includes("declined friend request from")) {
+        // Update pending requests
+        setPendingRequests(prevRequests => prevRequests.filter(req => req.request_id !== request.request_id));
+        alert(response.data.message); // Display the backend message to the user
+      } else {
+        // Handle errors
+        throw new Error(response.data.error || "Failed to decline friend request.");
       }
     } catch (error) {
       console.error("Error declining friend request:", error);
-      alert("An error occurred while declining the friend request.");
+      alert(error.toString());
     }
   };
 
   
-  // Function to fetch incoming friend requests
-  // const fetchIncomingRequests = async () => {
-  //   try {
-  //     const response = await axios.get('/backend/friends/incoming_pending.php', {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       },
-  //     });
-  //     if (response.data && response.data.length > 0) {
-  //       // Combine the new incoming requests with the existing ones without duplicates
-  //       setPendingFriends(prev => {
-  //         // Create a map of email to easily check for duplicates
-  //         const existingEmails = new Set(prev.map(req => req.email));
-  //         // Filter out duplicates and then concatenate with the existing list
-  //         const newRequests = response.data.filter(req => !existingEmails.has(req.email));
-  //         return [...prev, ...newRequests];
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching incoming friend requests:', error);
-  //   }
-  // };
-
+ 
+  const fetchIncomingRequests = async () => {
+    try {
+      const response = await axios.get('/backend/friends/incoming_pending.php', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      console.log(response.data); // Add this line to log the data
+      if (response.data && response.data.length > 0) {
+        setPendingRequests(response.data);
+         // This now directly sets the state with the response
+      }
+    } catch (error) {
+      console.error('Error fetching incoming friend requests:', error);
+    }
+  };
 
 
   useEffect(() => {
@@ -269,18 +228,18 @@ const Friend = () => {
       }
     };
 
-    // Call both functions after the component mounts
-    fetchPendingRequests();
-    fetchFriendsList();
-    fetchJournalEntries();
+  // Set up the interval to refresh friends list every 5 seconds
+  const friendsListIntervalId = setInterval(fetchFriendsList, 5000); // 5000 milliseconds is 5 seconds
 
   // Set up the interval to refresh pending requests every 15 seconds
-  const intervalId = setInterval(fetchPendingRequests, 15000); // 15000 milliseconds is 15 seconds
+  const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 15000); // 15000 milliseconds is 15 seconds
 
-  // Clear the interval when the component is unmounted
-  return () => clearInterval(intervalId);
-  }, []); // The empty array ensures the effect is only run on mount and unmount
-
+  // Clear the intervals when the component is unmounted
+  return () => {
+    clearInterval(friendsListIntervalId);
+    clearInterval(pendingRequestsIntervalId);
+  };
+}, []);
 
 
   const handleSearchFriends = async () => {
@@ -475,15 +434,15 @@ const fetchFriendsList = async () => {
       </div>
         <div className="friends-list-container">
   <h4>Pending Requests</h4>
-  {pendingRequests.map((request, index) => (
-    <div key={index} className="pending-request">
-      {request.email} ({request.status})
-      <div className="button-container">
-    <button onClick={() => handleAcceptFriendRequest(request.id)} className="accept-button">Yes</button>
-    <button onClick={() => handleDeclineFriendRequest(request.id)} className="decline-button">No</button>
-  </div>
+  {pendingRequests.map((request) => (
+  <div key={request.request_id}>
+    {request.email}
+    <button onClick={() => handleAcceptFriendRequest(request)} className="accept-button">Accept</button>
+      <button onClick={() => handleDeclineFriendRequest(request)} className="decline-button">Decline</button>
     </div>
-  ))}
+ 
+))}
+
 </div>
       </div>
     </div>

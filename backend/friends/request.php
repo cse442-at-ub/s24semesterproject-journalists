@@ -118,40 +118,85 @@ function sendFriendRequest($data, $pdo, $user_id)
 
 
 
-function acceptFriendRequest($data, $pdo, $user_id)
-{
+function acceptFriendRequest($data, $pdo, $user_id) {
     $request_id = $data['request_id'];
 
-    // Ensure that the friend request to be accepted is associated with the authenticated user
+    // Fetch details of the friend request
+    $stmt = $pdo->prepare("SELECT * FROM friend_requests WHERE request_id = :request_id");
+    $stmt->execute(['request_id' => $request_id]);
+    $request = $stmt->fetch();
+
+    if (!$request) {
+        http_response_code(404);
+        echo json_encode(["error" => "Friend request not found"]);
+        exit;
+    }
+
+    if ($request['friend_user_id'] != $user_id) {
+        http_response_code(403);
+        echo json_encode(["error" => "Unauthorized to accept this friend request"]);
+        exit;
+    }
+
+    // Update friend request status to 'accepted'
     $updateStmt = $pdo->prepare("UPDATE friend_requests SET status = 'accepted' WHERE request_id = :request_id AND friend_user_id = :user_id");
-    $updateResult = $updateStmt->execute([
-        'request_id' => $request_id,
-        'user_id' => $user_id // Ensure the friend request is meant for the authenticated user
-    ]);
+    $updateResult = $updateStmt->execute(['request_id' => $request_id, 'user_id' => $user_id]);
 
     if ($updateResult) {
+        // Fetch user names for the response message
+        $userStmt = $pdo->prepare("SELECT email FROM users WHERE id = :id");
+        $userStmt->execute(['id' => $request['user_id']]);
+        $userRow = $userStmt->fetch();
+
+        $friendStmt = $pdo->prepare("SELECT email FROM users WHERE id = :id");
+        $friendStmt->execute(['id' => $user_id]);
+        $friendRow = $friendStmt->fetch();
+
         http_response_code(200);
-        echo json_encode(["message" => "Friend request accepted successfully"]);
+        echo json_encode(["message" => "{$friendRow['email']} accepted friend request from {$userRow['email']}"]);
     } else {
         http_response_code(500);
         echo json_encode(["error" => "Internal Server Error - Could not accept friend request"]);
     }
 }
 
-function declineFriendRequest($data, $pdo, $user_id)
-{
+
+function declineFriendRequest($data, $pdo, $user_id) {
     $request_id = $data['request_id'];
 
-    // Ensure that the friend request to be declined is associated with the authenticated user
+    // Fetch details of the friend request
+    $stmt = $pdo->prepare("SELECT * FROM friend_requests WHERE request_id = :request_id");
+    $stmt->execute(['request_id' => $request_id]);
+    $request = $stmt->fetch();
+
+    if (!$request) {
+        http_response_code(404);
+        echo json_encode(["error" => "Friend request not found"]);
+        exit;
+    }
+
+    if ($request['friend_user_id'] != $user_id) {
+        http_response_code(403);
+        echo json_encode(["error" => "Unauthorized to decline this friend request"]);
+        exit;
+    }
+
+    // Update friend request status to 'declined'
     $updateStmt = $pdo->prepare("UPDATE friend_requests SET status = 'declined' WHERE request_id = :request_id AND friend_user_id = :user_id");
-    $updateResult = $updateStmt->execute([
-        'request_id' => $request_id,
-        'user_id' => $user_id // Ensure the friend request is meant for the authenticated user
-    ]);
+    $updateResult = $updateStmt->execute(['request_id' => $request_id, 'user_id' => $user_id]);
 
     if ($updateResult) {
+        // Fetch user names for the response message
+        $userStmt = $pdo->prepare("SELECT email FROM users WHERE id = :id");
+        $userStmt->execute(['id' => $request['user_id']]);
+        $userRow = $userStmt->fetch();
+
+        $friendStmt = $pdo->prepare("SELECT email FROM users WHERE id = :id");
+        $friendStmt->execute(['id' => $user_id]);
+        $friendRow = $friendStmt->fetch();
+
         http_response_code(200);
-        echo json_encode(["message" => "Friend request declined successfully"]);
+        echo json_encode(["message" => "{$friendRow['email']} declined friend request from {$userRow['email']}"]);
     } else {
         http_response_code(500);
         echo json_encode(["error" => "Internal Server Error - Could not decline friend request"]);

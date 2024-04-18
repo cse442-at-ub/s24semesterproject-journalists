@@ -233,7 +233,7 @@ const Journal_Dashboard = () => {
           <div>
             {selectedEntry.image_path && (
               <img
-                src={`/backend/${selectedEntry.image_path}`}
+                src= {selectedEntry.image_path}
                 alt="Journal entry"
                 style={{ maxWidth: "100%", maxHeight: "300px" }}
               />
@@ -288,11 +288,11 @@ const Journal_Dashboard = () => {
               <div className="error-message">{errorMessages.message}</div>
             )}
 
-            {/* <input
+            <input
               type="file"
               accept=".png, .jpg, .jpeg"
               onChange={handleImageChange}
-            /> */}
+            />
             <button className=" orange" onClick={handleSubmit}>Submit Entry</button>
           </div>
         )}
