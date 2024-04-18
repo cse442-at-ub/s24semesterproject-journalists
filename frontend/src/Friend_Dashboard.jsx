@@ -68,10 +68,7 @@ const Friend = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState([]); // State to hold search results
   const [pendingRequests, setPendingRequests] = useState([]);
-  const [friendsList, setFriendsList] = useState([
-    { id: 1, name: "Jake Gothem" },
-    { id: 2, name: "Max Gothem" },
-  ]);
+  const [friendsList, setFriendsList] = useState([]);
   const [userCity, setUserCity] = useState("New York");
   const [contentItems, setContentItems] = useState([
     {
@@ -252,6 +249,7 @@ const Friend = () => {
     }
   };
 
+
   useEffect(() => {
     // Function to fetch pending requests
     const fetchPendingRequests = async () => {
@@ -268,25 +266,25 @@ const Friend = () => {
         console.error('Error fetching pending friend requests:', error);
       }
     };
-  // Function to fetch friends list
-  const fetchFriendsList = async () => {
-    try {
-      const response = await axios.get('/backend/friends/friend_list.php', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      if (response.data) {
-        setFriendsList(response.data);
+    // Function to fetch friends list
+    const fetchFriendsList = async () => {
+      try {
+        const response = await axios.get('/backend/friends/friends_list.php', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure the token is stored in localStorage
+          },
+        });
+        if (response.data) {
+          setFriendsList(response.data); // Update the friendsList state with the response
+        }
+      } catch (error) {
+        console.error('Error fetching friends list:', error);
       }
-    } catch (error) {
-      console.error('Error fetching friends list:', error);
-    }
-  };
+    };
 
-  // Call both functions after the component mounts
-  fetchPendingRequests();
-  fetchFriendsList();
+    // Call both functions after the component mounts
+    fetchPendingRequests();
+    fetchFriendsList();
 
   // Set up the interval to refresh pending requests every 15 seconds
   const intervalId = setInterval(fetchPendingRequests, 15000); // 15000 milliseconds is 15 seconds
@@ -472,17 +470,18 @@ const fetchFriendsList = async () => {
           )}
         </div>
         <div className="friends-list-container">
-          <h4>Friends</h4>
-          {friendsList.map((friend) => (
+        <h4>Friends</h4>
+        {friendsList.length > 0 ? (
+          friendsList.map((friend) => (
             <div key={friend.id} className="friend-name">
-              {friend.name}
-              {/* Button to navigate to the friend's profile */}
-              <button onClick={() => navigateToFriendProfile(friend.id)} className="view-profile-button">
-                View Profile
-              </button>
+              {friend.email}
+              <button onClick={() => navigate(`/friend-profile/${friend.id}`)}>View Profile</button>
             </div>
-          ))}
-        </div>
+          ))
+        ) : (
+          <p>No friends found.</p>
+        )}
+      </div>
         <div className="friends-list-container">
   <h4>Pending Requests</h4>
   {pendingRequests.map((request, index) => (
