@@ -75,7 +75,7 @@ const Friend = () => {
   const [userCity, setUserCity] = useState("New York");
   const [contentItems, setContentItems] = useState([
     {
-      id: 2,
+      id: 1,
       type: "image",
       content: selfie_girl,
       description:
@@ -88,13 +88,13 @@ const Friend = () => {
       description: "Image posted on Mar 11th",
     },
     {
-      id: 1,
+      id: 3,
       type: "text",
       content: "This is a text post.",
       description: "Reflect on today’s day. Today was a busy day at work...",
     },
     {
-      id: 3,
+      id: 4,
       type: "video",
       content: "https://www.youtube.com/embed/ehJ6oQHSkCk",
       description: "Video posted on Mar 11th",
@@ -141,6 +141,7 @@ const Friend = () => {
 
       const request = pendingRequests.find(req => req.id === requestID);
       if (!request) {
+        console.error('Request not found.');
         alert('Friend request not found.');
         throw new Error('Request not found.');
       }
@@ -252,13 +253,48 @@ const Friend = () => {
   };
 
   useEffect(() => {
-    // Start polling for incoming friend requests
-    fetchFriendsList();
-    const interval = setInterval(fetchIncomingRequests, 5000); // Adjust the interval as needed
+    // Function to fetch pending requests
+    const fetchPendingRequests = async () => {
+      try {
+        const response = await axios.get('/backend/friends/incoming_pending.php', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response.data) {
+          setPendingRequests(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching pending friend requests:', error);
+      }
+    };
+  // Function to fetch friends list
+  const fetchFriendsList = async () => {
+    try {
+      const response = await axios.get('/backend/friends/friend_list.php', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (response.data) {
+        setFriendsList(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching friends list:', error);
+    }
+  };
 
-    // Clean up the interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
+  // Call both functions after the component mounts
+  fetchPendingRequests();
+  fetchFriendsList();
+
+  // Set up the interval to refresh pending requests every 15 seconds
+  const intervalId = setInterval(fetchPendingRequests, 15000); // 15000 milliseconds is 15 seconds
+
+  // Clear the interval when the component is unmounted
+  return () => clearInterval(intervalId);
+  }, []); // The empty array ensures the effect is only run on mount and unmount
+
 
 
   const handleSearchFriends = async () => {
