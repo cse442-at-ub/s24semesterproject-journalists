@@ -25,7 +25,19 @@
   font-size: 2rem;
   margin-right: 10px;
 }
+.view-profile-button {
+  padding: 5px 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* Add additional styling as needed */
+}
 
+.view-profile-button:hover {
+  background-color: #e0e0e0;
+  /* Add hover effect as needed */
+}
 .new-entry-btn,
 .logout-btn {
   display: block;
