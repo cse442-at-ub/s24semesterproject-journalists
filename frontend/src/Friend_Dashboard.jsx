@@ -70,33 +70,36 @@ const Friend = () => {
   const [pendingRequests, setPendingRequests] = useState([]);
   const [friendsList, setFriendsList] = useState([]);
   const [userCity, setUserCity] = useState("New York");
-  const [contentItems, setContentItems] = useState([
-    {
-      id: 1,
-      type: "image",
-      content: selfie_girl,
-      description:
-        "Remember that sorting can significantly affect performance.",
-    },
-    {
-      id: 2,
-      type: "image",
-      content: monaLisaImage,
-      description: "Image posted on Mar 11th",
-    },
-    {
-      id: 3,
-      type: "text",
-      content: "This is a text post.",
-      description: "Reflect on today’s day. Today was a busy day at work...",
-    },
-    {
-      id: 4,
-      type: "video",
-      content: "https://www.youtube.com/embed/ehJ6oQHSkCk",
-      description: "Video posted on Mar 11th",
-    },
-  ]);
+  const [journalEntries, setJournalEntries] = useState([]);
+  const ContentCard = ({ title, body, created_at, image_path }) => {
+    return (
+      <div className="content-card">
+        {image_path && (
+          <div className="content-image">
+            <img src={image_path} alt="Entry" />
+          </div>
+        )}
+        <div className="content-details">
+          <h3>{title}</h3>
+          <p>{body}</p>
+          <p className="date">Posted on: {new Date(created_at).toLocaleString()}</p>
+        </div>
+      </div>
+    );
+  };
+
+  const fetchJournalEntries = async () => {
+    try {
+      const response = await axios.get('/backend/friends/retrieve_entries.php', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setJournalEntries(response.data.journalEntries);
+    } catch (error) {
+      console.error('Error fetching journal entries:', error);
+    }
+  };
   const navigateToFriendProfile = (friendId) => {
     navigate(`/friend-profile/${friendId}`); // Adjust the path as needed
   };
@@ -232,22 +235,6 @@ const Friend = () => {
   //   }
   // };
 
-  const fetchIncomingRequests = async () => {
-    try {
-      const response = await axios.get('/backend/friends/incoming_pending.php', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      console.log(response.data); // Add this line to log the data
-      if (response.data && response.data.length > 0) {
-        setPendingRequests(response.data);
-         // This now directly sets the state with the response
-      }
-    } catch (error) {
-      console.error('Error fetching incoming friend requests:', error);
-    }
-  };
 
 
   useEffect(() => {
@@ -285,6 +272,7 @@ const Friend = () => {
     // Call both functions after the component mounts
     fetchPendingRequests();
     fetchFriendsList();
+    fetchJournalEntries();
 
   // Set up the interval to refresh pending requests every 15 seconds
   const intervalId = setInterval(fetchPendingRequests, 15000); // 15000 milliseconds is 15 seconds
@@ -428,11 +416,14 @@ const fetchFriendsList = async () => {
         </div>
       </div>
       <div className="middle-placeholder">
-        {contentItems.map((item) => (
+        {journalEntries.map((entry) => (
           <ContentCard
-            key={item.id}
-            {...item}
-            onUpdate={handleUpdateDescription}
+            key={entry.id}
+            id={entry.id}
+            title={entry.title}
+            body={entry.body}
+            image_path={entry.image_path}
+            created_at={entry.created_at}
           />
         ))}
       </div>
