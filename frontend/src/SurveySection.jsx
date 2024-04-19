@@ -85,7 +85,7 @@ const handleSubmit = async () => {
     };
 
     // Create a POST request for each question-answer pair
-    const submitPromise = axios.post('/backend/survey/add_survey.php', payload, {
+    const submitPromise = axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/survey/add_survey.php', payload, {
       headers: {
         Authorization: `Bearer ${token}`,
       }

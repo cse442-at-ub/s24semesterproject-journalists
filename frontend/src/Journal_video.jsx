@@ -31,7 +31,7 @@ const JournalVideo = () => {
 
   const fetchEntries = async () => {
     try {
-      const response = await axios.get("/backend/journal/read.php", {
+      const response = await axios.get("https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/read.php", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -59,7 +59,7 @@ const JournalVideo = () => {
 
     try {
       const response = await axios.post(
-        "/backend/journal/create.php",
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/create.php",
         formData,
         {
           headers: {
@@ -107,7 +107,7 @@ const JournalVideo = () => {
       // const response = await axios.get({"/backend/journal/read.php"
       const response = await axios({
         method: "delete",
-        url: "/backend/journal/delete.php",
+        url: "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/delete.php",
         data: {
           entry_id: entryId,
         },
