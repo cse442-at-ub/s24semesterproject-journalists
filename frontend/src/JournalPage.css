@@ -16,12 +16,6 @@
   background-color: #ffffff;
 }
 
-.middle-placeholder {
-  background-color: #ffffff; /* Placeholder background color */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center cards in the middle */
-}
 
 .right-sidebar {
   /* Styles for right sidebar */
@@ -110,17 +104,6 @@
   background-color: white; /* Card background */
 }
 
-/* Styles for the media section */
-.media {
-  width: 100%;
-  height: 200px; /* Adjust height as needed */
-  background-color: #f2f2f2; /* Placeholder color */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed #ccc;
-  margin-bottom: 16px; /* Spacing between media and text */
-}
 
 /* Styles for the description at the bottom of the card */
 .description p {
@@ -132,11 +115,7 @@
   margin: 0;
   margin-bottom: 16px; /* Spacing between description and button */
 }
-.media img {
-  max-width: 100%; /* ensures image is not wider than the container */
-  max-height: 100%; /* ensures image is not taller than the container */
-  object-fit: contain; /* keeps aspect ratio, but can result in letterboxing */
-}
+
 .middle-placeholder {
   background-color: #ffffff; /* Set background color to white */
   display: flex;
@@ -250,12 +229,85 @@
   }
   
   .friend-name {
+    display: flex;
+    justify-content: space-between; /* This will push the button to the right */
     cursor: pointer; /* Indicate the item is clickable */
     padding: 8px; /* Padding for each name */
     border-bottom: 1px solid #ccc; /* Separator between names */
     transition: background-color 0.3s; /* Smooth transition for hover */
   }
+
+  .pending-request {
+    display: flex;
+    justify-content: space-between; /* This will align the email to the left and buttons to the right */
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+
+.pending-request .friend-email {
+  margin-right: auto; /* This will push the buttons to the right */
+}
+
+.button-container {
+  display: flex;
+}
+
+.pending-request .button-container {
+  display: flex;
+  gap: 5px; /* This creates a small space between the buttons */
+}
+
+.accept-button,
+.decline-button {
+  padding: 5px 10px; /* Adjust the padding as needed */
+  margin-left: 5px; /* This will put a little space between the buttons */
+  /* ... other styles remain unchanged */
+}
   
+  .friend-button {
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text */
+    padding: 5px 10px; /* Smaller padding */
+    font-size: 0.8em; /* Smaller font size */
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px; /* Add space between the email and the button if needed */
+    transition: background-color 0.3s ease;
+  }
+
+  .accept-button {
+    background-color: #28a745; /* Green background */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .accept-button:hover {
+    background-color: #218838; /* Darker green on hover */
+  }
+  
+  .decline-button {
+    background-color: #dc3545; /* Red background */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .decline-button:hover {
+    background-color: #c82333; /* Darker red on hover */
+  }
+
+  
+  .friend-button:hover {
+    background: linear-gradient(90deg, #D96CFF 0%, #254ACC 100%); /* Darker shade on hover for interaction feedback */
+  }
   .friend-name:hover {
     background-color: #f2f2f2; /* Highlight on hover */
   }
@@ -459,27 +511,83 @@
     margin-bottom: 20px; /* Ensure spacing around dropdown button */
   }
 
-  .settings-link-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%; /* Ensure the container spans the width of the sidebar */
-  }
+
   
   .settings-text {
-    position: absolute; /* or fixed, depending on layout */
-    bottom: 0; /* Adjust as needed */
-    left: 0; /* Adjust as needed */
     cursor: pointer;
-    padding: 5px;
-    font-size: 16px; /* Adjust the font size as you see fit */
-    color: #000000; /* e.g., #4A90E2 for a blue text */
-    width: 100%;
-    /* Add more styling as needed */
+    font-size: 1em; /* Adjust the font size as needed */
+    color: #333; /* A darker color for better readability */
+    text-align: center; /* Center the text inside the container */
+    width: 100%; /* Ensure the text spans the width of the container */
+    padding: 10px 0; /* Padding to add space around the text */
+    border-top: 1px solid #ccc; /* A line to separate the settings from the content above */
   }
+
+  .settings-text:hover {
+    color: #fdfdfd;
+    background-color: rgba(0, 0, 0, 0.9); /* A light grey on hover */
+    transition: background-color 0.3s; /* Smooth transition for the background color */
+  }
+
+  .middle-placeholder {
+    background-color: #f8f8f8; /* Grey background */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center cards in the middle */
+    overflow-y: auto; /* Enables vertical scrolling */
+    height: calc(100vh - 20px); /* Adjust height based on the total padding */
+    position: relative;
+    justify-content: flex-start;;
+    padding: 2% 0 0 0;
+  }
+
+  .centered-text {
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+
+  .media {
+    width: calc(100% - 32px); /* Subtract padding if any */
+    height: 200px; /* Adjust height as needed */
+    background-color: #f2f2f2; /* Placeholder color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ccc;
+    margin-bottom: 16px; /* Spacing between media and text */
+    overflow: hidden; /* Add this to prevent the image from overflowing */
+    padding: 16px; /* Adjust padding to match design */
+    position: relative;
+  }
+  
+  .media img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* This ensures the image spans the full width of the container */
+    height: 100%; /* This ensures the image spans the full height of the container */
+    object-fit: cover; /* This will cover the entire area, potentially clipping the image */
+    border: none; /* Remove border if any */
+    padding: 0; /* Remove padding if any */
+  }
+  .content-image{
+    width: 100%; /* Match width of .media */
+    height: 200px; /* Match height of .media */
+    overflow: hidden; /* Add overflow hidden here */
+    display: flex; /* Use flex to center the image */
+    align-items: center; /* Center image vertically */
+    justify-content: center; /* Center image horizontally */
+  }
+  
   
 /* Mobile responsiveness */
 @media (max-width: 768px) {
+
   .dashboard {
     flex-direction: column;
   }
@@ -496,6 +604,13 @@
     height: 100%;
     display: block;
   }
+
+  .centered-text {
+    font-size: 14px; /* Adjust the size as needed for smaller screens */
+    padding: 10px; /* Add padding if needed to prevent text from touching the edges */
+  }
+
+
 }
 
 

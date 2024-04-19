@@ -1,8 +1,8 @@
 <?php
-define('DB_SERVER', 'oceanus.cse.buffalo.edu');
-define('DB_USERNAME', 'nlsukhde');
-define('DB_PASSWORD', '50400666');
-define('DB_NAME', 'cse442_2024_spring_team_l_db');
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'journalist');
 
 /* Attempt to connect to MySQL database */
 try {

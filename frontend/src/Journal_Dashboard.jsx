@@ -33,7 +33,18 @@ const Journal_Dashboard = () => {
   const handleSelectEntry = (entry) => {
     setSelectedEntry(entry);
   };
-
+  const handleGeneratePrompt = () => {
+    const prompts = [
+      "What made you smile today?",
+      "Reflect on today's challenges.",
+      "Describe a memorable moment from today.",
+      "What did you learn today?",
+      "Write about something you're grateful for."
+    ];
+    const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+    setPromptText(randomPrompt);  // Correct usage
+  };
+  
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
@@ -48,7 +59,7 @@ const Journal_Dashboard = () => {
   const handleDeleteEntry = async (entryId) => {
     try {
       const response = await axios.post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/delete.php",
+        "/backend/journal/delete.php",
         JSON.stringify({ entry_id: entryId }),
         {
           headers: {
@@ -72,7 +83,7 @@ const Journal_Dashboard = () => {
   const fetchEntries = async () => {
     try {
       const response = await axios.get(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/read.php",
+        "/backend/journal/read.php",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -119,7 +130,7 @@ const Journal_Dashboard = () => {
 
     try {
       const response = await axios.post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/create.php",
+        "/backend/journal/create.php",
         formData,
         {
           headers: {
@@ -158,55 +169,60 @@ const Journal_Dashboard = () => {
   const togglePrompts = () => {
     setShowPrompts(!showPrompts);
   };
+  const [promptText, setPromptText] = useState("Reflect on today's day");
 
   return (
     <div className="app-container-journal">
       <div className="left-column-journal">
         <div>
-          <div className="journalist-label">Journalist</div>
-          <div
-            className={`prompt-dropdown ${showPrompts ? "show-prompts" : ""}`}
-          >
-            <button onClick={togglePrompts} className="prompt-toggle-btn">
-              New Entry {showPrompts ? "▲" : "▼"}
-            </button>
-            {showPrompts && (
-              <div className="prompt-buttons">
-                <button className="prompt-btn" onClick={JournalVideo}>
-                  Video Prompt
-                </button>
-                <button className="prompt-btn" onClick={journalImage}>
-                  Image Prompt
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="journal-history">
-            {journalEntries.map((entry, index) => (
+          <div className="journal-header">
+              <div className="journalist-label">Journalist</div>
               <div
-                key={index}
-                className={`journal-entry ${
-                  selectedEntry && selectedEntry.id === entry.id ? "active" : ""
-                }`}
+                className={`prompt-dropdown ${showPrompts ? "show-prompts" : ""}`}
               >
-                <div onClick={() => handleSelectEntry(entry)}>
-                  <p className="entry-date">{entry.date}</p>
-                  <h3 className="entry-title">{entry.title}</h3>
-                  <p className="entry-snippet">
-                    {entry.body.length > 100
-                      ? `${entry.body.substring(0, 100)}...`
-                      : entry.body}
-                  </p>
-                </div>
-                <button
-                  onClick={() => handleDeleteEntry(entry.id)}
-                  className="delete-button"
-                >
-                  Delete
+                <button onClick={togglePrompts} className="prompt-toggle-btn">
+                  New Entry {showPrompts ? "▲" : "▼"}
                 </button>
+                {showPrompts && (
+                  <div className="prompt-buttons">
+                    <button className="prompt-btn" onClick={JournalVideo}>
+                      Video Prompt
+                    </button>
+                    <button className="prompt-btn" onClick={journalImage}>
+                      Image Prompt
+                    </button>
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
+              </div>
+              <div className="journal-history">
+                {journalEntries.map((entry, index) => (
+                  <div
+                    key={index}
+                    className={`journal-entry ${
+                      selectedEntry && selectedEntry.id === entry.id ? "active" : ""
+                    }`}
+                  >
+                    <div onClick={() => handleSelectEntry(entry)}>
+                      <p className="entry-date">{entry.date}</p>
+                      <h3 className="entry-title">{entry.title}</h3>
+                      <p className="entry-snippet">
+                        {entry.body.length > 100
+                          ? `${entry.body.substring(0, 100)}...`
+                          : entry.body}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteEntry(entry.id)}
+                      className="delete-button"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              
         </div>
       </div>
       <div className="right-column-journal">
@@ -217,7 +233,7 @@ const Journal_Dashboard = () => {
           <div>
             {selectedEntry.image_path && (
               <img
-                src={`/backend/${selectedEntry.image_path}`}
+                src={selectedEntry.image_path}
                 alt="Journal entry"
                 style={{ maxWidth: "100%", maxHeight: "300px" }}
               />
@@ -235,8 +251,12 @@ const Journal_Dashboard = () => {
                 style={{ maxWidth: "100%", maxHeight: "300px" }}
               />
             )}
-            <h1 className="title-journal">Reflect on today's day</h1>
+            
+            <h1 className="title-journal">{promptText}</h1>
+            <button className="button entry" onClick={handleGeneratePrompt}>Generate New Prompt</button>
+
             <input
+              className="title-input"
               type="text"
               value={newTitle}
               onChange={(e) => {
@@ -268,12 +288,12 @@ const Journal_Dashboard = () => {
               <div className="error-message">{errorMessages.message}</div>
             )}
 
-            {/* <input
+            <input
               type="file"
               accept=".png, .jpg, .jpeg"
               onChange={handleImageChange}
-            /> */}
-            <button onClick={handleSubmit}>Submit Entry</button>
+            />
+            <button className=" orange" onClick={handleSubmit}>Submit Entry</button>
           </div>
         )}
         <div className="settings-icon">

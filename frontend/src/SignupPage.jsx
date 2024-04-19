@@ -29,7 +29,7 @@ const SignupPage = () => {
     // Sending the signup request to the backend
     axios
       .post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/create_account.php",
+        "/backend/account/create_account.php",
         {
           email: email,
           password: password,
