@@ -16,12 +16,6 @@
   background-color: #ffffff;
 }
 
-.middle-placeholder {
-  background-color: #bbbbbb; /* Placeholder background color */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center cards in the middle */
-}
 
 .right-sidebar {
   /* Styles for right sidebar */
@@ -110,17 +104,6 @@
   background-color: white; /* Card background */
 }
 
-/* Styles for the media section */
-.media {
-  width: 100%;
-  height: 200px; /* Adjust height as needed */
-  background-color: #f2f2f2; /* Placeholder color */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed #ccc;
-  margin-bottom: 16px; /* Spacing between media and text */
-}
 
 /* Styles for the description at the bottom of the card */
 .description p {
@@ -132,11 +115,7 @@
   margin: 0;
   margin-bottom: 16px; /* Spacing between description and button */
 }
-.media img {
-  max-width: 100%; /* ensures image is not wider than the container */
-  max-height: 100%; /* ensures image is not taller than the container */
-  object-fit: contain; /* keeps aspect ratio, but can result in letterboxing */
-}
+
 .middle-placeholder {
   background-color: #ffffff; /* Set background color to white */
   display: flex;
@@ -545,10 +524,66 @@
   }
 
   .settings-text:hover {
-    color: #ffffff;
+    color: #fdfdfd;
     background-color: rgba(0, 0, 0, 0.9); /* A light grey on hover */
     transition: background-color 0.3s; /* Smooth transition for the background color */
   }
+
+  .middle-placeholder {
+    background-color: #f8f8f8; /* Grey background */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center cards in the middle */
+    overflow-y: auto; /* Enables vertical scrolling */
+    height: calc(100vh - 20px); /* Adjust height based on the total padding */
+    position: relative;
+    justify-content: flex-start;;
+    padding: 2% 0 0 0;
+  }
+
+  .centered-text {
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+
+  .media {
+    width: calc(100% - 32px); /* Subtract padding if any */
+    height: 200px; /* Adjust height as needed */
+    background-color: #f2f2f2; /* Placeholder color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ccc;
+    margin-bottom: 16px; /* Spacing between media and text */
+    overflow: hidden; /* Add this to prevent the image from overflowing */
+    padding: 16px; /* Adjust padding to match design */
+    position: relative;
+  }
+  
+  .media img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* This ensures the image spans the full width of the container */
+    height: 100%; /* This ensures the image spans the full height of the container */
+    object-fit: cover; /* This will cover the entire area, potentially clipping the image */
+    border: none; /* Remove border if any */
+    padding: 0; /* Remove padding if any */
+  }
+  .content-image{
+    width: 100%; /* Match width of .media */
+    height: 200px; /* Match height of .media */
+    overflow: hidden; /* Add overflow hidden here */
+    display: flex; /* Use flex to center the image */
+    align-items: center; /* Center image vertically */
+    justify-content: center; /* Center image horizontally */
+  }
+  
   
 /* Mobile responsiveness */
 @media (max-width: 768px) {
@@ -568,6 +603,11 @@
   .media iframe {
     height: 100%;
     display: block;
+  }
+
+  .centered-text {
+    font-size: 14px; /* Adjust the size as needed for smaller screens */
+    padding: 10px; /* Add padding if needed to prevent text from touching the edges */
   }
 
 

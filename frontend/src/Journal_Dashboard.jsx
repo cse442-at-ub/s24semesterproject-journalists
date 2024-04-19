@@ -233,7 +233,7 @@ const Journal_Dashboard = () => {
           <div>
             {selectedEntry.image_path && (
               <img
-                src= {selectedEntry.image_path}
+                src={selectedEntry.image_path}
                 alt="Journal entry"
                 style={{ maxWidth: "100%", maxHeight: "300px" }}
               />

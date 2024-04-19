@@ -15,15 +15,8 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
   const renderMedia = () => {
     switch (type) {
       case "image":
-        return <img src={content} alt="user-post" />;
-      case "video":
         return (
-          <iframe
-            src={content}
-            frameBorder="0"
-            allowFullScreen
-            title="video"
-          ></iframe>
+          <img src={content} alt="user-post"/>
         );
       case "text":
       default:
@@ -75,10 +68,12 @@ const Friend = () => {
     return (
       <div className="content-card">
         {image_path && (
-          <div className="content-image">
+          <div className="media">
+            {/* Image exists, render it */}
             <img src={image_path} alt="Entry" />
           </div>
         )}
+        {/* Always render the content details */}
         <div className="content-details">
           <h3>{title}</h3>
           <p>{body}</p>
@@ -229,10 +224,10 @@ const Friend = () => {
     };
 
   // Set up the interval to refresh friends list every 5 seconds
-  const friendsListIntervalId = setInterval(fetchFriendsList, 5000); // 5000 milliseconds is 5 seconds
+  const friendsListIntervalId = setInterval(fetchFriendsList, 500); // 5000 milliseconds is 5 seconds
 
   // Set up the interval to refresh pending requests every 15 seconds
-  const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 15000); // 15000 milliseconds is 15 seconds
+  const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 500); // 15000 milliseconds is 15 seconds
 
   // Clear the intervals when the component is unmounted
   return () => {
@@ -271,12 +266,17 @@ const Friend = () => {
   const [friendEmail, setFriendEmail] = useState("");
   const [isAddFriendDisabled, setIsAddFriendDisabled] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
+  const [isProfileSelected, setIsProfileSelected] = useState(false);
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  const handleSelectEntry = (entry) => {
+    setSelectedEntry(entry);
+    setIsProfileSelected(true); // Set to true when a friend's profile is selected
+  };
   const handleUpdateDescription = (id, newComment) => {
     setContentItems(
       contentItems.map((item) => {
@@ -339,6 +339,36 @@ const fetchFriendsList = async () => {
     }
   };
   
+  // Function to fetch and display a friend's journal entries
+const viewFriendProfile = async (friendId) => {
+  // Assuming you have a function to get the current user's token
+  const token = localStorage.getItem('token'); 
+
+  if (!token) {
+    console.error("No token found");
+    return;
+  }
+
+  try {
+    const response = await axios.get(`/backend/friends/retrieve_entries.php?user_id=${friendId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    
+    if (response.data.journalEntries) {
+      setJournalEntries(response.data.journalEntries);
+      setIsProfileSelected(true); // Set this to true to indicate that journal entries are being shown
+    } else {
+      // Handle if there are no journal entries
+      setJournalEntries([]);
+      alert('No journal entries found for this user.');
+    }
+  } catch (error) {
+    console.error('Error fetching friend\'s journal entries:', error);
+    // Handle error, maybe set state to show user feedback
+  }
+};
 
   const handleBlockClick = () => {
     setIsBlocked(!isBlocked);
@@ -374,18 +404,37 @@ const fetchFriendsList = async () => {
           <p>Reflect on today's day. Today was a busy day at work...</p>
         </div>
       </div>
-      <div className="middle-placeholder">
-        {journalEntries.map((entry) => (
+      {/* <div className="middle-placeholder">
+      {isProfileSelected && journalEntries.length > 0 ? (
+        journalEntries.map((entry) => (
           <ContentCard
             key={entry.id}
-            id={entry.id}
             title={entry.title}
             body={entry.body}
             image_path={entry.image_path}
             created_at={entry.created_at}
           />
-        ))}
-      </div>
+        ))
+      ) : (
+        <p>Please click on a friend's profile to view their journals.</p>
+      )}
+    </div> */}
+
+<div className="middle-placeholder">
+  {isProfileSelected && journalEntries.length > 0 ? (
+    journalEntries.map((entry) => (
+      <ContentCard
+        key={entry.id}
+        title={entry.title}
+        body={entry.body}
+        image_path={entry.image_path ? entry.image_path : null}
+        created_at={entry.created_at}
+      />
+    ))
+  ) : (
+    <p className="centered-text">Please click on a friend's profile to view their journals.</p>
+  )}
+</div>
       <div className="right-sidebar">
         <div className="profile-section">
           <img
@@ -425,7 +474,7 @@ const fetchFriendsList = async () => {
           friendsList.map((friend) => (
             <div key={friend.id} className="friend-name">
               {friend.email}
-              <button onClick={() => navigate(`/friend-profile/${friend.id}`)}>View Profile</button>
+              <button onClick={() => viewFriendProfile(friend.id)}>View Profile</button>
             </div>
           ))
         ) : (
