@@ -15,7 +15,7 @@ const LoginPage = () => {
     console.log("login...");
     axios
       .post(
-        "/backend/account/login.php",
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/login.php",
         {
           email: email,
           password: password,

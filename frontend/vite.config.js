@@ -1,17 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
+  base: '/CSE442-542/2024-Spring/cse-442l/',
   plugins: [react()],
   server: {
     proxy: {
-      // Proxying requests starting with /backend to your PHP server
       '/backend': {
-        target: 'http://localhost/Journalist', // The root path to your PHP server
+        target: 'https://www-student.cse.buffalo.edu',
         changeOrigin: true,
+        rewrite: path => '/CSE442-542/2024-Spring/cse-442l' + path + '.php'
       },
-      // ... other proxies if necessary
+      // Additional proxies can be added here
     }
   }
 });
