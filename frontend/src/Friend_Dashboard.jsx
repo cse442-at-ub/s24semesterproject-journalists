@@ -5,6 +5,7 @@ import selfie_girl from "./assets/girl_pics_442.jpeg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import wolf from "./assets/wolf.jpg"; // Ensure the path is correct
 
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
@@ -64,7 +65,10 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
 
 // Dashboard component
 const Friend = () => {
+ 
+  const [profilePhoto, setProfilePhoto] = useState(wolf);
   const navigate = useNavigate();
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState([]); // State to hold search results
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -254,7 +258,11 @@ const Friend = () => {
     // Start polling for incoming friend requests
     fetchFriendsList();
     const interval = setInterval(fetchIncomingRequests, 5000); // Adjust the interval as needed
-
+   
+    const photo = localStorage.getItem('profilePhoto');
+    if (photo) {
+      setProfilePhoto(photo);
+    }
     // Clean up the interval on component unmount
     return () => clearInterval(interval);
   }, []);
@@ -402,14 +410,14 @@ const fetchFriendsList = async () => {
         ))}
       </div>
       <div className="right-sidebar">
-        <div className="profile-section">
-          <img
-            className="profile-pic"
-            src={selfie_girl}
-            alt="Profile picture"
-          />
-          <h2 className="username">Lauren Fox</h2>
-        </div>
+      <div className="profile-section">
+        {profilePhoto ? (
+          <img className="profile-pic" src={profilePhoto} alt="Profile" />
+        ) : (
+          <p>No profile image found.</p>
+        )}
+        <h2 className="username">Lauren Fox</h2>
+      </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input
           type="email"

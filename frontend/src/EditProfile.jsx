@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./EditProfile.css";
 import { Link } from "react-router-dom";
+import wolf from "./assets/wolf.jpg";
 
 function EditProfile() {
   const [profile, setProfile] = useState({
@@ -11,21 +12,24 @@ function EditProfile() {
     contactNumber: "",
     city: "",
     state: "",
-    photo: "",
+    photo: wolf,
   });
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            setProfile((prevState) => ({
-                ...prevState,
-                photo: e.target.result, // Base64 string
-            }));
-        };
-        reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {""
+        const base64String = e.target.result;
+        setProfile((prevState) => ({
+          ...prevState,
+          photo: base64String,
+        }));
+        localStorage.setItem('profilePhoto', base64String); // Store the image as Base64 in local storage
+      };
+      reader.readAsDataURL(file);
     }
-};
+  };
+
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   useEffect(() => {
@@ -145,7 +149,7 @@ function EditProfile() {
   )}
         <div className="form-group">
             <label htmlFor="photo">Profile Photo</label>
-            <input
+            <input 
               type="file"
               id="photo"
               name="photo"
