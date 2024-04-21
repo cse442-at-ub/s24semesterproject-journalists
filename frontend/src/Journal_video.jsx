@@ -107,7 +107,7 @@ const JournalVideo = () => {
       // const response = await axios.get({"/backend/journal/read.php"
       const response = await axios({
         method: "delete",
-        url: "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/delete.php",
+        url: "/backend/journal/delete.php",
         data: {
           entry_id: entryId,
         },

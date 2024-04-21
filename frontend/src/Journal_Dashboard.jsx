@@ -59,7 +59,7 @@ const Journal_Dashboard = () => {
   const handleDeleteEntry = async (entryId) => {
     try {
       const response = await axios.post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/delete.php",
+        "/backend/journal/delete.php",
         JSON.stringify({ entry_id: entryId }),
         {
           headers: {
@@ -83,7 +83,7 @@ const Journal_Dashboard = () => {
   const fetchEntries = async () => {
     try {
       const response = await axios.get(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/read.php",
+        "/backend/journal/read.php",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -130,7 +130,7 @@ const Journal_Dashboard = () => {
 
     try {
       const response = await axios.post(
-        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/create.php",
+        "/backend/journal/create.php",
         formData,
         {
           headers: {

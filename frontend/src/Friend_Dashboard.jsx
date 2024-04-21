@@ -85,7 +85,7 @@ const Friend = () => {
 
   const fetchJournalEntries = async () => {
     try {
-      const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/retrieve_entries.php', {
+      const response = await axios.get('/backend/friends/retrieve_entries.php', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -101,7 +101,7 @@ const Friend = () => {
   
   const handleAcceptFriendRequest = async (request) => {
     try {
-      const response = await axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php', 
+      const response = await axios.post('/backend/friends/request.php', 
         JSON.stringify({
           action: 'accept',
           request_id: request.request_id, // Use the request_id from the request object
@@ -140,7 +140,7 @@ const Friend = () => {
   // Function to decline a friend request
   const handleDeclineFriendRequest = async (request) => {
     try {
-      const response = await axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php', 
+      const response = await axios.post('/backend/friends/request.php', 
         JSON.stringify({
           action: 'decline',
           request_id: request.request_id, // Use the request_id from the request object
@@ -175,7 +175,7 @@ const Friend = () => {
  
   const fetchIncomingRequests = async () => {
     try {
-      const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/incoming_pending.php', {
+      const response = await axios.get('/backend/friends/incoming_pending.php', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -195,7 +195,7 @@ const Friend = () => {
     // Function to fetch pending requests
     const fetchPendingRequests = async () => {
       try {
-        const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/incoming_pending.php', {
+        const response = await axios.get('/backend/friends/incoming_pending.php', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -210,7 +210,7 @@ const Friend = () => {
     // Function to fetch friends list
     const fetchFriendsList = async () => {
       try {
-        const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/friends_list.php', {
+        const response = await axios.get('/backend/friends/friends_list.php', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure the token is stored in localStorage
           },
@@ -245,7 +245,7 @@ const Friend = () => {
 
     try {
       const response = await axios.get(
-        `https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/search.php?query=${friendEmail}`,
+        `/backend/friends/search.php?query=${friendEmail}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the authorization header
@@ -295,7 +295,7 @@ const Friend = () => {
   // Function to fetch the list of friends
 const fetchFriendsList = async () => {
   try {
-    const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/friend_list.php', {
+    const response = await axios.get('/backend/friends/friend_list.php', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -313,7 +313,7 @@ const fetchFriendsList = async () => {
     try {
       // Send the request to the backend to add the friend
       const response = await axios.post(
-        'https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php',
+        '/backend/friends/request.php',
         JSON.stringify({
           action: 'send',
           friend_email: email
@@ -350,7 +350,7 @@ const viewFriendProfile = async (friendId) => {
   }
 
   try {
-    const response = await axios.get(`https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/retrieve_entries.php?user_id=${friendId}`, {
+    const response = await axios.get(`/backend/friends/retrieve_entries.php?user_id=${friendId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       },

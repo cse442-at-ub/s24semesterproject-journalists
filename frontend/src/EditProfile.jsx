@@ -20,7 +20,7 @@ function EditProfile() {
     if (token) {
       axios
         .post(
-          "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/setting/retrieve-profile.php",
+          "/backend/setting/retrieve-profile.php",
           {}, // Since we're using a Bearer token, no need for a body
           {
             headers: {
