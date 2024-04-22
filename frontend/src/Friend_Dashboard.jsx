@@ -5,6 +5,7 @@ import selfie_girl from "./assets/girl_pics_442.jpeg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import wolf from "./assets/wolf.jpg"; // Ensure the path is correct
 
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
@@ -57,7 +58,10 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
 
 // Dashboard component
 const Friend = () => {
+ 
+  const [profilePhoto, setProfilePhoto] = useState(wolf);
   const navigate = useNavigate();
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState([]); // State to hold search results
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -192,49 +196,6 @@ const Friend = () => {
 
 
   useEffect(() => {
-    // Function to fetch pending requests
-    const fetchPendingRequests = async () => {
-      try {
-        const response = await axios.get('/backend/friends/incoming_pending.php', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (response.data) {
-          setPendingRequests(response.data);
-        }
-      } catch (error) {
-        console.error('Error fetching pending friend requests:', error);
-      }
-    };
-    // Function to fetch friends list
-    const fetchFriendsList = async () => {
-      try {
-        const response = await axios.get('/backend/friends/friends_list.php', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure the token is stored in localStorage
-          },
-        });
-        if (response.data) {
-          setFriendsList(response.data); // Update the friendsList state with the response
-        }
-      } catch (error) {
-        console.error('Error fetching friends list:', error);
-      }
-    };
-
-  // Set up the interval to refresh friends list every 5 seconds
-  const friendsListIntervalId = setInterval(fetchFriendsList, 500); // 5000 milliseconds is 5 seconds
-
-  // Set up the interval to refresh pending requests every 15 seconds
-  const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 500); // 15000 milliseconds is 15 seconds
-
-  // Clear the intervals when the component is unmounted
-  return () => {
-    clearInterval(friendsListIntervalId);
-    clearInterval(pendingRequestsIntervalId);
-  };
-}, []);
 
 
   const handleSearchFriends = async () => {
@@ -436,14 +397,14 @@ const viewFriendProfile = async (friendId) => {
   )}
 </div>
       <div className="right-sidebar">
-        <div className="profile-section">
-          <img
-            className="profile-pic"
-            src={selfie_girl}
-            alt="Profile picture"
-          />
-          <h2 className="username">Lauren Fox</h2>
-        </div>
+      <div className="profile-section">
+        {profilePhoto ? (
+          <img className="profile-pic" src={profilePhoto} alt="Profile" />
+        ) : (
+          <p>No profile image found.</p>
+        )}
+        <h2 className="username">Lauren Fox</h2>
+      </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input
           type="email"
