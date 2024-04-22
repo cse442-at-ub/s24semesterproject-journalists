@@ -567,13 +567,16 @@
   
   .media img {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%; /* This ensures the image spans the full width of the container */
-    height: 100%; /* This ensures the image spans the full height of the container */
-    object-fit: cover; /* This will cover the entire area, potentially clipping the image */
-    border: none; /* Remove border if any */
-    padding: 0; /* Remove padding if any */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centers the image in the container */
+    max-width: 100%; /* Ensures the image width does not exceed the container width */
+    max-height: 100%; /* Ensures the image height does not exceed the container height */
+    width: auto; /* Allows the image to scale its width automatically based on its height */
+    height: auto; /* Allows the image to scale its height automatically based on its width */
+    object-fit: contain; /* Ensures the entire image is visible, may result in letterboxing */
+    border: none;
+    padding: 0;
   }
   .content-image{
     width: 100%; /* Match width of .media */
