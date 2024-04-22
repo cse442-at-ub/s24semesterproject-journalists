@@ -5,7 +5,6 @@ import selfie_girl from "./assets/girl_pics_442.jpeg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import wolf from "./assets/wolf.jpg"; // Ensure the path is correct
 
 // ContentCard component
 const ContentCard = ({ id, type, content, description, onUpdate }) => {
@@ -16,15 +15,8 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
   const renderMedia = () => {
     switch (type) {
       case "image":
-        return <img src={content} alt="user-post" />;
-      case "video":
         return (
-          <iframe
-            src={content}
-            frameBorder="0"
-            allowFullScreen
-            title="video"
-          ></iframe>
+          <img src={content} alt="user-post"/>
         );
       case "text":
       default:
@@ -65,178 +57,122 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
 
 // Dashboard component
 const Friend = () => {
- 
-  const [profilePhoto, setProfilePhoto] = useState(wolf);
   const navigate = useNavigate();
-
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState([]); // State to hold search results
   const [pendingRequests, setPendingRequests] = useState([]);
-  const [friendsList, setFriendsList] = useState([
-    { id: 1, name: "Jake Gothem" },
-    { id: 2, name: "Max Gothem" },
-  ]);
+  const [friendsList, setFriendsList] = useState([]);
   const [userCity, setUserCity] = useState("New York");
-  const [contentItems, setContentItems] = useState([
-    {
-      id: 2,
-      type: "image",
-      content: selfie_girl,
-      description:
-        "Remember that sorting can significantly affect performance.",
-    },
-    {
-      id: 2,
-      type: "image",
-      content: monaLisaImage,
-      description: "Image posted on Mar 11th",
-    },
-    {
-      id: 1,
-      type: "text",
-      content: "This is a text post.",
-      description: "Reflect on today’s day. Today was a busy day at work...",
-    },
-    {
-      id: 3,
-      type: "video",
-      content: "https://www.youtube.com/embed/ehJ6oQHSkCk",
-      description: "Video posted on Mar 11th",
-    },
-  ]);
+  const [journalEntries, setJournalEntries] = useState([]);
+  const ContentCard = ({ title, body, created_at, image_path }) => {
+    return (
+      <div className="content-card">
+        {image_path && (
+          <div className="media">
+            {/* Image exists, render it */}
+            <img src={image_path} alt="Entry" />
+          </div>
+        )}
+        {/* Always render the content details */}
+        <div className="content-details">
+          <h3>{title}</h3>
+          <p>{body}</p>
+          <p className="date">Posted on: {new Date(created_at).toLocaleString()}</p>
+        </div>
+      </div>
+    );
+  };
+
+  const fetchJournalEntries = async () => {
+    try {
+      const response = await axios.get('/backend/friends/retrieve_entries.php', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      setJournalEntries(response.data.journalEntries);
+    } catch (error) {
+      console.error('Error fetching journal entries:', error);
+    }
+  };
   const navigateToFriendProfile = (friendId) => {
     navigate(`/friend-profile/${friendId}`); // Adjust the path as needed
   };
-  // const handleAcceptFriendRequest = async (requestID) => {
-  //   try {
-  //     const request = pendingRequests.find(req => req.id === requestID);
-  //     if (!request) {
-  //       throw new Error('Request not found.');
-  //     }
   
-  //     const response = await axios.post('/backend/friends/request.php', 
-  //       JSON.stringify({
-  //         action: 'accept',
-  //         request_id: requestID
-  //       }), 
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`
-  //         },
-  //       }
-  //     );
-  
-  //     if (response.data.message === "Friend request accepted successfully") {
-  //       // Remove from pending and add to friends list
-  //       setPendingRequests(prev => prev.filter(req => req.id !== requestID));
-  //       setFriendsList(prev => [...prev, { id: request.id, name: request.email }]);
-  //       await fetchFriendsList(); // Refresh the friends list
-  //     } else {
-  //       alert(response.data.error || "Failed to accept friend request.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error accepting friend request:", error);
-  //     alert("An error occurred while accepting the friend request.");
-  //   }
-  // };
-
-  const handleAcceptFriendRequest = async (requestID) => {
+  const handleAcceptFriendRequest = async (request) => {
     try {
-      const request = pendingRequests.find(req => req.id === requestID);
-      if (!request) {
-        throw new Error('Request not found.');
-      }
-  
-      // Optimistically update the UI
-      setPendingRequests(prev => prev.filter(req => req.id !== requestID));
-      setFriendsList(prev => [...prev, { id: request.id, name: request.email }]);
-  
-      // Send the accept request to the backend
       const response = await axios.post('/backend/friends/request.php', 
         JSON.stringify({
           action: 'accept',
-          request_id: requestID
+          request_id: request.request_id, // Use the request_id from the request object
         }), 
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
   
-      if (response.data.message !== "Friend request accepted successfully") {
-        // If not successful, revert the optimistic update
-        setFriendsList(prev => prev.filter(friend => friend.id !== request.id));
-        setPendingRequests(prev => [request, ...prev]);
-        alert(response.data.error || "Failed to accept friend request.");
+      if (!response.data) {
+        throw new Error('No data received from the server.');
+      }
+  
+      if (typeof response.data.message === 'string' && response.data.message.includes("accepted friend request from")) {
+        // Update pending requests
+        setPendingRequests(prevRequests => prevRequests.filter(req => req.request_id !== request.request_id));
+        alert(response.data.message); // Display the backend message to the user
+        // Fetch the updated friends list
+        fetchFriendsList();
       } else {
-        // Refresh the friends list from the backend
-        await fetchFriendsList();
+        // Handle errors
+        throw new Error(response.data.error || "Failed to accept friend request.");
       }
     } catch (error) {
       console.error("Error accepting friend request:", error);
-      alert("An error occurred while accepting the friend request.");
-      // Revert state updates if an error occurs
-      setFriendsList(prev => prev.filter(friend => friend.id !== request.id));
-      setPendingRequests(prev => [request, ...prev]);
+      alert(error.toString());
     }
   };
   
+  
+
 
   // Function to decline a friend request
-  const handleDeclineFriendRequest = async (requestID) => {
+  const handleDeclineFriendRequest = async (request) => {
     try {
       const response = await axios.post('/backend/friends/request.php', 
         JSON.stringify({
           action: 'decline',
-          request_id: requestID
+          request_id: request.request_id, // Use the request_id from the request object
         }), 
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
-      if (response.data.message === "Friend request declined successfully") {
-        // Remove declined request from pendingRequests
-        setPendingRequests(prev => prev.filter(request => request.email !== email));
+  
+      if (!response.data) {
+        throw new Error('No data received from the server.');
+      }
+  
+      if (typeof response.data.message === 'string' && response.data.message.includes("declined friend request from")) {
+        // Update pending requests
+        setPendingRequests(prevRequests => prevRequests.filter(req => req.request_id !== request.request_id));
+        alert(response.data.message); // Display the backend message to the user
       } else {
-        alert(response.data.error || "Failed to decline friend request.");
+        // Handle errors
+        throw new Error(response.data.error || "Failed to decline friend request.");
       }
     } catch (error) {
       console.error("Error declining friend request:", error);
-      alert("An error occurred while declining the friend request.");
+      alert(error.toString());
     }
   };
 
   
-  // Function to fetch incoming friend requests
-  // const fetchIncomingRequests = async () => {
-  //   try {
-  //     const response = await axios.get('/backend/friends/incoming_pending.php', {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       },
-  //     });
-  //     if (response.data && response.data.length > 0) {
-  //       // Combine the new incoming requests with the existing ones without duplicates
-  //       setPendingFriends(prev => {
-  //         // Create a map of email to easily check for duplicates
-  //         const existingEmails = new Set(prev.map(req => req.email));
-  //         // Filter out duplicates and then concatenate with the existing list
-  //         const newRequests = response.data.filter(req => !existingEmails.has(req.email));
-  //         return [...prev, ...newRequests];
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching incoming friend requests:', error);
-  //   }
-  // };
-
+ 
   const fetchIncomingRequests = async () => {
     try {
       const response = await axios.get('/backend/friends/incoming_pending.php', {
@@ -254,18 +190,51 @@ const Friend = () => {
     }
   };
 
+
   useEffect(() => {
-    // Start polling for incoming friend requests
-    fetchFriendsList();
-    const interval = setInterval(fetchIncomingRequests, 5000); // Adjust the interval as needed
-   
-    const photo = localStorage.getItem('profilePhoto');
-    if (photo) {
-      setProfilePhoto(photo);
-    }
-    // Clean up the interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
+    // Function to fetch pending requests
+    const fetchPendingRequests = async () => {
+      try {
+        const response = await axios.get('/backend/friends/incoming_pending.php', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response.data) {
+          setPendingRequests(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching pending friend requests:', error);
+      }
+    };
+    // Function to fetch friends list
+    const fetchFriendsList = async () => {
+      try {
+        const response = await axios.get('/backend/friends/friends_list.php', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure the token is stored in localStorage
+          },
+        });
+        if (response.data) {
+          setFriendsList(response.data); // Update the friendsList state with the response
+        }
+      } catch (error) {
+        console.error('Error fetching friends list:', error);
+      }
+    };
+
+  // Set up the interval to refresh friends list every 5 seconds
+  const friendsListIntervalId = setInterval(fetchFriendsList, 500); // 5000 milliseconds is 5 seconds
+
+  // Set up the interval to refresh pending requests every 15 seconds
+  const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 500); // 15000 milliseconds is 15 seconds
+
+  // Clear the intervals when the component is unmounted
+  return () => {
+    clearInterval(friendsListIntervalId);
+    clearInterval(pendingRequestsIntervalId);
+  };
+}, []);
 
 
   const handleSearchFriends = async () => {
@@ -297,12 +266,17 @@ const Friend = () => {
   const [friendEmail, setFriendEmail] = useState("");
   const [isAddFriendDisabled, setIsAddFriendDisabled] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
+  const [isProfileSelected, setIsProfileSelected] = useState(false);
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  const handleSelectEntry = (entry) => {
+    setSelectedEntry(entry);
+    setIsProfileSelected(true); // Set to true when a friend's profile is selected
+  };
   const handleUpdateDescription = (id, newComment) => {
     setContentItems(
       contentItems.map((item) => {
@@ -365,6 +339,36 @@ const fetchFriendsList = async () => {
     }
   };
   
+  // Function to fetch and display a friend's journal entries
+const viewFriendProfile = async (friendId) => {
+  // Assuming you have a function to get the current user's token
+  const token = localStorage.getItem('token'); 
+
+  if (!token) {
+    console.error("No token found");
+    return;
+  }
+
+  try {
+    const response = await axios.get(`/backend/friends/retrieve_entries.php?user_id=${friendId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    
+    if (response.data.journalEntries) {
+      setJournalEntries(response.data.journalEntries);
+      setIsProfileSelected(true); // Set this to true to indicate that journal entries are being shown
+    } else {
+      // Handle if there are no journal entries
+      setJournalEntries([]);
+      alert('No journal entries found for this user.');
+    }
+  } catch (error) {
+    console.error('Error fetching friend\'s journal entries:', error);
+    // Handle error, maybe set state to show user feedback
+  }
+};
 
   const handleBlockClick = () => {
     setIsBlocked(!isBlocked);
@@ -400,24 +404,46 @@ const fetchFriendsList = async () => {
           <p>Reflect on today's day. Today was a busy day at work...</p>
         </div>
       </div>
-      <div className="middle-placeholder">
-        {contentItems.map((item) => (
+      {/* <div className="middle-placeholder">
+      {isProfileSelected && journalEntries.length > 0 ? (
+        journalEntries.map((entry) => (
           <ContentCard
-            key={item.id}
-            {...item}
-            onUpdate={handleUpdateDescription}
+            key={entry.id}
+            title={entry.title}
+            body={entry.body}
+            image_path={entry.image_path}
+            created_at={entry.created_at}
           />
-        ))}
-      </div>
+        ))
+      ) : (
+        <p>Please click on a friend's profile to view their journals.</p>
+      )}
+    </div> */}
+
+<div className="middle-placeholder">
+  {isProfileSelected && journalEntries.length > 0 ? (
+    journalEntries.map((entry) => (
+      <ContentCard
+        key={entry.id}
+        title={entry.title}
+        body={entry.body}
+        image_path={entry.image_path ? entry.image_path : null}
+        created_at={entry.created_at}
+      />
+    ))
+  ) : (
+    <p className="centered-text">Please click on a friend's profile to view their journals.</p>
+  )}
+</div>
       <div className="right-sidebar">
-      <div className="profile-section">
-        {profilePhoto ? (
-          <img className="profile-pic" src={profilePhoto} alt="Profile" />
-        ) : (
-          <p>No profile image found.</p>
-        )}
-        <h2 className="username">Lauren Fox</h2>
-      </div>
+        <div className="profile-section">
+          <img
+            className="profile-pic"
+            src={selfie_girl}
+            alt="Profile picture"
+          />
+          <h2 className="username">Lauren Fox</h2>
+        </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input
           type="email"
@@ -443,26 +469,29 @@ const fetchFriendsList = async () => {
           )}
         </div>
         <div className="friends-list-container">
-          <h4>Friends</h4>
-          {friendsList.map((friend) => (
+        <h4>Friends</h4>
+        {friendsList.length > 0 ? (
+          friendsList.map((friend) => (
             <div key={friend.id} className="friend-name">
-              {friend.name}
-              {/* Button to navigate to the friend's profile */}
-              <button onClick={() => navigateToFriendProfile(friend.id)} className="view-profile-button">
-                View Profile
-              </button>
+              {friend.email}
+              <button onClick={() => viewFriendProfile(friend.id)}>View Profile</button>
             </div>
-          ))}
-        </div>
+          ))
+        ) : (
+          <p>No friends found.</p>
+        )}
+      </div>
         <div className="friends-list-container">
   <h4>Pending Requests</h4>
-  {pendingRequests.map((request, index) => (
-    <div key={index} className="pending-request">
-      {request.email} ({request.status})
-      <button onClick={() => handleAcceptFriendRequest(request.id)} className="accept-button">Yes</button>
-      <button onClick={() => handleDeclineFriendRequest(request.id)} className="decline-button">No</button>
+  {pendingRequests.map((request) => (
+  <div key={request.request_id}>
+    {request.email}
+    <button onClick={() => handleAcceptFriendRequest(request)} className="accept-button">Accept</button>
+      <button onClick={() => handleDeclineFriendRequest(request)} className="decline-button">Decline</button>
     </div>
-  ))}
+ 
+))}
+
 </div>
       </div>
     </div>
