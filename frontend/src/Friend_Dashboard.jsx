@@ -387,9 +387,9 @@ const viewFriendProfile = async (friendId) => {
     <div className="dashboard">
       <div className="left-sidebar">
         <div className="settings-link-container">
-          <div className="settings-text" onClick={navigateToSettings}>
-            Settings
-          </div>
+        <div className="settings-link-container">
+      <div className="settings-text" onClick={navigateToSettings}>⚙️</div>
+    </div>
         </div>
         <div className="journalist-header">
           <h1>Journalist</h1>
