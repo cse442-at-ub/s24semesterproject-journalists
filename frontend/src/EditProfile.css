@@ -99,7 +99,18 @@ html, body {
   background-color: #F74923;
   color: white;
 }
+.profile-photo-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; /* Adjust as needed */
+}
 
+.profile-photo-preview img {
+  border-radius: 50%; /* This makes the image rounded */
+  width: 100px; /* Adjust the size as needed */
+  height: 100px; /* Adjust the size as needed */
+  object-fit: cover; /* This will cover the area without stretching the image */
+}
 .cancel-button:active,
 .save-button:active {
   transform: scale(0.96); /* Scales the button to 96% to give a press effect */

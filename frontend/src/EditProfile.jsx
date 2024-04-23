@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./EditProfile.css";
 import { Link } from "react-router-dom";
+import wolf from "./assets/wolf.jpg";
 
 function EditProfile() {
   const [profile, setProfile] = useState({
@@ -11,7 +12,23 @@ function EditProfile() {
     contactNumber: "",
     city: "",
     state: "",
+    photo: wolf,
   });
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {""
+        const base64String = e.target.result;
+        setProfile((prevState) => ({
+          ...prevState,
+          photo: base64String,
+        }));
+        localStorage.setItem('profilePhoto', base64String); // Store the image as Base64 in local storage
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
@@ -124,6 +141,24 @@ function EditProfile() {
           <span className="role">Journalist</span>
         </header>
         <form className="profile-form" onSubmit={handleSubmit}>
+      
+        {profile.photo && (
+    <div className="profile-photo-preview">
+      <img src={profile.photo} alt="Profile" />
+    </div>
+  )}
+        <div className="form-group">
+            <label htmlFor="photo">Profile Photo</label>
+            <input 
+              type="file"
+              id="photo"
+              name="photo"
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+
+          </div>
+         
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="firstName">First Name</label>
@@ -159,6 +194,7 @@ function EditProfile() {
               onChange={handleChange}
               placeholder="Enter your address"
             />
+            
           </div>
 
           <div className="form-row">
