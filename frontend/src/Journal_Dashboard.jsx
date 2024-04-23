@@ -18,7 +18,10 @@ const Journal_Dashboard = () => {
   const [selectedEntry, setSelectedEntry] = useState(null);
 
   const navigate = useNavigate();
-
+ 
+  const Friends = () => {
+    navigate('/Friend_Dashboard'); // Replace '/journalist-page' with the actual route you want to navigate to
+  };
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchEntries();
@@ -176,23 +179,19 @@ const Journal_Dashboard = () => {
       <div className="left-column-journal">
         <div>
           <div className="journal-header">
-              <div className="journalist-label">Journalist</div>
-              <div
+          <div
+                className="journalist-label"
+                onClick={Friends} // Use navigate inside this function
+                style={{ cursor: 'pointer' }}  // Optional, for visual feedback that it's clickable
+            >
+                Journalist
+            </div>              <div
                 className={`prompt-dropdown ${showPrompts ? "show-prompts" : ""}`}
               >
                 <button onClick={togglePrompts} className="prompt-toggle-btn">
-                  New Entry {showPrompts ? "▲" : "▼"}
+                  New Entry 
                 </button>
-                {showPrompts && (
-                  <div className="prompt-buttons">
-                    <button className="prompt-btn" onClick={JournalVideo}>
-                      Video Prompt
-                    </button>
-                    <button className="prompt-btn" onClick={journalImage}>
-                      Image Prompt
-                    </button>
-                  </div>
-                )}
+
               </div>
               </div>
               <div className="journal-history">
@@ -287,12 +286,19 @@ const Journal_Dashboard = () => {
             {errorMessages.message && (
               <div className="error-message">{errorMessages.message}</div>
             )}
+            <div>
+  <input
+    id="file"
+    className="file-input"
+    type="file"
+    accept=".png, .jpg, .jpeg"
+    onChange={handleImageChange}
+  />
+  <label htmlFor="file" className="file-input-label">Choose File</label>
+</div>
 
-            <input
-              type="file"
-              accept=".png, .jpg, .jpeg"
-              onChange={handleImageChange}
-            />
+
+            
             <button className=" orange" onClick={handleSubmit}>Submit Entry</button>
           </div>
         )}
