@@ -65,6 +65,16 @@
   margin-left: 10px; /* Adds a little space between the title and the button */
 }
 
+.dropdown-button2 {
+  background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%);
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px; /* Adds a little space between the title and the button */
+}
+
 .dropdown {
   position: relative; /* This is crucial for positioning the dropdown content correctly */
 }

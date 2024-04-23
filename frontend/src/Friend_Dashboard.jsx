@@ -474,7 +474,7 @@ const viewFriendProfile = async (friendId) => {
           friendsList.map((friend) => (
             <div key={friend.id} className="friend-name">
               {friend.email}
-              <button onClick={() => viewFriendProfile(friend.id)}>View Profile</button>
+              <button onClick={() => viewFriendProfile(friend.id)} className="dropdown-button2">View Profile</button>
             </div>
           ))
         ) : (
@@ -489,7 +489,7 @@ const viewFriendProfile = async (friendId) => {
     <button onClick={() => handleAcceptFriendRequest(request)} className="accept-button">Accept</button>
       <button onClick={() => handleDeclineFriendRequest(request)} className="decline-button">Decline</button>
     </div>
- 
+  
 ))}
 
 </div>
