@@ -141,7 +141,7 @@ const Friend = () => {
       <div key={comment.comment_id}>
         <strong>User {comment.user_id}:</strong>
         <p>{comment.comment}</p>
-        {/* <span>{new Date(comment.created_at).toLocaleString()}</span> */}
+        <span>{new Date(comment.created_at).toLocaleString()}</span> 
       </div>
     ));
   
