@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       // Proxying requests starting with /backend to your PHP server
       '/backend': {
-        target: 'http://localhost/Journalist', // The root path to your PHP server
+        target: 'http://localhost/React-Guestbook', // The root path to your PHP server
         changeOrigin: true,
       },
       // ... other proxies if necessary

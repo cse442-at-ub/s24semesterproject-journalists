@@ -505,7 +505,6 @@ const viewFriendProfile = async (friendId) => {
       // Check for a successful message
       if (response.data.message === "Comment added successfully") {
         console.log("Comment added successfully", response.data);
-        alert('Comment added successfully');
         // Optionally, refresh the comments list here
         // fetchComments(journalEntryId);
       } else {
