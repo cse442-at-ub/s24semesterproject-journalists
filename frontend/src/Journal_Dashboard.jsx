@@ -155,7 +155,7 @@ const Journal_Dashboard = () => {
   };
 
   const JournalVideo = () => {
-    navigate("/journal-video");
+    navigate("/journal");
   };
   const journalImage = () => {
     navigate("/journal-image");
@@ -169,9 +169,7 @@ const Journal_Dashboard = () => {
     setSelectedEntry(null); // Add this line to reset the selected entry
   };
 
-  const togglePrompts = () => {
-    setShowPrompts(!showPrompts);
-  };
+
   const [promptText, setPromptText] = useState("Reflect on today's day");
 
   return (
@@ -185,14 +183,12 @@ const Journal_Dashboard = () => {
                 style={{ cursor: 'pointer' }}  // Optional, for visual feedback that it's clickable
             >
                 Journalist
-            </div>              <div
-                className={`prompt-dropdown ${showPrompts ? "show-prompts" : ""}`}
-              >
-                <button onClick={togglePrompts} className="prompt-toggle-btn">
+            </div>              
+                <button onClick={JournalVideo} className="prompt-toggle-btn">
                   New Entry 
                 </button>
 
-              </div>
+            
               </div>
               <div className="journal-history">
                 {journalEntries.map((entry, index) => (
