@@ -64,7 +64,26 @@ const Friend = () => {
   const [friendsList, setFriendsList] = useState([]);
   const [userCity, setUserCity] = useState("New York");
   const [journalEntries, setJournalEntries] = useState([]);
-  const ContentCard = ({ title, body, created_at, image_path }) => {
+
+
+ 
+
+  const ContentCard = ({ title, body, created_at, image_path, onUpdate }) => {
+
+    const [comment, setComment] = useState("");
+
+      // Handles changes to the comment input
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+
+  // Submits the comment and updates the content card
+  const handleCommentButtonClick = () => {
+    onUpdate(id, comment);
+    setComment(""); // Clear the comment field after submitting
+  };
+
+
     return (
       <div className="content-card">
         {image_path && (
@@ -79,6 +98,19 @@ const Friend = () => {
           <p>{body}</p>
           <p className="date">Posted on: {new Date(created_at).toLocaleString()}</p>
         </div>
+
+        <div className="comment-input-container">
+          <input
+            type="text"
+            value={comment}
+            onChange={handleCommentChange}
+            placeholder="Leave a comment..."
+            className="comment-input"
+          />
+          <button onClick={handleCommentButtonClick} className="comment-button">
+            Comment
+          </button>
+          </div>
       </div>
     );
   };
@@ -222,16 +254,16 @@ const Friend = () => {
         console.error('Error fetching friends list:', error);
       }
     };
-
+    fetchFriendsList();
   // Set up the interval to refresh friends list every 5 seconds
-  const friendsListIntervalId = setInterval(fetchFriendsList, 500); // 5000 milliseconds is 5 seconds
+  //const friendsListIntervalId = setInterval(fetchFriendsList, 1500); // 5000 milliseconds is 5 seconds
 
   // Set up the interval to refresh pending requests every 15 seconds
   const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 500); // 15000 milliseconds is 15 seconds
 
   // Clear the intervals when the component is unmounted
   return () => {
-    clearInterval(friendsListIntervalId);
+    //clearInterval(friendsListIntervalId);
     clearInterval(pendingRequestsIntervalId);
   };
 }, []);
