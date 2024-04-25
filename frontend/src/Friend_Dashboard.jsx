@@ -380,7 +380,7 @@ const viewFriendProfile = async (friendId) => {
   };
 
   const navigateToSettings = () => {
-    navigate("/security-page"); // This will navigate to the SecurityPage component
+    navigate("/edit-profile"); // This will navigate to the SecurityPage component
   };
 
   return (
@@ -393,8 +393,7 @@ const viewFriendProfile = async (friendId) => {
         </div>
         <div className="journalist-header">
           <h1>Journalist</h1>
-        </div>
-        <div className="header-buttons">
+  
           <Link to="/journal" className="header-button">
             New Journal Entry
           </Link>

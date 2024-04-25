@@ -115,7 +115,7 @@ function EditProfile() {
         <nav>
           <ul>
             <li>
-              <Link to="/journal">Home</Link>
+              <Link to="/Friend_Dashboard">Home</Link>
             </li>
             <li>
               <Link to="/edit-profile">Edit Profile</Link>
