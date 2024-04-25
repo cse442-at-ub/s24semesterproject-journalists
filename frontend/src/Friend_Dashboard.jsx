@@ -543,8 +543,6 @@ const viewFriendProfile = async (friendId) => {
         </div>
         <div className="journalist-header">
           <h1>Journalist</h1>
-        </div>
-        <div className="header-buttons">
           <Link to="/journal" className="header-button">
             New Journal Entry
           </Link>
@@ -627,7 +625,7 @@ const viewFriendProfile = async (friendId) => {
           friendsList.map((friend) => (
             <div key={friend.id} className="friend-name">
               {friend.email}
-              <button onClick={() => viewFriendProfile(friend.id)}>View Profile</button>
+              <button onClick={() => viewFriendProfile(friend.id)} className="friend-button">View Profile</button>
             </div>
           ))
         ) : (
