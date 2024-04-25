@@ -34,11 +34,15 @@ const About = () => {
           <h1 className="title">ABOUT</h1>
           <div className="role">Journalist</div>
         </div>
+        <blockquote className="quote">
+        Journalist is a dynamic online journaling platform tailored for University of Buffalo students.  Built with a React frontend and a robust PHP backend linked to a MySQL database, this platform allows for easy creation and sharing of journal entries, enabling students to connect and share their creative works with friends within their university community.        
+        </blockquote>
+        <div>
+        </div>
         <div className="image-container">
           <img className="journal-image" src={mona_lisa} alt="Journal Entry" />
         </div>
-        <blockquote className="quote">
-        Journalist is a dynamic online journaling platform tailored for University of Buffalo students.  Built with a React frontend and a robust PHP backend linked to a MySQL database, this platform allows for easy creation and sharing of journal entries, enabling students to connect and share their creative works with friends within their university community.        </blockquote>
+
       </div>
     </div>
   );
