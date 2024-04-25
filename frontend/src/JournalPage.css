@@ -405,14 +405,15 @@
   }
   
   .header-button {
-    padding: 5px 15px; /* Adjust padding as needed */
+    padding: 10px 15px; /* Adjust padding as needed */
     text-decoration: none;
     color: white;
-    background-color: #ff0000; /* Set the background color to orange */
+    background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%); /* Set the background color to orange */
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
     margin-left: 10px; /* This will create space on the left side of each button */
+
   }
   .block-button {
     margin-bottom: 30px; /* Increased space below the block button */
