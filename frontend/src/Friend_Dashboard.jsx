@@ -38,16 +38,16 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   const toggleLike = () => {
-    setIsLiked(!isLiked); // Toggle the like state
-    setLikes(isLiked ? likes - 1 : likes + 1); // Adjust the likes count
+    setHasLiked(!hasLiked); // Toggle the like state
     if (hasLiked) {
+      // If the post is already liked, unlike it
       setLikes(likes - 1);
-      setLikers(likers.filter((liker) => liker !== "currentUser")); // Replace "currentUser" with actual user ID or username
+      setLikers(likers.filter((liker) => liker !== "currentUser")); // Update likers list
     } else {
+      // If the post is not liked, like it
       setLikes(likes + 1);
-      setLikers([...likers, "currentUser"]); // Replace "currentUser" with actual user ID or username
+      setLikers([...likers, "currentUser"]); // Update likers list
     }
-    setHasLiked(!hasLiked);
   };
 
   const handleCommentChange = (e) => {
@@ -84,13 +84,12 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
         </button>
         <div className="like-section">
           <button onClick={toggleLike} className="like-button">
-            {isLiked ? '❤️' : '🤍'} {/* Red heart for liked, white heart for not liked */}
+            {hasLiked ? '❤️' : '🤍'}
           </button>
           <span className="likes-count" onClick={showLikers}>
             {likes} likes
           </span>
-            {/* You can create a modal or tooltip to show likers when likes-count is clicked */}
-          </div>
+        </div>
       </div>
     </div>
   );
