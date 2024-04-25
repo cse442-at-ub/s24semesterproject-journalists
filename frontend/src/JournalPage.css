@@ -65,6 +65,16 @@
   margin-left: 10px; /* Adds a little space between the title and the button */
 }
 
+.dropdown-button2 {
+  background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%);
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 2px;
+  margin-left: 10px; /* Adds a little space between the title and the button */
+}
+
 .dropdown {
   position: relative; /* This is crucial for positioning the dropdown content correctly */
 }
@@ -453,11 +463,35 @@
     padding: 5px 15px; /* Adjust padding as needed */
     text-decoration: none;
     color: white;
-    background-color: #ff0000; /* Set the background color to orange */
+    background-image:linear-gradient(90deg, #FF4500 0%, #875DFF 100%); /* Gradient from red to purple */
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
     margin-left: 10px; /* This will create space on the left side of each button */
+  }
+  .header-button {
+    /* ... existing styles ... */
+    display: inline-block; /* Make sure it behaves like a button */
+    padding: 10px 20px; /* Add some padding */
+    border-radius: 5px; /* Rounded corners */
+    text-transform: uppercase; /* Uppercase text */
+    font-weight: bold; /* Bold font */
+    transition: transform 0.1s, box-shadow 0.1s; /* Smooth transition for transform and shadow */
+    text-decoration: none; /* Remove the underline from links */
+    cursor: pointer; /* Change cursor to pointer */
+    /* Add any additional styling you need here */
+  }
+  
+  .header-button:hover {
+    transform: translateY(-2px); /* Move the link up slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    /* Optionally change the background or text color on hover */
+  }
+  
+  .header-button:active {
+    transform: translateY(1px); /* Move the link down slightly to simulate click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Smaller shadow for depth */
+    /* Optionally change the background or text color on active */
   }
   
   .header-button:first-child {
@@ -587,7 +621,22 @@
     align-items: center; /* Center image vertically */
     justify-content: center; /* Center image horizontally */
   }
-  
+  /* Assuming .view-profile-btn shares the same initial style as .prompt-toggle-btn */
+.view-profile-btn {
+  /* ... existing styles from .prompt-toggle-btn ... */
+  transition: transform 0.1s, box-shadow 0.1s; /* Smooth transition for transform and shadow */
+}
+
+.view-profile-btn:hover {
+  transform: translateY(-2px); /* Move the button up slightly */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+}
+
+.view-profile-btn:active {
+  transform: translateY(1px); /* Move the button down slightly to simulate click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Smaller shadow for depth */
+}
+
   
 /* Mobile responsiveness */
 @media (max-width: 768px) {
@@ -613,7 +662,32 @@
     font-size: 14px; /* Adjust the size as needed for smaller screens */
     padding: 10px; /* Add padding if needed to prevent text from touching the edges */
   }
+  .profile-section {
+    display: none;
+  }
+  .journal-entry {
+    display: none;
+  }
+  .new-journal-entry-button {
+    font-size: 0.875rem; /* Smaller font size on mobile */
+    padding: 8px 16px; /* Adjust padding to better fit smaller screens */
+    /* Add other mobile-specific styles here */
 
+    /* If the button is extending outside its container, you might want to adjust the width or padding */
+    width: calc(100% - 32px); /* Full width minus the padding of the parent container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+
+  /* Mobile-specific styles for hiding elements */
+  .profile-section, .journal-entry {
+    display: none; /* Hide these sections on mobile */
+  }
+  .settings-text {
+    /* Increase the size for mobile touch */
+    width: 48px; /* Slightly larger touch target on mobile */
+    height: 48px; /* Slightly larger touch target on mobile */
+    font-size: 30px; /* Larger icon size for better visibility */
+  }
 
 }
 

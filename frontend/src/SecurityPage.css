@@ -26,7 +26,7 @@
     padding-left: 250px; /* Adjust this value based on the sidebar width */
   }
   .logout-button {
-    background-color: #ff0000; /* Red background */
+    background-image:linear-gradient(90deg, #FF4500 0%, #875DFF 100%); /* Gradient from red to purple */
     color: #ffffff; /* White text */
     padding: 10px 15px; /* Padding for a better button appearance */
     text-decoration: none; /* Remove underline from link */
