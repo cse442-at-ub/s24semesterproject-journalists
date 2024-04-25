@@ -472,7 +472,7 @@ const viewFriendProfile = async (friendId) => {
   };
 
   const navigateToSettings = () => {
-    navigate("/security-page"); // This will navigate to the SecurityPage component
+    navigate("/edit-profile"); // This will navigate to the SecurityPage component
   };
 
   const addComment = async (journalEntryId, commentText) => {
@@ -537,9 +537,9 @@ const viewFriendProfile = async (friendId) => {
     <div className="dashboard">
       <div className="left-sidebar">
         <div className="settings-link-container">
-          <div className="settings-text" onClick={navigateToSettings}>
-            Settings
-          </div>
+        <div className="settings-link-container">
+      <div className="settings-text" onClick={navigateToSettings}>⚙️</div>
+    </div>
         </div>
         <div className="journalist-header">
           <h1>Journalist</h1>
@@ -625,7 +625,7 @@ const viewFriendProfile = async (friendId) => {
           friendsList.map((friend) => (
             <div key={friend.id} className="friend-name">
               {friend.email}
-              <button onClick={() => viewFriendProfile(friend.id)} className="friend-button">View Profile</button>
+              <button onClick={() => viewFriendProfile(friend.id)} className="dropdown-button2">View Profile</button>
             </div>
           ))
         ) : (
@@ -640,7 +640,7 @@ const viewFriendProfile = async (friendId) => {
     <button onClick={() => handleAcceptFriendRequest(request)} className="accept-button">Accept</button>
       <button onClick={() => handleDeclineFriendRequest(request)} className="decline-button">Decline</button>
     </div>
- 
+  
 ))}
 
 </div>

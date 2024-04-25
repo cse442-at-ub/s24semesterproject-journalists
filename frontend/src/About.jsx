@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./About.css"; // Ensure this path is correct
+import mona_lisa from "./assets/gg.jpg"; // Ensure this path is correct
 
 const About = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
@@ -34,9 +35,14 @@ const About = () => {
           <div className="role">Journalist</div>
         </div>
         <blockquote className="quote">
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-          <cite className="author">— CSE 442 Project</cite>
+        Journalist is a dynamic online journaling platform tailored for University of Buffalo students.  Built with a React frontend and a robust PHP backend linked to a MySQL database, this platform allows for easy creation and sharing of journal entries, enabling students to connect and share their creative works with friends within their university community.        
         </blockquote>
+        <div>
+        </div>
+        <div className="image-container">
+          <img className="journal-image" src={mona_lisa} alt="Journal Entry" />
+        </div>
+
       </div>
     </div>
   );
