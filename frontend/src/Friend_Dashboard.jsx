@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 // ContentCard component
-const ContentCard = ({ id, type, content, description, onUpdate }) => {
+/*const ContentCard = ({ id, type, content, description, onUpdate }) => {
   const [comment, setComment] = useState("");
 
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const ContentCard = ({ id, type, content, description, onUpdate }) => {
       </div>
     </div>
   );
-};
+};*/
 
 // Dashboard component
 const Friend = () => {
@@ -65,6 +65,54 @@ const Friend = () => {
   const [userCity, setUserCity] = useState("New York");
   const [journalEntries, setJournalEntries] = useState([]);
   const ContentCard = ({ title, body, created_at, image_path }) => {
+    const [likesCount, setLikesCount] = useState(0);
+    const [isLiked, setIsLiked] = useState(false);  // Initially set based on data from server if available
+
+    const fetchLikesCount = async () => {
+      if (!id) return; // Check if the ID is valid
+      try {
+          const response = await axios.get(`/backend/friends/get_likes.php?journal_entry_id=${id}`, {
+              headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              },
+          });
+          if (response.data && response.data.like_count !== undefined) {
+              setLikesCount(response.data.like_count);
+          }
+      } catch (error) {
+          console.error('Error fetching likes count:', error);
+      }
+    };
+  
+    useEffect(() => {
+        fetchLikesCount();
+    }, [id]); // Dependency on the journal entry ID
+
+    const handleLikeToggle = async () => {
+      const action = isLiked ? 'unlike' : 'like';  // Determine the action based on current state
+      const url = `/backend/friends/like.php`;
+      const data = {
+          journal_entry_id: id,
+          action: action  // 'like' or 'unlike'
+      };
+  
+      try {
+          const response = await axios.post(url, data, {
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+              },
+          });
+          if (response.status === 200 || response.status === 201) {
+              setIsLiked(!isLiked);  // Toggle the liked state
+              // Optionally adjust likes count without refetching
+              setLikesCount((prev) => isLiked ? prev - 1 : prev + 1);
+          }
+      } catch (error) {
+          console.error('Error toggling like:', error);
+      }
+    };
+    
     return (
       <div className="content-card">
         {image_path && (
@@ -78,6 +126,10 @@ const Friend = () => {
           <h3>{title}</h3>
           <p>{body}</p>
           <p className="date">Posted on: {new Date(created_at).toLocaleString()}</p>
+          <button onClick={handleLikeToggle} className="like-button">
+  {isLiked ? 'Unlike' : 'Like'}
+</button>
+          <p className="likes-count">Likes: {likesCount}</p>
         </div>
       </div>
     );
