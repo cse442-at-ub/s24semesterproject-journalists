@@ -79,6 +79,16 @@
   position: relative; /* This is crucial for positioning the dropdown content correctly */
 }
 
+.like-button {
+  background: linear-gradient(90deg, #ff009d 0%, #3fd5ff 100%);
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px; /* Rounded corners */
+  margin-left: 10px;
+}
+
 .dropdown-content {
   display: none;
   position: absolute;
