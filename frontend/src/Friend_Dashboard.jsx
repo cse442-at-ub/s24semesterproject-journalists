@@ -6,80 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-// // ContentCard component
-// const ContentCard = ({ id, type, content, description, onUpdate, fetchComments }) => {
-//   const [comments, setComments] = useState([]); // State to store comments
-//   const [comment, setComment] = useState(""); // State to store a new comment
-
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const fetchAndSetComments = async () => {
-//       const fetchedComments = await fetchComments(id);
-//       setComments(fetchedComments);
-//     };
-
-//     fetchAndSetComments();
-//   }, [id, fetchComments]);
-
-//   const renderMedia = () => {
-//     switch (type) {
-//       case "image":
-//         return (
-//           <img src={content} alt="user-post"/>
-//         );
-//       case "text":
-//       default:
-//         return <p>{content}</p>;
-//     }
-//   };
-
-//   const renderComments = () => {
-//     return comments.map((comment, index) => (
-//       <p key={index}>{comment.text}</p> // Assume your comment object has a 'text' field
-//     ));
-//   };
-
-//   const handleCommentChange = (e) => {
-//     setComment(e.target.value);
-//   };
-
-//   const handleCommentButtonClick = () => {
-//     onUpdate(id, comment);
-//     setComment("");
-//   };
-
-//   return (
-//     <div className="content-card">
-//       <div className="media">{renderMedia()}</div>
-//       <div className="description">
-//         <p>{description}</p>
-//         <div className="comments-section">
-//         {renderComments()}
-//           <div className="comment-input-container">
-//             <input
-//               type="text"
-//               value={comment}
-//               onChange={handleCommentChange}
-//               placeholder="Leave a comment..."
-//               className="comment-input"
-//             />
-//             <button
-//             onClick={() => {
-//               onUpdate(id, comment);
-//               setComment("");
-//             }}
-//             className="comment-button"
-//           >
-//             Comment
-//           </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 // Dashboard component
 const Friend = () => {
   const navigate = useNavigate();
@@ -94,6 +20,54 @@ const Friend = () => {
  
 
   const ContentCard = ({ id, title, body, created_at, image_path, onUpdate }) => {
+    const [likesCount, setLikesCount] = useState(0);
+    const [isLiked, setIsLiked] = useState(false);  // Initially set based on data from server if available
+
+    const fetchLikesCount = async () => {
+      if (!id) return; // Check if the ID is valid
+      try {
+          const response = await axios.get(`/backend/friends/get_likes.php?journal_entry_id=${id}`, {
+              headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              },
+          });
+          if (response.data && response.data.like_count !== undefined) {
+              setLikesCount(response.data.like_count);
+          }
+      } catch (error) {
+          console.error('Error fetching likes count:', error);
+      }
+    };
+  
+    useEffect(() => {
+        fetchLikesCount();
+    }, [id]); // Dependency on the journal entry ID
+
+    const handleLikeToggle = async () => {
+      const action = isLiked ? 'unlike' : 'like';  // Determine the action based on current state
+      const url = `/backend/friends/like.php`;
+      const data = {
+          journal_entry_id: id,
+          action: action  // 'like' or 'unlike'
+      };
+  
+      try {
+          const response = await axios.post(url, data, {
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+              },
+          });
+          if (response.status === 200 || response.status === 201) {
+              setIsLiked(!isLiked);  // Toggle the liked state
+              // Optionally adjust likes count without refetching
+              setLikesCount((prev) => isLiked ? prev - 1 : prev + 1);
+          }
+      } catch (error) {
+          console.error('Error toggling like:', error);
+      }
+  };  
+  
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState("");
   
@@ -152,6 +126,10 @@ const Friend = () => {
           <h3>{title}</h3>
           <p>{body}</p>
           <p className="date">Posted on: {new Date(created_at).toLocaleString()}</p>
+          <button onClick={handleLikeToggle} className="like-button">
+  {isLiked ? 'Unlike' : 'Like'}
+</button>
+          <p className="likes-count">Likes: {likesCount}</p>
         </div>
         <div className="comments-section">
           {renderComments()}
@@ -348,23 +326,6 @@ const Friend = () => {
   const handleFriendEmailChange = (e) => {
     setFriendEmail(e.target.value);
   };
-
-//   // Function to fetch the list of friends
-// const fetchFriendsList = async () => {
-//   try {
-//     const response = await axios.get('/backend/friends/friend_list.php', {
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem('token')}`,
-//       },
-//     });
-//     if (response.data) {
-//       setFriendsList(response.data); // Update the friendsList state with the response
-//     }
-//   } catch (error) {
-//     console.error('Error fetching friends list:', error);
-//   }
-// };
-
   
 const handleAcceptFriendRequest = async (request) => {
   try {
