@@ -530,6 +530,8 @@ const viewFriendProfile = async (friendId) => {
     navigate("/public_profile", { state: { friendEmail: friendEmail } }); // Correctly use the state
   };
 
+  const userEmail = localStorage.getItem("email"); 
+
   const navigateToSettings = () => {
     navigate("/edit-profile"); // This will navigate to the SecurityPage component
   };
@@ -654,7 +656,7 @@ const viewFriendProfile = async (friendId) => {
             src={profileImageUrl || selfie_girl}
             alt="Profile picture"
           />
-          <h2 className="username">{currentUserEmail || "Loading..."}</h2>
+          <h2 className="username">{userEmail}</h2>
         </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input
