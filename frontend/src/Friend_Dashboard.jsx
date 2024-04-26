@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./JournalPage.css";
 import monaLisaImage from "./assets/mona_lisa.jpeg"; // Adjust the import path as needed
-import selfie_girl from "./assets/girl_pics_442.jpeg";
+import selfie_girl from "./assets/default_profile.jpeg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -136,10 +136,11 @@ const Friend = () => {
         alert("Comment cannot be empty!");
       }
     };
-  
+    const useEmail = localStorage.getItem("email").split('@')[0];
+    const displayName = useEmail.charAt(0).toUpperCase() + useEmail.slice(1);
     const renderComments = () => comments.map((comment) => (
       <div key={comment.comment_id}>
-        <strong>User {comment.user_id}:</strong>
+        <strong>{displayName}:</strong>
         <p>{comment.comment}</p>
         <span>{new Date(comment.created_at).toLocaleString()}</span> 
       </div>
