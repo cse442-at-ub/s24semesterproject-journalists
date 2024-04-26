@@ -5,6 +5,7 @@ import selfie_girl from "./assets/girl_pics_442.jpeg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useProfileImage } from './ProfileImageContext';
 
 // // ContentCard component
 // const ContentCard = ({ id, type, content, description, onUpdate, fetchComments }) => {
@@ -82,6 +83,8 @@ import axios from "axios";
 
 // Dashboard component
 const Friend = () => {
+
+  const { profileImageUrl } = useProfileImage();
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState([]); // State to hold search results
@@ -100,7 +103,7 @@ const Friend = () => {
     const fetchLikesCount = async () => {
       if (!id) return; // Check if the ID is valid
       try {
-          const response = await axios.get(`/backend/friends/get_likes.php?journal_entry_id=${id}`, {
+          const response = await axios.get(`https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/get_likes.php?journal_entry_id=${id}`, {
               headers: {
                   'Authorization': `Bearer ${localStorage.getItem('token')}`,
               },
@@ -119,7 +122,7 @@ const Friend = () => {
 
     const handleLikeToggle = async () => {
       const action = isLiked ? 'unlike' : 'like';  // Determine the action based on current state
-      const url = `/backend/friends/like.php`;
+      const url = `https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/like.php`;
       const data = {
           journal_entry_id: id,
           action: action  // 'like' or 'unlike'
@@ -151,7 +154,7 @@ const Friend = () => {
         return;
       }
       try {
-        const response = await axios.get(`/backend/friends/get_comments.php?journal_entry_id=${id}`, {
+        const response = await axios.get(`https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/get_comments.php?journal_entry_id=${id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -224,7 +227,7 @@ const Friend = () => {
   };
   const fetchJournalEntries = async () => {
     try {
-      const response = await axios.get('/backend/friends/retrieve_entries.php', {
+      const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/retrieve_entries.php', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -245,7 +248,7 @@ const Friend = () => {
   // Function to decline a friend request
   const handleDeclineFriendRequest = async (request) => {
     try {
-      const response = await axios.post('/backend/friends/request.php', 
+      const response = await axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php', 
         JSON.stringify({
           action: 'decline',
           request_id: request.request_id, // Use the request_id from the request object
@@ -280,7 +283,7 @@ const Friend = () => {
  
   const fetchIncomingRequests = async () => {
     try {
-      const response = await axios.get('/backend/friends/incoming_pending.php', {
+      const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/incoming_pending.php', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -300,7 +303,7 @@ const Friend = () => {
 
       const fetchPendingRequests = async () => {
         try {
-          const response = await axios.get('/backend/friends/incoming_pending.php', {
+          const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/incoming_pending.php', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           });
           if (JSON.stringify(response.data) !== JSON.stringify(pendingRequests)) {
@@ -314,7 +317,7 @@ const Friend = () => {
       // Function to fetch friends list
       const fetchFriendsList = async () => {
         try {
-          const response = await axios.get('/backend/friends/friends_list.php', {
+          const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/friends_list.php', {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure the token is stored in localStorage
             },
@@ -358,7 +361,7 @@ useEffect(() => {
 
     try {
       const response = await axios.get(
-        `/backend/friends/search.php?query=${friendEmail}`,
+        `https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/search.php?query=${friendEmail}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the authorization header
@@ -424,7 +427,7 @@ useEffect(() => {
   
 const handleAcceptFriendRequest = async (request) => {
   try {
-    const response = await axios.post('/backend/friends/request.php', 
+    const response = await axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php', 
       JSON.stringify({
         action: 'accept',
         request_id: request.request_id, // Use the request_id from the request object
@@ -461,7 +464,7 @@ const handleAcceptFriendRequest = async (request) => {
     try {
       // Send the request to the backend to add the friend
       const response = await axios.post(
-        '/backend/friends/request.php',
+        'https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php',
         JSON.stringify({
           action: 'send',
           friend_email: email
@@ -498,7 +501,7 @@ const viewFriendProfile = async (friendId) => {
   }
 
   try {
-    const response = await axios.get(`/backend/friends/retrieve_entries.php?user_id=${friendId}`, {
+    const response = await axios.get(`https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/retrieve_entries.php?user_id=${friendId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       },
@@ -546,7 +549,7 @@ const viewFriendProfile = async (friendId) => {
       });
   
       // Sending the request
-      const response = await axios.post('/backend/friends/add_comment.php', data, {
+      const response = await axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/add_comment.php', data, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -648,7 +651,7 @@ const viewFriendProfile = async (friendId) => {
         <div className="profile-section">
           <img
             className="profile-pic"
-            src={selfie_girl}
+            src={profileImageUrl || selfie_girl}
             alt="Profile picture"
           />
           <h2 className="username">{currentUserEmail || "Loading..."}</h2>
