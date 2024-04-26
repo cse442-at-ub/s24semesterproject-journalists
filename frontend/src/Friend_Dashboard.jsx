@@ -294,6 +294,8 @@ const Friend = () => {
 }, []);
 
 
+
+  const userEmail = localStorage.getItem("email"); 
   const handleSearchFriends = async () => {
     if (!friendEmail) {
       alert("Please enter an email to search.");
@@ -593,7 +595,7 @@ const viewFriendProfile = async (friendId) => {
             src={selfie_girl}
             alt="Profile picture"
           />
-          <h2 className="username">Lauren Fox</h2>
+          <h2 className="username">{userEmail}</h2>
         </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input
