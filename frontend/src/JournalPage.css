@@ -150,8 +150,10 @@
 }
 
 .comment-input-container {
-    margin-bottom: 16px; /* Spacing between input and button */
-  }
+  margin-bottom: 16px; /* Spacing between input and button */
+  padding-top: 5%;
+  /* Increase padding to create space between the input and the button */
+}
 
 /* Style for the comment button */
 .comment-button {
@@ -160,6 +162,7 @@
   border: none;
   padding: 12px 24px;
   border-radius: 9px;
+  margin-top: 10px; 
   cursor: pointer;
   width: 100%;
   font-weight: bold;

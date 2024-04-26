@@ -89,7 +89,7 @@ const Friend = () => {
   const [friendsList, setFriendsList] = useState([]);
   const [userCity, setUserCity] = useState("New York");
   const [journalEntries, setJournalEntries] = useState([]);
-
+  const [currentUserEmail, setCurrentUserEmail] = useState("");
 
  
 
@@ -285,7 +285,6 @@ const Friend = () => {
   // Set up the interval to refresh pending requests every 15 seconds
   const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 10000); // Change to 10 seconds
   // 15000 milliseconds is 15 seconds
-
   // Clear the intervals when the component is unmounted
   return () => {
     //clearInterval(friendsListIntervalId);
@@ -293,6 +292,12 @@ const Friend = () => {
   };
 }, []);
 
+useEffect(() => {
+  const token = localStorage.getItem('email');
+  if (token) {
+      setCurrentUserEmail(token); // Replace 'email' with the actual claim name you use in your JWT
+    } 
+}, []);
 
   const handleSearchFriends = async () => {
     if (!friendEmail) {
@@ -548,8 +553,10 @@ const viewFriendProfile = async (friendId) => {
           </Link>
         </div>
         <div className="journal-entry">
-          <p>Mar 10th</p>
-          <p>Reflect on today's day. Today was a busy day at work...</p>
+        <Link to="/journal">
+            <p>Mar 10th</p>
+            <p>Reflect on today's day. Today was a busy day at work...</p>
+        </Link>
         </div>
       </div>
       {/* <div className="middle-placeholder">
@@ -593,7 +600,7 @@ const viewFriendProfile = async (friendId) => {
             src={selfie_girl}
             alt="Profile picture"
           />
-          <h2 className="username">Lauren Fox</h2>
+          <h2 className="username">{currentUserEmail || "Loading..."}</h2>
         </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input
