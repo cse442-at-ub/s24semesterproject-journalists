@@ -1,13 +1,90 @@
 import React, { useState, useEffect } from "react";
 import "./JournalPage.css";
 import monaLisaImage from "./assets/mona_lisa.jpeg"; // Adjust the import path as needed
-import selfie_girl from "./assets/girl_pics_442.jpeg";
+import selfie_girl from "./assets/default_profile.jpeg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useProfileImage } from './ProfileImageContext';
+
+// // ContentCard component
+// const ContentCard = ({ id, type, content, description, onUpdate, fetchComments }) => {
+//   const [comments, setComments] = useState([]); // State to store comments
+//   const [comment, setComment] = useState(""); // State to store a new comment
+
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchAndSetComments = async () => {
+//       const fetchedComments = await fetchComments(id);
+//       setComments(fetchedComments);
+//     };
+
+//     fetchAndSetComments();
+//   }, [id, fetchComments]);
+
+//   const renderMedia = () => {
+//     switch (type) {
+//       case "image":
+//         return (
+//           <img src={content} alt="user-post"/>
+//         );
+//       case "text":
+//       default:
+//         return <p>{content}</p>;
+//     }
+//   };
+
+//   const renderComments = () => {
+//     return comments.map((comment, index) => (
+//       <p key={index}>{comment.text}</p> // Assume your comment object has a 'text' field
+//     ));
+//   };
+
+//   const handleCommentChange = (e) => {
+//     setComment(e.target.value);
+//   };
+
+//   const handleCommentButtonClick = () => {
+//     onUpdate(id, comment);
+//     setComment("");
+//   };
+
+//   return (
+//     <div className="content-card">
+//       <div className="media">{renderMedia()}</div>
+//       <div className="description">
+//         <p>{description}</p>
+//         <div className="comments-section">
+//         {renderComments()}
+//           <div className="comment-input-container">
+//             <input
+//               type="text"
+//               value={comment}
+//               onChange={handleCommentChange}
+//               placeholder="Leave a comment..."
+//               className="comment-input"
+//             />
+//             <button
+//             onClick={() => {
+//               onUpdate(id, comment);
+//               setComment("");
+//             }}
+//             className="comment-button"
+//           >
+//             Comment
+//           </button>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // Dashboard component
 const Friend = () => {
+
+  const { profileImageUrl } = useProfileImage();
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchResults, setSearchResults] = useState([]); // State to hold search results
@@ -15,7 +92,7 @@ const Friend = () => {
   const [friendsList, setFriendsList] = useState([]);
   const [userCity, setUserCity] = useState("New York");
   const [journalEntries, setJournalEntries] = useState([]);
-
+  const [currentUserEmail, setCurrentUserEmail] = useState("");
 
  
 
@@ -26,7 +103,7 @@ const Friend = () => {
     const fetchLikesCount = async () => {
       if (!id) return; // Check if the ID is valid
       try {
-          const response = await axios.get(`/backend/friends/get_likes.php?journal_entry_id=${id}`, {
+          const response = await axios.get(`https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/get_likes.php?journal_entry_id=${id}`, {
               headers: {
                   'Authorization': `Bearer ${localStorage.getItem('token')}`,
               },
@@ -45,7 +122,7 @@ const Friend = () => {
 
     const handleLikeToggle = async () => {
       const action = isLiked ? 'unlike' : 'like';  // Determine the action based on current state
-      const url = `/backend/friends/like.php`;
+      const url = `https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/like.php`;
       const data = {
           journal_entry_id: id,
           action: action  // 'like' or 'unlike'
@@ -66,8 +143,7 @@ const Friend = () => {
       } catch (error) {
           console.error('Error toggling like:', error);
       }
-  };  
-  
+  }; 
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState("");
   
@@ -78,7 +154,7 @@ const Friend = () => {
         return;
       }
       try {
-        const response = await axios.get(`/backend/friends/get_comments.php?journal_entry_id=${id}`, {
+        const response = await axios.get(`https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/get_comments.php?journal_entry_id=${id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -111,9 +187,11 @@ const Friend = () => {
       }
     };
   
+    const useEmail = localStorage.getItem("email").split('@')[0];
+    const displayName = useEmail.charAt(0).toUpperCase() + useEmail.slice(1);
     const renderComments = () => comments.map((comment) => (
       <div key={comment.comment_id}>
-        <strong>User {comment.user_id}:</strong>
+        <strong>{displayName}:</strong>
         <p>{comment.comment}</p>
         <span>{new Date(comment.created_at).toLocaleString()}</span> 
       </div>
@@ -151,7 +229,7 @@ const Friend = () => {
   };
   const fetchJournalEntries = async () => {
     try {
-      const response = await axios.get('/backend/friends/retrieve_entries.php', {
+      const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/retrieve_entries.php', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
@@ -172,7 +250,7 @@ const Friend = () => {
   // Function to decline a friend request
   const handleDeclineFriendRequest = async (request) => {
     try {
-      const response = await axios.post('/backend/friends/request.php', 
+      const response = await axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php', 
         JSON.stringify({
           action: 'decline',
           request_id: request.request_id, // Use the request_id from the request object
@@ -207,7 +285,7 @@ const Friend = () => {
  
   const fetchIncomingRequests = async () => {
     try {
-      const response = await axios.get('/backend/friends/incoming_pending.php', {
+      const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/incoming_pending.php', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -227,7 +305,7 @@ const Friend = () => {
 
       const fetchPendingRequests = async () => {
         try {
-          const response = await axios.get('/backend/friends/incoming_pending.php', {
+          const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/incoming_pending.php', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           });
           if (JSON.stringify(response.data) !== JSON.stringify(pendingRequests)) {
@@ -241,7 +319,7 @@ const Friend = () => {
       // Function to fetch friends list
       const fetchFriendsList = async () => {
         try {
-          const response = await axios.get('/backend/friends/friends_list.php', {
+          const response = await axios.get('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/friends_list.php', {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure the token is stored in localStorage
             },
@@ -263,7 +341,6 @@ const Friend = () => {
   // Set up the interval to refresh pending requests every 15 seconds
   const pendingRequestsIntervalId = setInterval(fetchPendingRequests, 10000); // Change to 10 seconds
   // 15000 milliseconds is 15 seconds
-
   // Clear the intervals when the component is unmounted
   return () => {
     //clearInterval(friendsListIntervalId);
@@ -271,6 +348,12 @@ const Friend = () => {
   };
 }, []);
 
+useEffect(() => {
+  const token = localStorage.getItem('email');
+  if (token) {
+      setCurrentUserEmail(token); // Replace 'email' with the actual claim name you use in your JWT
+    } 
+}, []);
 
   const handleSearchFriends = async () => {
     if (!friendEmail) {
@@ -280,7 +363,7 @@ const Friend = () => {
 
     try {
       const response = await axios.get(
-        `/backend/friends/search.php?query=${friendEmail}`,
+        `https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/search.php?query=${friendEmail}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the authorization header
@@ -326,10 +409,27 @@ const Friend = () => {
   const handleFriendEmailChange = (e) => {
     setFriendEmail(e.target.value);
   };
+
+//   // Function to fetch the list of friends
+// const fetchFriendsList = async () => {
+//   try {
+//     const response = await axios.get('/backend/friends/friend_list.php', {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem('token')}`,
+//       },
+//     });
+//     if (response.data) {
+//       setFriendsList(response.data); // Update the friendsList state with the response
+//     }
+//   } catch (error) {
+//     console.error('Error fetching friends list:', error);
+//   }
+// };
+
   
 const handleAcceptFriendRequest = async (request) => {
   try {
-    const response = await axios.post('/backend/friends/request.php', 
+    const response = await axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php', 
       JSON.stringify({
         action: 'accept',
         request_id: request.request_id, // Use the request_id from the request object
@@ -366,7 +466,7 @@ const handleAcceptFriendRequest = async (request) => {
     try {
       // Send the request to the backend to add the friend
       const response = await axios.post(
-        '/backend/friends/request.php',
+        'https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/request.php',
         JSON.stringify({
           action: 'send',
           friend_email: email
@@ -403,7 +503,7 @@ const viewFriendProfile = async (friendId) => {
   }
 
   try {
-    const response = await axios.get(`/backend/friends/retrieve_entries.php?user_id=${friendId}`, {
+    const response = await axios.get(`https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/retrieve_entries.php?user_id=${friendId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       },
@@ -432,8 +532,10 @@ const viewFriendProfile = async (friendId) => {
     navigate("/public_profile", { state: { friendEmail: friendEmail } }); // Correctly use the state
   };
 
+  const userEmail = localStorage.getItem("email"); 
+
   const navigateToSettings = () => {
-    navigate("/security-page"); // This will navigate to the SecurityPage component
+    navigate("/edit-profile"); // This will navigate to the SecurityPage component
   };
 
   const addComment = async (journalEntryId, commentText) => {
@@ -451,7 +553,7 @@ const viewFriendProfile = async (friendId) => {
       });
   
       // Sending the request
-      const response = await axios.post('/backend/friends/add_comment.php', data, {
+      const response = await axios.post('https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/friends/add_comment.php', data, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -498,9 +600,9 @@ const viewFriendProfile = async (friendId) => {
     <div className="dashboard">
       <div className="left-sidebar">
         <div className="settings-link-container">
-          <div className="settings-text" onClick={navigateToSettings}>
-            Settings
-          </div>
+        <div className="settings-link-container">
+      <div className="settings-text" onClick={navigateToSettings}>Setting</div>
+    </div>
         </div>
         <div className="journalist-header">
           <h1>Journalist</h1>
@@ -509,8 +611,10 @@ const viewFriendProfile = async (friendId) => {
           </Link>
         </div>
         <div className="journal-entry">
-          <p>Mar 10th</p>
-          <p>Reflect on today's day. Today was a busy day at work...</p>
+        <Link to="/journal">
+            <p>Mar 10th</p>
+            <p>Reflect on today's day. Today was a busy day at work...</p>
+        </Link>
         </div>
       </div>
       {/* <div className="middle-placeholder">
@@ -551,10 +655,10 @@ const viewFriendProfile = async (friendId) => {
         <div className="profile-section">
           <img
             className="profile-pic"
-            src={selfie_girl}
+            src={profileImageUrl || selfie_girl}
             alt="Profile picture"
           />
-          <h2 className="username">Lauren Fox</h2>
+          <h2 className="username">{userEmail}</h2>
         </div>
         <h3 className="invite-text">Invite your friends</h3>
         <input
@@ -586,7 +690,7 @@ const viewFriendProfile = async (friendId) => {
           friendsList.map((friend) => (
             <div key={friend.id} className="friend-name">
               {friend.email}
-              <button onClick={() => viewFriendProfile(friend.id)} className="friend-button">View Profile</button>
+              <button onClick={() => viewFriendProfile(friend.id)} className="dropdown-button2">View Profile</button>
             </div>
           ))
         ) : (
@@ -601,7 +705,7 @@ const viewFriendProfile = async (friendId) => {
     <button onClick={() => handleAcceptFriendRequest(request)} className="accept-button">Accept</button>
       <button onClick={() => handleDeclineFriendRequest(request)} className="decline-button">Decline</button>
     </div>
- 
+  
 ))}
 
 </div>

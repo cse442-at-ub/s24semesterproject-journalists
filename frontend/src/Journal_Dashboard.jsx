@@ -18,7 +18,10 @@ const Journal_Dashboard = () => {
   const [selectedEntry, setSelectedEntry] = useState(null);
 
   const navigate = useNavigate();
-
+ 
+  const Friends = () => {
+    navigate('/Friend_Dashboard'); // Replace '/journalist-page' with the actual route you want to navigate to
+  };
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchEntries();
@@ -59,7 +62,7 @@ const Journal_Dashboard = () => {
   const handleDeleteEntry = async (entryId) => {
     try {
       const response = await axios.post(
-        "/backend/journal/delete.php",
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/delete.php",
         JSON.stringify({ entry_id: entryId }),
         {
           headers: {
@@ -83,7 +86,7 @@ const Journal_Dashboard = () => {
   const fetchEntries = async () => {
     try {
       const response = await axios.get(
-        "/backend/journal/read.php",
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/read.php",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -130,7 +133,7 @@ const Journal_Dashboard = () => {
 
     try {
       const response = await axios.post(
-        "/backend/journal/create.php",
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/journal/create.php",
         formData,
         {
           headers: {
@@ -152,7 +155,7 @@ const Journal_Dashboard = () => {
   };
 
   const JournalVideo = () => {
-    navigate("/journal-video");
+    navigate("/journal");
   };
   const journalImage = () => {
     navigate("/journal-image");
@@ -166,9 +169,7 @@ const Journal_Dashboard = () => {
     setSelectedEntry(null); // Add this line to reset the selected entry
   };
 
-  const togglePrompts = () => {
-    setShowPrompts(!showPrompts);
-  };
+
   const [promptText, setPromptText] = useState("Reflect on today's day");
 
   return (
@@ -176,24 +177,18 @@ const Journal_Dashboard = () => {
       <div className="left-column-journal">
         <div>
           <div className="journal-header">
-              <div className="journalist-label">Journalist</div>
-              <div
-                className={`prompt-dropdown ${showPrompts ? "show-prompts" : ""}`}
-              >
-                <button onClick={togglePrompts} className="prompt-toggle-btn">
-                  New Entry {showPrompts ? "▲" : "▼"}
+          <div
+                className="journalist-label"
+                onClick={Friends} // Use navigate inside this function
+                style={{ cursor: 'pointer' }}  // Optional, for visual feedback that it's clickable
+            >
+                Journalist
+            </div>              
+                <button onClick={JournalVideo} className="prompt-toggle-btn">
+                  New Entry 
                 </button>
-                {showPrompts && (
-                  <div className="prompt-buttons">
-                    <button className="prompt-btn" onClick={JournalVideo}>
-                      Video Prompt
-                    </button>
-                    <button className="prompt-btn" onClick={journalImage}>
-                      Image Prompt
-                    </button>
-                  </div>
-                )}
-              </div>
+
+            
               </div>
               <div className="journal-history">
                 {journalEntries.map((entry, index) => (
@@ -287,12 +282,19 @@ const Journal_Dashboard = () => {
             {errorMessages.message && (
               <div className="error-message">{errorMessages.message}</div>
             )}
+            <div>
+  <input
+    id="file"
+    className="file-input"
+    type="file"
+    accept=".png, .jpg, .jpeg"
+    onChange={handleImageChange}
+  />
+  <label htmlFor="file" className="file-input-label">Choose File</label>
+</div>
 
-            <input
-              type="file"
-              accept=".png, .jpg, .jpeg"
-              onChange={handleImageChange}
-            />
+
+            
             <button className=" orange" onClick={handleSubmit}>Submit Entry</button>
           </div>
         )}
