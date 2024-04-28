@@ -102,9 +102,22 @@
   text-align: right;
   margin-top: 20px;
 }
-
+.journal-image {
+  max-width: 100%; /* Limits image width to not exceed its container */
+  max-height: 100%; /* Limits image height to not exceed its container */
+  object-fit: contain; /* Ensures that the entire image fits within the frame without being cropped */
+}
+.image-container {
+  /* Set a fixed height if you want to constrain the image within this height, or remove if not needed */
+  height: 300px; /* Example: change the height as needed */
+  width: 100%; /* Container takes the full width of its parent */
+  display: flex; /* Use flexbox to center the image within the container */
+  justify-content: center; /* Center the image horizontally */
+  align-items: center; /* Center the image vertically */
+  overflow: hidden; /* Ensures that any excess image is clipped */
+}
 .sidebar .menu-item .logout-link {
-  background-color: #ff0000; /* Red background for the log out link */
+  background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%);
   color: #ffffff; /* White text color for better readability */
   padding: 10px 15px; /* Add some padding to make it look like a button */
   border-radius: 5px; /* Optional: rounds the corners for a button-like appearance */

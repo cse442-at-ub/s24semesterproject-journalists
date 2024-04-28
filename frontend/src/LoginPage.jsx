@@ -31,6 +31,7 @@ const LoginPage = () => {
         ) {
           console.log("Login successful", response.data);
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("email", email);
 
           // Use the first_login flag from the response to determine navigation
           if (response.data.first_login) {
