@@ -8,44 +8,51 @@ header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
 header('X-XSS-Protection: 1; mode=block');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$user_id = authenticateRequest($pdo);
+if (!$user_id) {
+    exit; // Authentication failed, response is already set within the function
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
     $data = json_decode(file_get_contents("php://input"), true);
+    $comment_id = isset($data['comment_id']) ? $data['comment_id'] : null;
 
-    // Authenticate the user and get their user ID
-    $user_id = authenticateRequest($pdo);
-    if (!$user_id) {
-        exit; // Authentication failed, response is already set within the function
-    }
-
-    // Retrieve survey question and answer from the request body
-    $question = isset($data['question']) ? $data['question'] : null;
-    $answer = isset($data['answer']) ? $data['answer'] : null;
-
-    // Validate input
-    if (empty($question) || empty($answer)) {
+    if (!$comment_id) {
         http_response_code(400);
-        echo json_encode(["error" => "Bad Request - Question and answer are required"]);
+        echo json_encode(["error" => "Bad Request - Comment ID is required"]);
         exit;
     }
 
-    // Insert survey data into the database
-    $stmt = $pdo->prepare("INSERT INTO survey_responses (user_id, question, answer) VALUES (:user_id, :question, :answer)");
-    $success = $stmt->execute([
-        'user_id' => $user_id,
-        'question' => $question,
-        'answer' => $answer
-    ]);
+    // First, retrieve the owner of the comment to check if the current user is allowed to delete it
+    $stmt = $pdo->prepare("SELECT user_id FROM comments WHERE comment_id = :comment_id");
+    $stmt->execute(['comment_id' => $comment_id]);
+    $comment = $stmt->fetch();
+
+    if (!$comment) {
+        http_response_code(404);
+        echo json_encode(["error" => "Not Found - Comment does not exist"]);
+        exit;
+    }
+
+    if ($comment['user_id'] != $user_id) {
+        // Optional: Check if the user has admin privileges if you want admins to be able to delete any comment
+        http_response_code(403);
+        echo json_encode(["error" => "Forbidden - You do not have permission to delete this comment"]);
+        exit;
+    }
+
+    // Delete the comment
+    $stmt = $pdo->prepare("DELETE FROM comments WHERE comment_id = :comment_id");
+    $success = $stmt->execute(['comment_id' => $comment_id]);
 
     if ($success) {
-        http_response_code(201);
-        echo json_encode(["message" => "Survey response added successfully"]);
+        http_response_code(200);
+        echo json_encode(["message" => "Comment deleted successfully"]);
     } else {
         http_response_code(500);
-        echo json_encode(["error" => "Internal Server Error - Failed to add survey response"]);
+        echo json_encode(["error" => "Internal Server Error - Failed to delete comment"]);
     }
 }
-
-// ... (rest of the authenticateRequest function)
 
 function authenticateRequest($pdo)
 {
@@ -79,3 +86,4 @@ function authenticateRequest($pdo)
 
     return $tokenRow['user_id']; // Return user ID upon successful authentication
 }
+

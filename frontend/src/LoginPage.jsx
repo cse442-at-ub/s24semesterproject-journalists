@@ -15,7 +15,7 @@ const LoginPage = () => {
     console.log("login...");
     axios
       .post(
-        "/backend/account/login.php",
+        "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/login.php",
         {
           email: email,
           password: password,
@@ -31,6 +31,7 @@ const LoginPage = () => {
         ) {
           console.log("Login successful", response.data);
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("email", email);
 
           // Use the first_login flag from the response to determine navigation
           if (response.data.first_login) {

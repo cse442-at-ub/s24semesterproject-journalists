@@ -16,12 +16,6 @@
   background-color: #ffffff;
 }
 
-.middle-placeholder {
-  background-color: #ffffff; /* Placeholder background color */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center cards in the middle */
-}
 
 .right-sidebar {
   /* Styles for right sidebar */
@@ -71,8 +65,28 @@
   margin-left: 10px; /* Adds a little space between the title and the button */
 }
 
+.dropdown-button2 {
+  background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%);
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px; /* Rounded corners */
+  margin-left: 10px; /* Adds a little space between the title and the button */
+}
+
 .dropdown {
   position: relative; /* This is crucial for positioning the dropdown content correctly */
+}
+
+.like-button {
+  background: linear-gradient(90deg, #ff009d 0%, #3fd5ff 100%);
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px; /* Rounded corners */
+  margin-left: 10px;
 }
 
 .dropdown-content {
@@ -110,17 +124,6 @@
   background-color: white; /* Card background */
 }
 
-/* Styles for the media section */
-.media {
-  width: 100%;
-  height: 200px; /* Adjust height as needed */
-  background-color: #f2f2f2; /* Placeholder color */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed #ccc;
-  margin-bottom: 16px; /* Spacing between media and text */
-}
 
 /* Styles for the description at the bottom of the card */
 .description p {
@@ -132,11 +135,7 @@
   margin: 0;
   margin-bottom: 16px; /* Spacing between description and button */
 }
-.media img {
-  max-width: 100%; /* ensures image is not wider than the container */
-  max-height: 100%; /* ensures image is not taller than the container */
-  object-fit: contain; /* keeps aspect ratio, but can result in letterboxing */
-}
+
 .middle-placeholder {
   background-color: #ffffff; /* Set background color to white */
   display: flex;
@@ -161,8 +160,10 @@
 }
 
 .comment-input-container {
-    margin-bottom: 16px; /* Spacing between input and button */
-  }
+  margin-bottom: 16px; /* Spacing between input and button */
+  padding-top: 5%;
+  /* Increase padding to create space between the input and the button */
+}
 
 /* Style for the comment button */
 .comment-button {
@@ -171,6 +172,7 @@
   border: none;
   padding: 12px 24px;
   border-radius: 9px;
+  margin-top: 10px; 
   cursor: pointer;
   width: 100%;
   font-weight: bold;
@@ -260,8 +262,7 @@
 
   .pending-request {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; /* This will align the email to the left and buttons to the right */
     padding: 8px;
     border-bottom: 1px solid #ccc;
   }
@@ -270,9 +271,20 @@
   margin-right: auto; /* This will push the buttons to the right */
 }
 
+.button-container {
+  display: flex;
+}
+
 .pending-request .button-container {
   display: flex;
   gap: 5px; /* This creates a small space between the buttons */
+}
+
+.accept-button,
+.decline-button {
+  padding: 5px 10px; /* Adjust the padding as needed */
+  margin-left: 5px; /* This will put a little space between the buttons */
+  /* ... other styles remain unchanged */
 }
   
   .friend-button {
@@ -291,8 +303,6 @@
     background-color: #28a745; /* Green background */
     color: white;
     border: none;
-    padding: 5px 10px;
-    margin-right: 5px; /* Space between the buttons */
     cursor: pointer;
     border-radius: 4px;
     font-size: 0.8em;
@@ -307,7 +317,6 @@
     background-color: #dc3545; /* Red background */
     color: white;
     border: none;
-    padding: 5px 10px;
     cursor: pointer;
     border-radius: 4px;
     font-size: 0.8em;
@@ -409,14 +418,15 @@
   }
   
   .header-button {
-    padding: 5px 15px; /* Adjust padding as needed */
+    padding: 10px 15px; /* Adjust padding as needed */
     text-decoration: none;
     color: white;
-    background-color: #ff0000; /* Set the background color to orange */
+    background: linear-gradient(90deg, #FF4500 0%, #875DFF 100%); /* Set the background color to orange */
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
     margin-left: 10px; /* This will create space on the left side of each button */
+
   }
   .block-button {
     margin-bottom: 30px; /* Increased space below the block button */
@@ -466,11 +476,35 @@
     padding: 5px 15px; /* Adjust padding as needed */
     text-decoration: none;
     color: white;
-    background-color: #ff0000; /* Set the background color to orange */
+    background-image:linear-gradient(90deg, #FF4500 0%, #875DFF 100%); /* Gradient from red to purple */
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
     margin-left: 10px; /* This will create space on the left side of each button */
+  }
+  .header-button {
+    /* ... existing styles ... */
+    display: inline-block; /* Make sure it behaves like a button */
+    padding: 10px 20px; /* Add some padding */
+    border-radius: 5px; /* Rounded corners */
+    text-transform: uppercase; /* Uppercase text */
+    font-weight: bold; /* Bold font */
+    transition: transform 0.1s, box-shadow 0.1s; /* Smooth transition for transform and shadow */
+    text-decoration: none; /* Remove the underline from links */
+    cursor: pointer; /* Change cursor to pointer */
+    /* Add any additional styling you need here */
+  }
+  
+  .header-button:hover {
+    transform: translateY(-2px); /* Move the link up slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    /* Optionally change the background or text color on hover */
+  }
+  
+  .header-button:active {
+    transform: translateY(1px); /* Move the link down slightly to simulate click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Smaller shadow for depth */
+    /* Optionally change the background or text color on active */
   }
   
   .header-button:first-child {
@@ -525,27 +559,101 @@
     margin-bottom: 20px; /* Ensure spacing around dropdown button */
   }
 
-  .settings-link-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%; /* Ensure the container spans the width of the sidebar */
-  }
+
   
   .settings-text {
-    position: absolute; /* or fixed, depending on layout */
-    bottom: 0; /* Adjust as needed */
-    left: 0; /* Adjust as needed */
     cursor: pointer;
-    padding: 5px;
-    font-size: 16px; /* Adjust the font size as you see fit */
-    color: #000000; /* e.g., #4A90E2 for a blue text */
-    width: 100%;
-    /* Add more styling as needed */
+    font-size: 1em; /* Adjust the font size as needed */
+    color: #333; /* A darker color for better readability */
+    text-align: center; /* Center the text inside the container */
+    width: 100%; /* Ensure the text spans the width of the container */
+    padding: 10px 0; /* Padding to add space around the text */
+    border-top: 1px solid #ccc; /* A line to separate the settings from the content above */
   }
+
+  .settings-text:hover {
+    color: #fdfdfd;
+    background-color: rgba(0, 0, 0, 0.9); /* A light grey on hover */
+    transition: background-color 0.3s; /* Smooth transition for the background color */
+  }
+
+  .middle-placeholder {
+    background-color: #f8f8f8; /* Grey background */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center cards in the middle */
+    overflow-y: auto; /* Enables vertical scrolling */
+    height: calc(100vh - 20px); /* Adjust height based on the total padding */
+    position: relative;
+    justify-content: flex-start;;
+    padding: 2% 0 0 0;
+  }
+
+  .centered-text {
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+
+  .media {
+    width: calc(100% - 32px); /* Subtract padding if any */
+    height: 200px; /* Adjust height as needed */
+    background-color: #f2f2f2; /* Placeholder color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ccc;
+    margin-bottom: 16px; /* Spacing between media and text */
+    overflow: hidden; /* Add this to prevent the image from overflowing */
+    padding: 16px; /* Adjust padding to match design */
+    position: relative;
+  }
+  
+  .media img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    max-width: 100%; 
+    max-height: 100%; 
+    width: auto; 
+    height: auto; 
+    object-fit: contain;
+    border: none;
+    padding: 0;
+  }
+  .content-image{
+    width: 100%; /* Match width of .media */
+    height: 200px; /* Match height of .media */
+    overflow: hidden; /* Add overflow hidden here */
+    display: flex; /* Use flex to center the image */
+    align-items: center; /* Center image vertically */
+    justify-content: center; /* Center image horizontally */
+  }
+  /* Assuming .view-profile-btn shares the same initial style as .prompt-toggle-btn */
+.view-profile-btn {
+  /* ... existing styles from .prompt-toggle-btn ... */
+  transition: transform 0.1s, box-shadow 0.1s; /* Smooth transition for transform and shadow */
+}
+
+.view-profile-btn:hover {
+  transform: translateY(-2px); /* Move the button up slightly */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+}
+
+.view-profile-btn:active {
+  transform: translateY(1px); /* Move the button down slightly to simulate click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Smaller shadow for depth */
+}
+
   
 /* Mobile responsiveness */
 @media (max-width: 768px) {
+
   .dashboard {
     flex-direction: column;
   }
@@ -562,6 +670,39 @@
     height: 100%;
     display: block;
   }
+
+  .centered-text {
+    font-size: 14px; /* Adjust the size as needed for smaller screens */
+    padding: 10px; /* Add padding if needed to prevent text from touching the edges */
+  }
+  .profile-section {
+    display: none;
+  }
+  .journal-entry {
+    display: none;
+  }
+  .new-journal-entry-button {
+    font-size: 0.875rem; /* Smaller font size on mobile */
+    padding: 8px 16px; /* Adjust padding to better fit smaller screens */
+    /* Add other mobile-specific styles here */
+
+    /* If the button is extending outside its container, you might want to adjust the width or padding */
+    width: calc(100% - 32px); /* Full width minus the padding of the parent container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+
+  /* Mobile-specific styles for hiding elements */
+  .profile-section, .journal-entry {
+    display: none; /* Hide these sections on mobile */
+  }
+  .settings-text {
+    /* Increase the size for mobile touch */
+    width: 48px; /* Slightly larger touch target on mobile */
+    height: 48px; /* Slightly larger touch target on mobile */
+    font-size: 30px; /* Larger icon size for better visibility */
+    display: none;
+  }
+
 }
 
 

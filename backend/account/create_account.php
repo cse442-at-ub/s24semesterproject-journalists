@@ -2,12 +2,6 @@
 require_once '../config/config.php'; // Make sure this path is correct
 
 
-// Enabling CORS for local development
-header('Access-Control-Allow-Origin: *');
-// Security
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: SAMEORIGIN');
-header('X-XSS-Protection: 1; mode=block');
 // Initialize variables
 $email = $password = "";
 $response = [];
@@ -72,18 +66,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt->bindParam(":token", $token, PDO::PARAM_STR);
                     $stmt->bindParam(":expires_at", $expires_at, PDO::PARAM_STR);
                     if ($stmt->execute()) {
-                        // Send verification email
-                        $verificationLink = "http://localhost/React-Guestbook/backend/account/verify.php?token=" . $token;
-                        $subject = "Verify Your Email for Journalist";
-                        $headers = "From: no-reply@journalist.com\r\n";
-                        $headers .= "Reply-To: no-reply@journalist.com\r\n";
-                        $headers .= "Content-type: text/html\r\n";
-                        $message = "<html><body>";
-                        $message .= "<p>Please click on the following link to verify your email for Journalist:</p>";
+                     // Send verification email
+                    $verificationLink = "https://www-student.cse.buffalo.edu/CSE442-542/2024-Spring/cse-442l/backend/account/verify.php?token=" . $token;
+                        $subject = "Please Verify Your Email Address";
+                        $headers = "From: Journalist Registration <register@journalist.com>\r\n";
+                        $headers .= "Reply-To: support@journalist.com\r\n";
+                        $headers .= "MIME-Version: 1.0\r\n";
+                        $headers .= "Content-Type: multipart/alternative; boundary=\"_MailBoundary_\"\r\n";
+                        
+                        $message = "--_MailBoundary_\r\n";
+                        $message .= "Content-Type: text/plain; charset=UTF-8\r\n";
+                        $message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+                        $message .= "Please verify your email address by visiting the following link: " . $verificationLink . "\r\n\r\n";
+                        $message .= "--_MailBoundary_\r\n";
+                        $message .= "Content-Type: text/html; charset=UTF-8\r\n";
+                        $message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+                        $message .= "<html><body>";
+                        $message .= "<p>Hello,</p>";
+                        $message .= "<p>Please click the link below to verify your email address and activate your account:</p>";
                         $message .= "<a href='" . $verificationLink . "'>Verify Email</a>";
-                        $message .= "</body></html>";
+                        $message .= "<p>If you did not request this verification, please ignore this email.</p>";
+                        $message .= "</body></html>\r\n";
+                        $message .= "--_MailBoundary_--";
+                        
                         if (mail($email, $subject, $message, $headers)) {
-                            $response['message'] = "Verification email sent. Please check your email to verify your account.";
+                            $response['message'] = "Verification email sent. Please check your email.";
                         } else {
                             $response['error']['mail'] = "Failed to send verification email.";
                         }

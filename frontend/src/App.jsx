@@ -11,10 +11,12 @@ import About from "./About.jsx";
 import Friend_Dashboard from "./Friend_Dashboard.jsx";
 import PublicProfile from "./public_profile.jsx"
 import SurveySection from "./SurveySection.jsx"
+import { ProfileImageProvider } from './ProfileImageContext';
 
 const App = () => {
   return (
     <>
+    <ProfileImageProvider>
       <Routes>
         <Route path="/" element={<LoginPage/>} />
         <Route path="/edit-profile" element={<EditProfile />} />
@@ -29,6 +31,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/survey-page" element={<SurveySection />} />
       </Routes>
+      </ProfileImageProvider>
     </>
   );
 };

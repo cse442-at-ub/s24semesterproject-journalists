@@ -2,7 +2,7 @@
 require_once '../config/config.php';
 
 // Enabling CORS for local development
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: https://www-student.cse.buffalo.edu');
 // Security
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
@@ -13,8 +13,8 @@ if (!$user_id) {
     exit; // Authentication failed, response is already set within the function
 }
 
-// Fetch the list of pending friend requests
-$stmt = $pdo->prepare("SELECT u.id, u.email FROM users u INNER JOIN friend_requests fr ON fr.user_id = u.id WHERE fr.friend_user_id = :user_id AND fr.status = 'pending'");
+// Fetch the list of pending friend requests along with their request IDs
+$stmt = $pdo->prepare("SELECT fr.request_id, u.id, u.email FROM users u INNER JOIN friend_requests fr ON fr.user_id = u.id WHERE fr.friend_user_id = :user_id AND fr.status = 'pending'");
 $stmt->execute(['user_id' => $user_id]);
 $pendingRequests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

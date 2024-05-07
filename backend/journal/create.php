@@ -46,13 +46,12 @@ $imagePath = ''; // Default image path
 
 // Check if an image file is part of the request
 if (isset($_FILES['image'])) {
-    $currentDirectory = __DIR__;
-    $targetDirectory = __DIR__ . '/../uploads/';
+    $targetDirectory = __DIR__ . '/../uploads/'; // Correct server path to the uploads directory
+    $targetFile = $targetDirectory . $uniqueName;
 
     if (!file_exists($targetDirectory)) {
         mkdir($targetDirectory, 0755, true);
     }
-
 
     // Validate the image (check file type, size, etc.)
     $imageFileType = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
@@ -66,28 +65,16 @@ if (isset($_FILES['image'])) {
 
         // Attempt to move the uploaded file to the target directory
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-            // Successfully moved the file
+            // Here, convert the file system path to a URL or relative path to be used in your application
             $imagePath = 'backend/uploads/' . $uniqueName;
-            // Include the current and target directories in the success response
-            http_response_code(201);
-            echo json_encode([
-                "message" => "Journal entry created successfully with image",
-                "current_directory" => $currentDirectory,
-                "target_directory" => $targetDirectory,
-                "target_path" => $targetFile,
-                "image_path" => $imagePath
-            ]);
         } else {
-            // Failed to move the file, include the current and target directories in the error response
             http_response_code(500);
-            echo json_encode([
-                "error" => "Internal Server Error - Failed to upload image",
-                "current_directory" => $currentDirectory,
-                "target_directory" => $targetDirectory,
-                "target_path" => $targetFile,
-                "php_error" => $_FILES['image']['error']
-            ]);
+            echo json_encode(["error" => "Internal Server Error - Failed to upload image"]);
+            exit;
         }
+    } else {
+        http_response_code(400);
+        echo json_encode(["error" => "Invalid file type or size"]);
         exit;
     }
 }

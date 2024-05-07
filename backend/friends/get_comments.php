@@ -8,44 +8,28 @@ header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
 header('X-XSS-Protection: 1; mode=block');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $data = json_decode(file_get_contents("php://input"), true);
+$user_id = authenticateRequest($pdo);
+if (!$user_id) {
+    exit; // Authentication failed, response is already set within the function
+}
 
-    // Authenticate the user and get their user ID
-    $user_id = authenticateRequest($pdo);
-    if (!$user_id) {
-        exit; // Authentication failed, response is already set within the function
-    }
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $journal_entry_id = $_GET['journal_entry_id'] ?? null;
 
-    // Retrieve survey question and answer from the request body
-    $question = isset($data['question']) ? $data['question'] : null;
-    $answer = isset($data['answer']) ? $data['answer'] : null;
-
-    // Validate input
-    if (empty($question) || empty($answer)) {
+    if (!$journal_entry_id) {
         http_response_code(400);
-        echo json_encode(["error" => "Bad Request - Question and answer are required"]);
+        echo json_encode(["error" => "Bad Request - Journal entry ID is required"]);
         exit;
     }
 
-    // Insert survey data into the database
-    $stmt = $pdo->prepare("INSERT INTO survey_responses (user_id, question, answer) VALUES (:user_id, :question, :answer)");
-    $success = $stmt->execute([
-        'user_id' => $user_id,
-        'question' => $question,
-        'answer' => $answer
-    ]);
+    // Fetch comments along with their IDs
+    $stmt = $pdo->prepare("SELECT comment_id, user_id, comment, created_at FROM comments WHERE journal_entry_id = :journal_entry_id ORDER BY created_at DESC");
+    $stmt->execute(['journal_entry_id' => $journal_entry_id]);
+    $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($success) {
-        http_response_code(201);
-        echo json_encode(["message" => "Survey response added successfully"]);
-    } else {
-        http_response_code(500);
-        echo json_encode(["error" => "Internal Server Error - Failed to add survey response"]);
-    }
+    echo json_encode(["comments" => $comments]);
 }
 
-// ... (rest of the authenticateRequest function)
 
 function authenticateRequest($pdo)
 {
