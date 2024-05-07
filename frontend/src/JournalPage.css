@@ -700,6 +700,7 @@
     width: 48px; /* Slightly larger touch target on mobile */
     height: 48px; /* Slightly larger touch target on mobile */
     font-size: 30px; /* Larger icon size for better visibility */
+    display: none;
   }
 
 }
